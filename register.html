@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>MEMBER REGISTRATION — SASAGE</title>
 <style>
-:root{--ink:#000;--ink-soft:#767676;--line:#e3e3e3;--navy:#0a1c33;--ls:.14em;--err:#c0392b;}
+
+:root{--ink:#000;--ink-soft:#767676;--line:#e3e3e3;--navy:#0a1c33;--ls:.14em;}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{-webkit-text-size-adjust:100%;}
 body{font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Kaku Gothic ProN","Noto Sans JP","Noto Sans KR",sans-serif;
@@ -48,105 +49,48 @@ header{border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff
 .lang-menu button[aria-current="true"]{color:var(--ink);font-weight:600;}
 .lang-menu .lang-native{font-size:9px;opacity:.55;letter-spacing:.04em;}
 
-.wrap{max-width:1120px;margin:0 auto;padding:clamp(38px,6vw,76px) 20px clamp(56px,8vw,100px);}
-.cols{display:grid;grid-template-columns:0.85fr 1fr;gap:clamp(34px,6vw,76px);align-items:start;}
-@media(max-width:880px){.cols{grid-template-columns:1fr;gap:38px;}}
+.wrap{max-width:640px;margin:0 auto;padding:clamp(46px,8vw,90px) 22px clamp(60px,9vw,110px);text-align:center;}
+.eyebrow{font-size:10px;letter-spacing:.3em;color:var(--ink-soft);text-transform:uppercase;
+  animation:up .6s cubic-bezier(.22,1,.36,1) both;}
+h1{font-size:clamp(1.4rem,3vw,2rem);letter-spacing:.16em;font-weight:400;margin:14px 0 6px;
+  animation:up .6s cubic-bezier(.22,1,.36,1) .06s both;}
+.sub{font-size:13px;letter-spacing:.12em;color:var(--ink-soft);
+  animation:up .6s cubic-bezier(.22,1,.36,1) .12s both;}
+.rule{width:28px;height:1px;background:var(--ink);margin:26px auto;
+  animation:rule .6s ease .2s both;}
+.lead{font-size:12.5px;line-height:2.15;color:#3c3c3c;
+  animation:up .6s cubic-bezier(.22,1,.36,1) .26s both;}
 
-.eyebrow{font-size:10px;letter-spacing:.3em;color:var(--ink-soft);text-transform:uppercase;}
-h1{font-size:clamp(1.4rem,2.7vw,1.95rem);letter-spacing:.16em;font-weight:400;margin:14px 0 6px;}
-.sub{font-size:13px;letter-spacing:.12em;color:var(--ink-soft);}
-.lead{font-size:12.5px;line-height:2.1;color:#3c3c3c;margin-top:24px;}
-.benefits{list-style:none;margin-top:28px;border-top:1px solid var(--line);}
-.benefits li{font-size:12.5px;letter-spacing:.03em;color:#3c3c3c;padding:14px 0 14px 24px;
-  border-bottom:1px solid var(--line);position:relative;}
+.benefits{list-style:none;margin:34px 0 0;border-top:1px solid var(--line);text-align:left;
+  animation:up .6s cubic-bezier(.22,1,.36,1) .34s both;}
+.benefits li{font-size:12.5px;color:#3c3c3c;padding:14px 0 14px 24px;border-bottom:1px solid var(--line);position:relative;}
 .benefits li::before{content:"";position:absolute;left:3px;top:21px;width:9px;height:1px;background:var(--ink);}
-.note{font-size:11px;line-height:1.9;color:var(--ink-soft);margin-top:24px;}
 
-.steps{list-style:none;display:flex;gap:0;margin-bottom:14px;}
-.steps li{flex:1;display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.14em;
-  color:#c4c4c4;transition:color .3s;}
-.steps li.on,.steps li.done{color:var(--ink);}
-.steps .dot{width:22px;height:22px;border:1px solid currentColor;border-radius:50%;display:flex;
-  align-items:center;justify-content:center;font-size:10px;flex:none;transition:background .3s,color .3s;}
-.steps li.done .dot{background:var(--ink);color:#fff;border-color:var(--ink);}
-.steps li.on .dot{background:var(--ink);color:#fff;border-color:var(--ink);}
-@media(max-width:520px){.steps li span:not(.dot){display:none;}.steps li{flex:none;}
-  .steps{gap:14px;justify-content:center;}}
-.bar{height:1px;background:var(--line);margin-bottom:30px;overflow:hidden;}
-.bar i{display:block;height:100%;width:33.33%;background:var(--ink);
-  transition:width .45s cubic-bezier(.4,0,.2,1);}
+.how{margin-top:40px;text-align:left;animation:up .6s cubic-bezier(.22,1,.36,1) .42s both;}
+.how h2{font-size:9.5px;letter-spacing:.26em;color:var(--ink-soft);text-transform:uppercase;
+  font-weight:400;margin-bottom:16px;text-align:center;}
+.how ol{list-style:none;counter-reset:s;}
+.how li{counter-increment:s;position:relative;padding:11px 0 11px 34px;font-size:12px;color:#3c3c3c;line-height:1.85;}
+.how li::before{content:counter(s);position:absolute;left:0;top:12px;width:20px;height:20px;
+  border:1px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:9.5px;color:var(--ink);}
 
-.card{border:1px solid var(--line);padding:clamp(24px,3.6vw,38px);position:relative;overflow:hidden;}
-.card.hide{display:none;}
-.pane{display:none;}
-.pane.on{display:block;animation:slideIn .42s cubic-bezier(.22,1,.36,1) both;}
-.pane.on.rev{animation-name:slideInRev;}
-@keyframes slideIn{from{opacity:0;transform:translateX(26px);}to{opacity:1;transform:none;}}
-@keyframes slideInRev{from{opacity:0;transform:translateX(-26px);}to{opacity:1;transform:none;}}
-.pane-h{font-size:13px;letter-spacing:.18em;font-weight:400;margin-bottom:6px;}
-.pane-lead{font-size:11.5px;line-height:1.95;color:var(--ink-soft);margin-bottom:24px;}
-.pane-h + .field,.pane-h + .row2{margin-top:26px;}
+.cta-wrap{margin-top:38px;animation:up .6s cubic-bezier(.22,1,.36,1) .5s both;}
+.cta{display:block;width:100%;padding:18px;background:var(--ink);color:#fff;border:1px solid var(--ink);
+  font-size:11px;letter-spacing:.26em;transition:background .28s,color .28s;}
+.cta:hover{background:#fff;color:var(--ink);}
+.cta-note{font-size:10.5px;color:var(--ink-soft);margin-top:11px;letter-spacing:.08em;}
+.already{display:inline-block;margin-top:22px;font-size:11px;letter-spacing:.1em;color:var(--ink-soft);
+  border-bottom:1px solid transparent;transition:color .2s,border-color .2s;}
+.already:hover{color:var(--ink);border-bottom-color:var(--ink);}
 
-.field{margin-bottom:20px;}
-.field label{display:block;font-size:10.5px;letter-spacing:.18em;margin-bottom:8px;text-transform:uppercase;}
-.field b.req,.field b.opt{font-weight:400;font-size:9px;letter-spacing:.08em;margin-left:7px;text-transform:none;}
-.field b.req{color:var(--err);} .field b.opt{color:var(--ink-soft);}
-.field input,.field select{width:100%;border:none;border-bottom:1px solid var(--line);padding:10px 2px;
-  font-size:14px;font-family:inherit;color:var(--ink);background:none;border-radius:0;transition:border-color .2s;}
-.field select{-webkit-appearance:none;appearance:none;cursor:pointer;
-  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%23767676' stroke-width='1.2'/></svg>") no-repeat right 2px center;}
-.field input::placeholder{color:#c9c9c9;}
-.field input:focus,.field select:focus{outline:none;border-bottom-color:var(--ink);}
-.field.invalid input{border-bottom-color:var(--err);}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-@media(max-width:480px){.row2{grid-template-columns:1fr;gap:0;}}
-.err{display:none;font-size:11px;color:var(--err);margin-top:7px;}
-.field.invalid .err{display:block;animation:shake .35s;}
-#err-pay.on,#err-agree.on{display:block;animation:shake .35s;}
-@keyframes shake{0%,100%{transform:none;}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
-
-.pays{display:grid;gap:10px;}
-.pay{display:block;cursor:pointer;}
-.pay input{position:absolute;opacity:0;pointer-events:none;}
-.pay-b{display:block;border:1px solid var(--line);padding:15px 17px;transition:border-color .22s,background .22s;}
-.pay-b b{display:block;font-size:12.5px;font-weight:400;letter-spacing:.06em;}
-.pay-b i{display:block;font-style:normal;font-size:10.5px;color:var(--ink-soft);margin-top:4px;letter-spacing:.02em;}
-.pay:hover .pay-b{border-color:#b5b5b5;}
-.pay input:checked + .pay-b{border-color:var(--ink);background:#fafafa;}
-.pay input:focus-visible + .pay-b{outline:2px solid var(--ink);outline-offset:2px;}
-
-.secure{display:flex;gap:9px;align-items:flex-start;font-size:10.5px;line-height:1.85;color:var(--ink-soft);
-  margin-top:18px;padding-top:16px;border-top:1px solid var(--line);}
+.secure{display:flex;gap:10px;align-items:flex-start;text-align:left;margin-top:36px;padding-top:20px;
+  border-top:1px solid var(--line);font-size:10.5px;line-height:1.95;color:var(--ink-soft);
+  animation:up .6s cubic-bezier(.22,1,.36,1) .58s both;}
 .secure svg{width:15px;height:15px;flex:none;margin-top:2px;stroke:var(--ink-soft);stroke-width:1.3;fill:none;}
 
-.agree{display:flex;align-items:flex-start;gap:10px;margin:22px 0 4px;cursor:pointer;}
-.agree input{margin-top:3px;accent-color:var(--ink);width:14px;height:14px;flex:none;cursor:pointer;}
-.agree span{font-size:11.5px;line-height:1.7;color:#3c3c3c;}
-
-.acts{display:flex;justify-content:space-between;gap:12px;margin-top:28px;}
-.btn{cursor:pointer;font-family:inherit;font-size:10.5px;letter-spacing:.24em;padding:15px 30px;
-  border:1px solid var(--ink);transition:background .25s,color .25s,opacity .25s;}
-.btn.primary{background:var(--ink);color:#fff;flex:1;}
-.btn.primary:hover{background:#fff;color:var(--ink);}
-.btn.ghost{background:none;color:var(--ink);}
-.btn.ghost:hover{background:var(--ink);color:#fff;}
-
-.done{display:none;text-align:center;padding:clamp(34px,5vw,56px) 14px;border:1px solid var(--line);}
-.done.on{display:block;animation:fadeUp .55s cubic-bezier(.22,1,.36,1) both;}
-.done .tick{width:46px;height:46px;border:1px solid var(--ink);border-radius:50%;margin:0 auto 22px;
-  display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(.22,1.4,.36,1) .15s both;}
-.done .tick svg{width:20px;height:20px;stroke:var(--ink);stroke-width:1.4;fill:none;
-  stroke-dasharray:26;stroke-dashoffset:26;animation:draw .5s ease .4s forwards;}
-@keyframes draw{to{stroke-dashoffset:0;}}
-@keyframes pop{from{opacity:0;transform:scale(.6);}to{opacity:1;transform:none;}}
-.done h2{font-size:15px;letter-spacing:.14em;font-weight:400;margin-bottom:14px;}
-.done p{font-size:12.5px;line-height:2;color:var(--ink-soft);max-width:27em;margin:0 auto 26px;}
-.done .done-primary{display:block;background:var(--ink);color:#fff;margin-bottom:12px;}
-.done .done-primary:hover{background:#fff;color:var(--ink);}
-.done a{display:inline-block;border:1px solid var(--ink);padding:13px 30px;font-size:10.5px;
-  letter-spacing:.24em;transition:background .25s,color .25s;}
-.done a:hover{background:var(--ink);color:#fff;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+@keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+@keyframes rule{from{opacity:0;transform:scaleX(0);}to{opacity:1;transform:scaleX(1);}}
 
 footer{border-top:1px solid var(--line);padding:26px 20px;text-align:center;}
 footer a{font-size:11px;letter-spacing:var(--ls);color:var(--ink-soft);transition:color .2s;}
@@ -176,358 +120,112 @@ footer a:hover{color:var(--ink);}
 </header>
 
 <div class="wrap">
-  <div class="cols">
-    <aside class="intro">
-      <p class="eyebrow" data-i18n="page.eyebrow">Membership</p>
-      <h1 data-i18n="page.title">MEMBER REGISTRATION</h1>
-      <p class="sub" data-i18n="page.sub">会員登録</p>
-      <p class="lead" data-i18n="page.lead"></p>
-      <ul class="benefits">
-        <li data-i18n="b.1"></li><li data-i18n="b.2"></li><li data-i18n="b.3"></li>
-      </ul>
-      <p class="note" data-i18n="note"></p>
-    </aside>
+  <p class="eyebrow" data-i18n="eyebrow">Membership</p>
+  <h1 data-i18n="title">MEMBER REGISTRATION</h1>
+  <p class="sub" data-i18n="sub">会員登録</p>
+  <div class="rule"></div>
+  <p class="lead" data-i18n="lead"></p>
 
-    <div class="formcol">
-      <ol class="steps" id="steps">
-        <li class="on" data-step="1"><span class="dot">1</span><span data-i18n="step.1">基本情報</span></li>
-        <li data-step="2"><span class="dot">2</span><span data-i18n="step.2">お届け先</span></li>
-        <li data-step="3"><span class="dot">3</span><span data-i18n="step.3">お支払い</span></li>
-      </ol>
-      <div class="bar"><i id="bar-fill"></i></div>
+  <ul class="benefits">
+    <li data-i18n="b.1"></li><li data-i18n="b.2"></li><li data-i18n="b.3"></li>
+  </ul>
 
-      <form class="card" id="reg-form" onsubmit="return submitReg(event)" novalidate>
-
-        <section class="pane on" data-pane="1">
-          <h2 class="pane-h" data-i18n="s1.title">基本情報</h2>
-          <div class="field" data-for="reg-name">
-            <label for="reg-name"><span data-i18n="f.name">お名前</span><b class="req" data-i18n="f.required">必須</b></label>
-            <input type="text" id="reg-name" data-i18n-ph="f.name.ph" autocomplete="name">
-            <p class="err" data-i18n="err.name"></p>
-          </div>
-          <div class="field" data-for="reg-kana">
-            <label for="reg-kana"><span data-i18n="f.kana">フリガナ</span><b class="opt" data-i18n="f.optional">任意</b></label>
-            <input type="text" id="reg-kana" data-i18n-ph="f.kana.ph">
-            <p class="err" data-i18n="err.kana"></p>
-          </div>
-          <div class="field" data-for="reg-email">
-            <label for="reg-email"><span data-i18n="f.email">メールアドレス</span><b class="req" data-i18n="f.required">必須</b></label>
-            <input type="email" id="reg-email" data-i18n-ph="f.email.ph" autocomplete="email">
-            <p class="err" data-i18n="err.email"></p>
-          </div>
-          <div class="acts">
-            <span></span>
-            <button type="button" class="btn primary" onclick="goStep(2)" data-i18n="btn.next">次へ進む</button>
-          </div>
-        </section>
-
-        <section class="pane" data-pane="2">
-          <h2 class="pane-h" data-i18n="s2.title">お届け先</h2>
-          <div class="field" data-for="reg-country">
-            <label for="reg-country"><span data-i18n="f.country">国・地域</span><b class="req" data-i18n="f.required">必須</b></label>
-            <select id="reg-country">
-              <option value="JP">日本 / Japan</option>
-              <option value="KR">대한민국 / South Korea</option>
-              <option value="US">United States</option>
-              <option value="OTHER">その他 / Other</option>
-            </select>
-          </div>
-          <div class="row2">
-            <div class="field" data-for="reg-postal">
-              <label for="reg-postal"><span data-i18n="f.postal">郵便番号</span><b class="req" data-i18n="f.required">必須</b></label>
-              <input type="text" id="reg-postal" data-i18n-ph="f.postal.ph" autocomplete="postal-code">
-              <p class="err" data-i18n="err.postal"></p>
-            </div>
-            <div class="field" data-for="reg-pref">
-              <label for="reg-pref"><span data-i18n="f.pref">都道府県</span><b class="req" data-i18n="f.required">必須</b></label>
-              <input type="text" id="reg-pref" data-i18n-ph="f.pref.ph" autocomplete="address-level1">
-              <p class="err" data-i18n="err.pref"></p>
-            </div>
-          </div>
-          <div class="field" data-for="reg-city">
-            <label for="reg-city"><span data-i18n="f.city">市区町村</span><b class="req" data-i18n="f.required">必須</b></label>
-            <input type="text" id="reg-city" data-i18n-ph="f.city.ph" autocomplete="address-level2">
-            <p class="err" data-i18n="err.city"></p>
-          </div>
-          <div class="field" data-for="reg-addr1">
-            <label for="reg-addr1"><span data-i18n="f.addr1">番地</span><b class="req" data-i18n="f.required">必須</b></label>
-            <input type="text" id="reg-addr1" data-i18n-ph="f.addr1.ph" autocomplete="address-line1">
-            <p class="err" data-i18n="err.addr1"></p>
-          </div>
-          <div class="field" data-for="reg-addr2">
-            <label for="reg-addr2"><span data-i18n="f.addr2">建物名・部屋番号</span><b class="opt" data-i18n="f.optional">任意</b></label>
-            <input type="text" id="reg-addr2" data-i18n-ph="f.addr2.ph" autocomplete="address-line2">
-          </div>
-          <div class="field" data-for="reg-phone">
-            <label for="reg-phone"><span data-i18n="f.phone">電話番号</span><b class="req" data-i18n="f.required">必須</b></label>
-            <input type="tel" id="reg-phone" data-i18n-ph="f.phone.ph" autocomplete="tel">
-            <p class="err" data-i18n="err.phone"></p>
-          </div>
-          <div class="acts">
-            <button type="button" class="btn ghost" onclick="goStep(1)" data-i18n="btn.back">戻る</button>
-            <button type="button" class="btn primary" onclick="goStep(3)" data-i18n="btn.next">次へ進む</button>
-          </div>
-        </section>
-
-        <section class="pane" data-pane="3">
-          <h2 class="pane-h" data-i18n="s3.title">ご希望のお支払い方法</h2>
-          <p class="pane-lead" data-i18n="pay.lead"></p>
-          <div class="pays" id="pays">
-            <label class="pay"><input type="radio" name="pay" value="card">
-              <span class="pay-b"><b data-i18n="pay.card">クレジットカード</b><i data-i18n="pay.card.d"></i></span></label>
-            <label class="pay"><input type="radio" name="pay" value="applepay">
-              <span class="pay-b"><b data-i18n="pay.apple">Apple Pay</b><i data-i18n="pay.apple.d"></i></span></label>
-            <label class="pay"><input type="radio" name="pay" value="paypay">
-              <span class="pay-b"><b data-i18n="pay.paypay">PayPay</b><i data-i18n="pay.paypay.d"></i></span></label>
-            <label class="pay"><input type="radio" name="pay" value="bank">
-              <span class="pay-b"><b data-i18n="pay.bank">銀行振込</b><i data-i18n="pay.bank.d"></i></span></label>
-          </div>
-          <p class="err" id="err-pay" data-i18n="err.pay"></p>
-          <p class="secure"><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span data-i18n="pay.secure"></span></p>
-          <label class="agree"><input type="checkbox" id="reg-agree"><span data-i18n="f.agree"></span></label>
-          <p class="err" id="err-agree" data-i18n="err.agree"></p>
-          <div class="acts">
-            <button type="button" class="btn ghost" onclick="goStep(2)" data-i18n="btn.back">戻る</button>
-            <button type="submit" class="btn primary" data-i18n="btn.submit">登録を完了する</button>
-          </div>
-        </section>
-      </form>
-
-      <div class="done" id="reg-done">
-        <div class="tick"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
-        <h2 data-i18n="ok.title"></h2>
-        <p data-i18n="ok.text"></p>
-        <a class="done-primary" id="ok-shopify" href="#" data-i18n="ok.finish"></a>
-        <a href="store.html" data-i18n="ok.back"></a>
-      </div>
-    </div>
+  <div class="how">
+    <h2 data-i18n="how.title">ご登録の流れ</h2>
+    <ol>
+      <li data-i18n="how.1"></li><li data-i18n="how.2"></li><li data-i18n="how.3"></li>
+    </ol>
   </div>
+
+  <div class="cta-wrap">
+    <a class="cta" id="cta" href="https://9j5rrv-uv.myshopify.com/account" data-i18n="cta">メールアドレスで登録する</a>
+    <p class="cta-note" data-i18n="cta.note"></p>
+    <a class="already" id="already" href="https://9j5rrv-uv.myshopify.com/account" data-i18n="already"></a>
+  </div>
+
+  <p class="secure">
+    <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+    <span data-i18n="secure"></span>
+  </p>
 </div>
 
 <footer><a href="store.html" data-i18n="foot.back">← ストアに戻る</a></footer>
 
 <script>
+
 var I18N = {
  "ja": {
   "nav.store": "← STORE",
-  "page.eyebrow": "Membership",
-  "page.title": "MEMBER REGISTRATION",
-  "page.sub": "会員登録",
-  "page.lead": "ご登録いただくと、新作の先行案内・限定コンテンツ・会員限定の先行販売をいち早くお届けします。",
+  "eyebrow": "Membership",
+  "title": "MEMBER REGISTRATION",
+  "sub": "会員登録",
+  "lead": "SASAGEは、2026年秋にファーストコレクションを公開します。<br>会員の方には、一般公開に先立ってご案内をお届けします。",
   "b.1": "新作コレクションの先行アクセス",
   "b.2": "会員限定アイテム・価格のご案内",
   "b.3": "再入荷・受注開始の優先通知",
-  "step.1": "基本情報",
-  "step.2": "お届け先",
-  "step.3": "お支払い",
-  "s1.title": "基本情報",
-  "s2.title": "お届け先",
-  "s3.title": "ご希望のお支払い方法",
-  "f.required": "必須",
-  "f.optional": "任意",
-  "f.name": "お名前",
-  "f.name.ph": "佐藤 太郎",
-  "f.kana": "フリガナ",
-  "f.kana.ph": "サトウ タロウ",
-  "f.email": "メールアドレス",
-  "f.email.ph": "you@example.com",
-  "f.country": "国・地域",
-  "f.postal": "郵便番号",
-  "f.postal.ph": "150-0001",
-  "f.pref": "都道府県",
-  "f.pref.ph": "東京都",
-  "f.city": "市区町村",
-  "f.city.ph": "渋谷区神宮前",
-  "f.addr1": "番地",
-  "f.addr1.ph": "1-2-3",
-  "f.addr2": "建物名・部屋番号",
-  "f.addr2.ph": "SASAGEビル 401",
-  "f.phone": "電話番号",
-  "f.phone.ph": "090-1234-5678",
-  "pay.lead": "ストア正式オープン時にご案内する決済手段のご希望をお選びください。カード番号などの情報は、この画面では一切お預かりしません。",
-  "pay.card": "クレジットカード",
-  "pay.card.d": "VISA / Mastercard / AMEX",
-  "pay.apple": "Apple Pay",
-  "pay.apple.d": "対応端末でワンタッチ決済",
-  "pay.paypay": "PayPay",
-  "pay.paypay.d": "残高・あと払いに対応予定",
-  "pay.bank": "銀行振込",
-  "pay.bank.d": "ご入金確認後の発送",
-  "pay.secure": "実際のお支払い情報は、ご購入時に決済代行会社の安全な画面でご入力いただきます。当サイトがカード番号を保持することはありません。",
-  "f.agree": "利用規約およびプライバシーポリシーに同意し、新作・先行販売のご案内メールの受信を希望します",
-  "btn.next": "次へ進む",
-  "btn.back": "戻る",
-  "btn.submit": "登録を完了する",
-  "err.name": "お名前をご入力ください。",
-  "err.kana": "フリガナをご入力ください。",
-  "err.email": "有効なメールアドレスをご入力ください。",
-  "err.postal": "郵便番号をご入力ください。",
-  "err.pref": "都道府県をご入力ください。",
-  "err.city": "市区町村をご入力ください。",
-  "err.addr1": "番地をご入力ください。",
-  "err.phone": "電話番号をご入力ください。",
-  "err.pay": "ご希望のお支払い方法をお選びください。",
-  "err.agree": "ご案内メールの受信と利用規約への同意が必要です。",
-  "ok.title": "ご入力ありがとうございます",
-  "ok.text": "先行案内をお届けするため、続けてSASAGE公式ストアでアカウント登録をお願いします。<br>下のボタンから1分ほどで完了します。",
-  "ok.back": "ストアへ戻る",
-  "note": "※ 現在は先行登録の受付段階です。ご入力内容はこの端末に保存され、アカウント登録はSASAGE公式ストア（Shopify）で行われます。",
-  "foot.back": "← ストアに戻る",
-  "ok.finish": "アカウント登録を完了する"
+  "how.title": "ご登録の流れ",
+  "how.1": "下のボタンからSASAGE公式ストアへ進みます",
+  "how.2": "メールアドレスを入力します（パスワードは不要です）",
+  "how.3": "届いた確認コードを入力すれば完了です",
+  "cta": "メールアドレスで登録する",
+  "cta.note": "所要時間およそ1分",
+  "secure": "ご登録はSASAGE公式ストア（Shopify）の安全な画面で行われます。当サイトがお客様の情報を保持することはありません。",
+  "already": "すでに会員の方はこちら",
+  "foot.back": "← ストアに戻る"
  },
  "en": {
   "nav.store": "← STORE",
-  "page.eyebrow": "Membership",
-  "page.title": "MEMBER REGISTRATION",
-  "page.sub": "Join SASAGE",
-  "page.lead": "Register to receive early word on new collections, exclusive content, and member-only pre-sales before anyone else.",
+  "eyebrow": "Membership",
+  "title": "MEMBER REGISTRATION",
+  "sub": "Join SASAGE",
+  "lead": "SASAGE releases its first collection in autumn 2026.<br>Members hear from us before it opens to the public.",
   "b.1": "Early access to new collections",
   "b.2": "Member-only pieces and pricing",
   "b.3": "Priority alerts on restocks and pre-orders",
-  "step.1": "Details",
-  "step.2": "Address",
-  "step.3": "Payment",
-  "s1.title": "Your details",
-  "s2.title": "Delivery address",
-  "s3.title": "Preferred payment method",
-  "f.required": "required",
-  "f.optional": "optional",
-  "f.name": "Full name",
-  "f.name.ph": "Taro Sato",
-  "f.kana": "Name (phonetic)",
-  "f.kana.ph": "Optional outside Japan",
-  "f.email": "Email address",
-  "f.email.ph": "you@example.com",
-  "f.country": "Country / Region",
-  "f.postal": "Postal code",
-  "f.postal.ph": "150-0001",
-  "f.pref": "State / Prefecture",
-  "f.pref.ph": "Tokyo",
-  "f.city": "City / Ward",
-  "f.city.ph": "Shibuya-ku, Jingumae",
-  "f.addr1": "Street address",
-  "f.addr1.ph": "1-2-3",
-  "f.addr2": "Building / Apt.",
-  "f.addr2.ph": "SASAGE Building 401",
-  "f.phone": "Phone number",
-  "f.phone.ph": "+81 90-1234-5678",
-  "pay.lead": "Choose how you would prefer to pay when the store officially opens. No card numbers are collected on this page.",
-  "pay.card": "Credit card",
-  "pay.card.d": "VISA / Mastercard / AMEX",
-  "pay.apple": "Apple Pay",
-  "pay.apple.d": "One-tap checkout on supported devices",
-  "pay.paypay": "PayPay",
-  "pay.paypay.d": "Balance and deferred payment planned",
-  "pay.bank": "Bank transfer",
-  "pay.bank.d": "Dispatched once payment clears",
-  "pay.secure": "Your actual payment details will be entered on the secure page of our payment provider at checkout. This site never stores card numbers.",
-  "f.agree": "I agree to the Terms of Service and Privacy Policy, and would like to receive emails about new arrivals and pre-sales",
-  "btn.next": "CONTINUE",
-  "btn.back": "BACK",
-  "btn.submit": "COMPLETE REGISTRATION",
-  "err.name": "Please enter your name.",
-  "err.kana": "Please enter the phonetic reading.",
-  "err.email": "Please enter a valid email address.",
-  "err.postal": "Please enter your postal code.",
-  "err.pref": "Please enter your state or prefecture.",
-  "err.city": "Please enter your city.",
-  "err.addr1": "Please enter your street address.",
-  "err.phone": "Please enter your phone number.",
-  "err.pay": "Please choose a preferred payment method.",
-  "err.agree": "Please agree to the terms and to receiving emails to continue.",
-  "ok.title": "Thank you for your details",
-  "ok.text": "To receive early access, please finish creating your account on the SASAGE official store.<br>It takes about a minute.",
-  "ok.back": "Back to store",
-  "note": "Note: this is early registration. Your entries are saved on this device, and the account itself is created on the SASAGE official store (Shopify).",
-  "foot.back": "← Back to store",
-  "ok.finish": "COMPLETE MY ACCOUNT"
+  "how.title": "How it works",
+  "how.1": "Continue to the SASAGE official store below",
+  "how.2": "Enter your email address — no password needed",
+  "how.3": "Enter the code we send you, and you are done",
+  "cta": "REGISTER WITH EMAIL",
+  "cta.note": "Takes about a minute",
+  "secure": "Registration takes place on the secure page of the SASAGE official store (Shopify). This site never stores your details.",
+  "already": "Already a member? Sign in",
+  "foot.back": "← Back to store"
  },
  "ko": {
   "nav.store": "← STORE",
-  "page.eyebrow": "Membership",
-  "page.title": "MEMBER REGISTRATION",
-  "page.sub": "회원 가입",
-  "page.lead": "가입하시면 신상 컬렉션 선행 안내, 한정 콘텐츠, 회원 전용 선행 판매 소식을 가장 먼저 전해 드립니다.",
+  "eyebrow": "Membership",
+  "title": "MEMBER REGISTRATION",
+  "sub": "회원 가입",
+  "lead": "SASAGE는 2026년 가을에 퍼스트 컬렉션을 공개합니다.<br>회원분들께는 일반 공개에 앞서 안내를 보내드립니다.",
   "b.1": "신상 컬렉션 선행 액세스",
   "b.2": "회원 전용 아이템·가격 안내",
   "b.3": "재입고·예약 주문 우선 알림",
-  "step.1": "기본 정보",
-  "step.2": "배송지",
-  "step.3": "결제",
-  "s1.title": "기본 정보",
-  "s2.title": "배송지 주소",
-  "s3.title": "희망 결제 수단",
-  "f.required": "필수",
-  "f.optional": "선택",
-  "f.name": "이름",
-  "f.name.ph": "홍길동",
-  "f.kana": "이름 (읽는 법)",
-  "f.kana.ph": "일본 외 지역은 선택",
-  "f.email": "이메일 주소",
-  "f.email.ph": "you@example.com",
-  "f.country": "국가·지역",
-  "f.postal": "우편번호",
-  "f.postal.ph": "150-0001",
-  "f.pref": "시·도",
-  "f.pref.ph": "서울특별시",
-  "f.city": "시·군·구",
-  "f.city.ph": "강남구 신사동",
-  "f.addr1": "상세 주소",
-  "f.addr1.ph": "1-2-3",
-  "f.addr2": "건물명·호수",
-  "f.addr2.ph": "SASAGE 빌딩 401호",
-  "f.phone": "전화번호",
-  "f.phone.ph": "010-1234-5678",
-  "pay.lead": "스토어 정식 오픈 시 이용하실 결제 수단을 선택해 주세요. 카드 번호 등의 정보는 이 화면에서 일절 수집하지 않습니다.",
-  "pay.card": "신용카드",
-  "pay.card.d": "VISA / Mastercard / AMEX",
-  "pay.apple": "Apple Pay",
-  "pay.apple.d": "지원 기기에서 원터치 결제",
-  "pay.paypay": "PayPay",
-  "pay.paypay.d": "잔액·후불 결제 지원 예정",
-  "pay.bank": "계좌 이체",
-  "pay.bank.d": "입금 확인 후 발송",
-  "pay.secure": "실제 결제 정보는 구매 시 결제 대행사의 보안 화면에서 입력하시게 됩니다. 본 사이트가 카드 번호를 보관하는 일은 없습니다.",
-  "f.agree": "이용약관 및 개인정보 처리방침에 동의하며, 신상품·선행 판매 안내 메일 수신을 희망합니다",
-  "btn.next": "다음",
-  "btn.back": "이전",
-  "btn.submit": "가입 완료",
-  "err.name": "이름을 입력해 주세요.",
-  "err.kana": "읽는 법을 입력해 주세요.",
-  "err.email": "올바른 이메일 주소를 입력해 주세요.",
-  "err.postal": "우편번호를 입력해 주세요.",
-  "err.pref": "시·도를 입력해 주세요.",
-  "err.city": "시·군·구를 입력해 주세요.",
-  "err.addr1": "상세 주소를 입력해 주세요.",
-  "err.phone": "전화번호를 입력해 주세요.",
-  "err.pay": "희망하시는 결제 수단을 선택해 주세요.",
-  "err.agree": "안내 메일 수신과 약관 동의가 필요합니다.",
-  "ok.title": "입력해 주셔서 감사합니다",
-  "ok.text": "선행 안내를 받으시려면 이어서 SASAGE 공식 스토어에서 계정 등록을 완료해 주세요.<br>1분 정도면 끝납니다.",
-  "ok.back": "스토어로 돌아가기",
-  "note": "※ 현재는 사전 등록 단계입니다. 입력하신 내용은 이 기기에 저장되며, 계정 등록은 SASAGE 공식 스토어(Shopify)에서 이루어집니다.",
-  "foot.back": "← 스토어로 돌아가기",
-  "ok.finish": "계정 등록 완료하기"
+  "how.title": "가입 절차",
+  "how.1": "아래 버튼으로 SASAGE 공식 스토어로 이동합니다",
+  "how.2": "이메일 주소를 입력합니다 (비밀번호는 필요 없습니다)",
+  "how.3": "받으신 인증 코드를 입력하면 완료됩니다",
+  "cta": "이메일로 가입하기",
+  "cta.note": "약 1분 소요",
+  "secure": "가입은 SASAGE 공식 스토어(Shopify)의 보안 페이지에서 진행됩니다. 본 사이트가 고객님의 정보를 보관하는 일은 없습니다.",
+  "already": "이미 회원이신가요? 로그인",
+  "foot.back": "← 스토어로 돌아가기"
  }
 };
 var LANG_CODE = { ja:'JA', en:'EN', ko:'KO' };
 
 function setLang(lang){
   if(!I18N[lang]) lang='ja';
-  var d = I18N[lang];
+  var d=I18N[lang];
   document.querySelectorAll('[data-i18n]').forEach(function(el){
-    var v = d[el.getAttribute('data-i18n')];
-    if(v !== undefined){ if(v.indexOf('<')>-1) el.innerHTML=v; else el.textContent=v; }
-  });
-  document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
-    var v = d[el.getAttribute('data-i18n-ph')];
-    if(v !== undefined) el.placeholder = v;
+    var v=d[el.getAttribute('data-i18n')];
+    if(v!==undefined){ if(v.indexOf('<')>-1) el.innerHTML=v; else el.textContent=v; }
   });
   document.documentElement.setAttribute('lang', lang);
-  var cur = document.getElementById('lang-current');
-  if(cur) cur.textContent = LANG_CODE[lang];
+  var cur=document.getElementById('lang-current');
+  if(cur) cur.textContent=LANG_CODE[lang];
   document.querySelectorAll('#lang-menu button').forEach(function(b){
-    b.setAttribute('aria-current', b.getAttribute('data-lang')===lang ? 'true':'false');
+    b.setAttribute('aria-current', b.getAttribute('data-lang')===lang?'true':'false');
   });
   try{ localStorage.setItem('sasage_lang', lang); }catch(e){}
   closeLangMenu();
@@ -551,12 +249,12 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeLangM
 (function(){
   var s=null; try{ s=localStorage.getItem('sasage_lang'); }catch(e){}
   if(!s){ var n=(navigator.language||'ja').toLowerCase();
-    s = n.indexOf('ja')===0 ? 'ja' : (n.indexOf('ko')===0 ? 'ko' : 'en'); }
+    s = n.indexOf('ja')===0?'ja':(n.indexOf('ko')===0?'ko':'en'); }
   setLang(s);
 })();
 
 function goHome(e){
-  e.preventDefault();
+  if(e) e.preventDefault();
   var t=document.getElementById('pg-trans');
   document.getElementById('trans-logo').src=document.getElementById('logo-img').src;
   t.classList.add('show');
@@ -564,120 +262,10 @@ function goHome(e){
   return false;
 }
 
-/* ---- multi-step ---- */
-var current = 1;
-var REQ = {
-  1:['reg-name','reg-email'],
-  2:['reg-postal','reg-pref','reg-city','reg-addr1','reg-phone'],
-  3:[]
-};
-function fieldOf(id){ return document.querySelector('.field[data-for="'+id+'"]'); }
-function validId(id){
-  var el=document.getElementById(id), v=el.value.trim();
-  if(id==='reg-email') return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-  return v.length>0;
-}
-function validateStep(n){
-  var ok=true, first=null;
-  REQ[n].forEach(function(id){
-    var good=validId(id);
-    var f=fieldOf(id);
-    if(f) f.classList.toggle('invalid', !good);
-    if(!good){ ok=false; if(!first) first=document.getElementById(id); }
-  });
-  if(n===3){
-    var pay=document.querySelector('input[name="pay"]:checked');
-    document.getElementById('err-pay').classList.toggle('on', !pay);
-    if(!pay){ ok=false; if(!first) first=document.getElementById('pays'); }
-    var ag=document.getElementById('reg-agree');
-    document.getElementById('err-agree').classList.toggle('on', !ag.checked);
-    if(!ag.checked){ ok=false; if(!first) first=ag; }
-  }
-  if(first && first.focus) try{ first.focus({preventScroll:true}); }catch(e){}
-  return ok;
-}
-function goStep(n){
-  if(n>current && !validateStep(current)) return;
-  var rev = n < current;
-  document.querySelectorAll('.pane').forEach(function(p){ p.classList.remove('on','rev'); });
-  var pane=document.querySelector('.pane[data-pane="'+n+'"]');
-  if(rev) pane.classList.add('rev');
-  pane.classList.add('on');
-  document.querySelectorAll('#steps li').forEach(function(li){
-    var s=+li.getAttribute('data-step');
-    li.classList.toggle('on', s===n);
-    li.classList.toggle('done', s<n);
-  });
-  document.getElementById('bar-fill').style.width = (n*33.333)+'%';
-  current=n;
-  var top=document.querySelector('.formcol').getBoundingClientRect().top+window.scrollY-90;
-  window.scrollTo({top:top<0?0:top, behavior:'smooth'});
-}
-/* ==========================================================
-   SHOPIFY SIGNUP
-   Direct POST to /contact is blocked by Shopify's CAPTCHA and
-   must not be bypassed. Signups are therefore handed off to
-   Shopify's own account page, which handles verification and
-   creates a real customer record.
-   ========================================================== */
-var SHOPIFY_SHOP = 'https://9j5rrv-uv.myshopify.com';
-function shopifyAccountUrl(){
-  return SHOPIFY_SHOP.replace(/\/$/,'') + '/account';
-}
-
-function saveMember(){
-  var v=function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };
-  var payEl=document.querySelector('input[name="pay"]:checked');
-  var data={
-    name:v('reg-name'), kana:v('reg-kana'), email:v('reg-email'),
-    country:v('reg-country'), postal:v('reg-postal'), pref:v('reg-pref'),
-    city:v('reg-city'), addr1:v('reg-addr1'), addr2:v('reg-addr2'),
-    phone:v('reg-phone'), pay:payEl?payEl.value:'',
-    joined:new Date().toISOString()
-  };
-  try{ localStorage.setItem('sasage_member', JSON.stringify(data)); }catch(e){}
-}
-
-function prefillFromSaved(){
-  var m=null;
-  try{ m=JSON.parse(localStorage.getItem('sasage_member')||'null'); }catch(e){}
-  if(!m) return;
-  var set=function(id,val){ var el=document.getElementById(id); if(el&&val) el.value=val; };
-  set('reg-name',m.name); set('reg-kana',m.kana); set('reg-email',m.email);
-  set('reg-country',m.country); set('reg-postal',m.postal); set('reg-pref',m.pref);
-  set('reg-city',m.city); set('reg-addr1',m.addr1); set('reg-addr2',m.addr2);
-  set('reg-phone',m.phone);
-  if(m.pay){
-    var r=document.querySelector('input[name="pay"][value="'+m.pay+'"]');
-    if(r) r.checked=true;
-  }
-}
-prefillFromSaved();
-
-function submitReg(e){
-  e.preventDefault();
-  if(!validateStep(3)) return false;
-  saveMember();
-  document.getElementById('reg-form').classList.add('hide');
-  var okBtn=document.getElementById('ok-shopify');
-  if(okBtn) okBtn.href=shopifyAccountUrl();
-  document.getElementById('reg-done').classList.add('on');
-  document.querySelectorAll('#steps li').forEach(function(li){ li.classList.add('done'); li.classList.remove('on'); });
-  document.getElementById('bar-fill').style.width='100%';
-  var top=document.querySelector('.formcol').getBoundingClientRect().top+window.scrollY-90;
-  window.scrollTo({top:top<0?0:top, behavior:'smooth'});
-  return false;
-}
-document.querySelectorAll('.field input').forEach(function(el){
-  el.addEventListener('input', function(){
-    var f=this.closest('.field'); if(f) f.classList.remove('invalid');
-  });
-});
-document.querySelectorAll('input[name="pay"]').forEach(function(r){
-  r.addEventListener('change', function(){ document.getElementById('err-pay').classList.remove('on'); });
-});
-document.getElementById('reg-agree').addEventListener('change', function(){
-  if(this.checked) document.getElementById('err-agree').classList.remove('on');
+/* Mark the visitor as a member locally once they head off to Shopify,
+   so the store drawer can greet them on return. Shopify holds the real record. */
+document.getElementById('cta').addEventListener('click', function(){
+  try{ localStorage.setItem('sasage_pending','1'); }catch(e){}
 });
 
 </script>

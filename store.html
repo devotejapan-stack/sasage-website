@@ -637,28 +637,14 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 
     <!-- member -->
     <div class="acct-pane" id="acct-member">
-      <p class="acct-name" id="ac-name">—</p>
-      <p class="acct-mail" id="ac-mail">—</p>
-      <span class="acct-badge" data-i18n="acct.badge">会員</span>
-
-      <div class="acct-sec">
-        <h4 data-i18n="acct.shipTo">お届け先</h4>
-        <p id="ac-addr">—</p>
-        <p id="ac-phone" class="muted">—</p>
+      <div class="acct-ico">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
       </div>
-
-      <div class="acct-sec">
-        <h4 data-i18n="acct.payPref">お支払い方法</h4>
-        <p id="ac-pay">—</p>
-      </div>
-
-      <div class="acct-sec">
-        <a class="acct-btn ghost" href="register.html" data-i18n="acct.edit">登録内容を変更する</a>
-        <a class="acct-btn ghost" id="acct-orders" href="#" target="_blank" rel="noopener" data-i18n="acct.orders">注文履歴を見る</a>
-        <a class="acct-btn ghost" href="#" onclick="acctSignOut();return false;" data-i18n="acct.signout">ログアウト</a>
-      </div>
-
-      <p class="acct-lead" style="margin-top:24px;font-size:10.5px;" data-i18n="acct.note"></p>
+      <p class="acct-ttl" data-i18n="acct.memberTitle">ご登録ありがとうございます</p>
+      <p class="acct-lead" data-i18n="acct.memberLead"></p>
+      <a class="acct-btn" id="acct-manage" href="#" target="_blank" rel="noopener" data-i18n="acct.manage">アカウントを確認する</a>
+      <a class="acct-btn ghost" href="#" onclick="acctSignOut();return false;" data-i18n="acct.hide">この端末で表示しない</a>
+      <p class="acct-lead" style="margin-top:22px;font-size:10.5px;" data-i18n="acct.note"></p>
     </div>
 
   </div>
@@ -1031,7 +1017,6 @@ function acctGet(){
   try{ return JSON.parse(localStorage.getItem(ACCT_KEY)||'null'); }catch(e){ return null; }
 }
 function acctRender(){
-  var m=acctGet();
   var guest=document.getElementById('acct-guest');
   var mem=document.getElementById('acct-member');
   if(!guest||!mem) return;
@@ -1039,27 +1024,14 @@ function acctRender(){
   var shop=(document.getElementById('sasage-store')||{getAttribute:function(){return '';}}).getAttribute('store-domain')||'';
   shop=shop.replace(/\/$/,'');
   var login=document.getElementById('acct-login');
-  var orders=document.getElementById('acct-orders');
-  if(login)  login.href  = shop ? shop+'/account/login' : '#';
-  if(orders) orders.href = shop ? shop+'/account' : '#';
+  var manage=document.getElementById('acct-manage');
+  if(login)  login.href  = shop ? shop+'/account' : '#';
+  if(manage) manage.href = shop ? shop+'/account' : '#';
 
-  if(!m){
-    guest.classList.add('on'); mem.classList.remove('on');
-    return;
-  }
-  guest.classList.remove('on'); mem.classList.add('on');
-
-  document.getElementById('ac-name').textContent = m.name || '—';
-  document.getElementById('ac-mail').textContent = m.email || '—';
-
-  var parts=[m.postal, m.pref, m.city, m.addr1, m.addr2].filter(Boolean);
-  document.getElementById('ac-addr').textContent = parts.length ? parts.join(' ') : '—';
-  document.getElementById('ac-phone').textContent = m.phone || '';
-
-  var lang=document.documentElement.getAttribute('data-lang')||'ja';
-  var payKey = m.pay ? ('pay.'+({card:'card',applepay:'apple',paypay:'paypay',bank:'bank'}[m.pay]||'card')) : null;
-  var label = (payKey && I18N[lang] && I18N[lang][payKey]) ? I18N[lang][payKey] : '—';
-  document.getElementById('ac-pay').textContent = label;
+  var pending=null;
+  try{ pending=localStorage.getItem('sasage_pending'); }catch(e){}
+  if(pending){ guest.classList.remove('on'); mem.classList.add('on'); }
+  else { guest.classList.add('on'); mem.classList.remove('on'); }
 }
 function openAcct(){
   acctRender();
@@ -1073,7 +1045,7 @@ function closeAcct(){
   document.body.classList.remove('pop-open');
 }
 function acctSignOut(){
-  try{ localStorage.removeItem(ACCT_KEY); }catch(e){}
+  try{ localStorage.removeItem('sasage_pending'); localStorage.removeItem(ACCT_KEY); }catch(e){}
   acctRender();
 }
 document.addEventListener('keydown', function(e){
@@ -1196,19 +1168,13 @@ var I18N = {
   "acct.guestLead": "会員登録いただくと、新作の先行案内や会員限定の先行販売をいち早くお届けします。",
   "acct.register": "新規会員登録へ進む",
   "acct.login": "すでに会員の方はこちら",
-  "acct.badge": "会員",
-  "acct.shipTo": "お届け先",
-  "acct.payPref": "ご希望のお支払い方法",
-  "acct.edit": "登録内容を変更する",
-  "acct.orders": "注文履歴を見る",
-  "acct.signout": "ログアウト",
-  "acct.note": "※ ご登録内容はこの端末に保存されています。ストア正式オープン後は、Shopifyアカウントと連携いたします。",
-  "pay.card": "クレジットカード",
-  "pay.apple": "Apple Pay",
-  "pay.paypay": "PayPay",
-  "pay.bank": "銀行振込",
+  "acct.note": "※ 会員情報はSASAGE公式ストア（Shopify）で管理されています。",
   "cs.note": "ファーストコレクションの公開に向けて準備を進めています。<br>会員の方には、一般公開に先立ってご案内をお送りします。",
-  "cs.cta": "先行案内を受け取る"
+  "cs.cta": "先行案内を受け取る",
+  "acct.memberTitle": "ご登録ありがとうございます",
+  "acct.memberLead": "公開に先立って、ご登録のメールアドレスへご案内をお送りします。<br>登録内容の確認・変更はSASAGE公式ストアで行えます。",
+  "acct.manage": "アカウントを確認する",
+  "acct.hide": "この端末で表示しない"
  },
  "en": {
   "util.bar": "Free shipping ｜ Early access for members",
@@ -1291,19 +1257,13 @@ var I18N = {
   "acct.guestLead": "Register to hear about new collections and member-only pre-sales before anyone else.",
   "acct.register": "CREATE AN ACCOUNT",
   "acct.login": "Already a member? Sign in",
-  "acct.badge": "Member",
-  "acct.shipTo": "Delivery address",
-  "acct.payPref": "Preferred payment method",
-  "acct.edit": "EDIT MY DETAILS",
-  "acct.orders": "VIEW ORDER HISTORY",
-  "acct.signout": "SIGN OUT",
-  "acct.note": "Note: your details are stored on this device only. They will be linked to a Shopify account once the store officially opens.",
-  "pay.card": "Credit card",
-  "pay.apple": "Apple Pay",
-  "pay.paypay": "PayPay",
-  "pay.bank": "Bank transfer",
+  "acct.note": "Note: member details are held on the SASAGE official store (Shopify).",
   "cs.note": "We are preparing the first collection for release.<br>Members will hear from us before it opens to the public.",
-  "cs.cta": "GET EARLY ACCESS"
+  "cs.cta": "GET EARLY ACCESS",
+  "acct.memberTitle": "Thank you for registering",
+  "acct.memberLead": "We will write to you before the collection opens to the public.<br>You can review or change your details on the SASAGE official store.",
+  "acct.manage": "VIEW MY ACCOUNT",
+  "acct.hide": "HIDE ON THIS DEVICE"
  },
  "ko": {
   "util.bar": "무료 배송 ｜ 회원 가입 시 선행 액세스",
@@ -1386,19 +1346,13 @@ var I18N = {
   "acct.guestLead": "회원 가입하시면 신상 컬렉션 선행 안내와 회원 전용 선행 판매 소식을 가장 먼저 받아보실 수 있습니다.",
   "acct.register": "신규 회원 가입하기",
   "acct.login": "이미 회원이신가요? 로그인",
-  "acct.badge": "회원",
-  "acct.shipTo": "배송지",
-  "acct.payPref": "희망 결제 수단",
-  "acct.edit": "등록 정보 변경",
-  "acct.orders": "주문 내역 보기",
-  "acct.signout": "로그아웃",
-  "acct.note": "※ 등록 정보는 이 기기에만 저장됩니다. 스토어 정식 오픈 후에는 Shopify 계정과 연동됩니다.",
-  "pay.card": "신용카드",
-  "pay.apple": "Apple Pay",
-  "pay.paypay": "PayPay",
-  "pay.bank": "계좌 이체",
+  "acct.note": "※ 회원 정보는 SASAGE 공식 스토어(Shopify)에서 관리됩니다.",
   "cs.note": "퍼스트 컬렉션 공개를 준비하고 있습니다.<br>회원분들께는 일반 공개에 앞서 안내를 보내드립니다.",
-  "cs.cta": "선행 안내 받기"
+  "cs.cta": "선행 안내 받기",
+  "acct.memberTitle": "가입해 주셔서 감사합니다",
+  "acct.memberLead": "공개에 앞서 등록하신 이메일 주소로 안내를 보내드립니다.<br>등록 정보 확인·변경은 SASAGE 공식 스토어에서 하실 수 있습니다.",
+  "acct.manage": "내 계정 보기",
+  "acct.hide": "이 기기에서 표시하지 않기"
  }
 };
 
