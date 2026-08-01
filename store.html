@@ -229,40 +229,59 @@ function applyShopifyMarket(lang){
   if(s.getAttribute('language')!==m.language) s.setAttribute('language', m.language);
 }
 
-/* Reveal the grid once Shopify has painted products; show a notice if it can't */
-(function watchShopify(){
+/* Reveal the grid once Shopify has painted products; notice if it cannot */
+var SHOP_ERR_MSG = {
+  ja:'商品を読み込めませんでした。<br>Shopifyストアの接続設定をご確認ください。',
+  en:'Products could not be loaded.<br>Please check the Shopify store connection.',
+  ko:'상품을 불러오지 못했습니다.<br>Shopify 스토어 연결 설정을 확인해 주세요.'
+};
+var SHOP_EMPTY_MSG = {
+  ja:'このカテゴリーの商品はまだありません。',
+  en:'No products in this category yet.',
+  ko:'이 카테고리에는 아직 상품이 없습니다.'
+};
+var shopWatcher=null;
+function watchShopGrid(){
   var skel=document.getElementById('shop-skel');
   var grid=document.getElementById('shop-grid');
   var err =document.getElementById('shop-err');
-  if(!skel||!grid) return;
+  if(!skel||!grid||!err) return;
+  if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
 
-  var ERR_MSG = {
-    ja:'商品を読み込めませんでした。<br>Shopifyストアの接続設定をご確認ください。',
-    en:'Products could not be loaded.<br>Please check the Shopify store connection.',
-    ko:'상품을 불러오지 못했습니다.<br>Shopify 스토어 연결 설정을 확인해 주세요.'
-  };
+  skel.classList.remove('sp-hide');
+  grid.classList.add('sp-hide');
+  err.classList.add('sp-hide');
+
   var done=false;
   function reveal(){
     if(done) return; done=true;
     skel.classList.add('sp-hide');
     grid.classList.remove('sp-hide');
+    if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
   }
-  function fail(){
+  function fail(msgMap){
     if(done) return; done=true;
     skel.classList.add('sp-hide');
     var lang=document.documentElement.getAttribute('data-lang')||'ja';
-    err.innerHTML=ERR_MSG[lang]||ERR_MSG.ja;
+    err.innerHTML=msgMap[lang]||msgMap.ja;
     err.classList.remove('sp-hide');
+    if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
   }
-  var mo=new MutationObserver(function(){
-    if(grid.querySelector('.sp-tile')) { reveal(); mo.disconnect(); }
+  shopWatcher=new MutationObserver(function(){
+    if(grid.querySelector('.sp-tile')) reveal();
   });
-  mo.observe(grid,{childList:true,subtree:true});
+  shopWatcher.observe(grid,{childList:true,subtree:true});
   setTimeout(function(){
-    if(grid.querySelector('.sp-tile')) reveal(); else fail();
-    mo.disconnect();
-  }, 8000);
-})();
+    if(grid.querySelector('.sp-tile')) reveal();
+    else if(grid.querySelector('.shopify-error')) fail(SHOP_ERR_MSG);
+    else fail(SHOP_EMPTY_MSG);
+  }, 9000);
+}
+
+/* initial paint */
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', function(){ renderShop('all'); });
+} else { renderShop('all'); }
 
 /* Keep the header badge in sync with the Shopify cart */
 (function cartBadge(){
@@ -494,28 +513,7 @@ shopify-cart::part(dialog){border:none;padding:0;}
   <p data-i18n="hero.sub">2026年 ファーストコレクション</p>
 </div>
 <div id="shop-skel" class="sp-skel"><div></div><div></div><div></div><div></div></div>
-<div id="shop-grid" class="sp-hide">
-  <shopify-list-context type="product" query="" first="12">
-    <template>
-      <figure class="sp-tile">
-        <a class="sp-media" shopify-attr--href="product.onlineStoreUrl" target="_blank" rel="noopener">
-          <shopify-media query="product.featuredImage" width="600" height="800"></shopify-media>
-        </a>
-        <figcaption class="sp-cap">
-          <div class="sp-name"><shopify-data query="product.title"></shopify-data></div>
-          <div class="sp-price">
-            <shopify-money query="product.selectedOrFirstAvailableVariant.price" format="money_with_currency"></shopify-money>
-          </div>
-          <button class="sp-add"
-                  onclick="document.getElementById('sasage-store').addToCart(event)"
-                  shopify-attr--disabled="!product.selectedOrFirstAvailableVariant.availableForSale">
-            ADD TO CART
-          </button>
-        </figcaption>
-      </figure>
-    </template>
-  </shopify-list-context>
-</div>
+<div id="shop-grid" class="sp-hide"></div>
 <div id="shop-err" class="sp-err sp-hide"></div>
 
     <figcaption><div class="name">Item 01</div><div class="price">¥—</div></figcaption></figure>
@@ -755,15 +753,57 @@ function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
 // ── Category filter ───────────────────────────────────────────────────
+/* Map the nav tabs to Shopify collection handles.
+   Edit the right-hand side to match your own collection handles. */
+var SHOP_COLLECTIONS = {
+  man:'man',
+  women:'women',
+  collection:'collection',
+  accessories:'accessories'
+};
+
+function shopTileHTML(){
+  return ''
+  + '<figure class="sp-tile">'
+  +   '<a class="sp-media" shopify-attr--href="product.onlineStoreUrl" target="_blank" rel="noopener">'
+  +     '<shopify-media query="product.featuredImage" width="600" height="800"></shopify-media>'
+  +   '</a>'
+  +   '<figcaption class="sp-cap">'
+  +     '<div class="sp-name"><shopify-data query="product.title"></shopify-data></div>'
+  +     '<div class="sp-price"><shopify-money query="product.selectedOrFirstAvailableVariant.price" format="money_with_currency"></shopify-money></div>'
+  +     '<button class="sp-add" onclick="document.getElementById(\'sasage-store\').addToCart(event)" '
+  +             'shopify-attr--disabled="!product.selectedOrFirstAvailableVariant.availableForSale">ADD TO CART</button>'
+  +   '</figcaption>'
+  + '</figure>';
+}
+
+function renderShop(cat){
+  var grid=document.getElementById('shop-grid');
+  if(!grid) return;
+  var tile=shopTileHTML();
+  var html;
+  if(cat==='all' || !SHOP_COLLECTIONS[cat]){
+    html = '<shopify-list-context type="product" query="products" first="12">'
+         +   '<template>'+tile+'</template>'
+         + '</shopify-list-context>';
+  } else {
+    html = '<shopify-context type="collection" handle="'+SHOP_COLLECTIONS[cat]+'">'
+         +   '<template>'
+         +     '<shopify-list-context type="product" query="collection.products" first="12">'
+         +       '<template>'+tile+'</template>'
+         +     '</shopify-list-context>'
+         +   '</template>'
+         + '</shopify-context>';
+  }
+  grid.innerHTML = html;
+  watchShopGrid();
+}
+
 function filterCat(cat){
   document.querySelectorAll('nav.main a').forEach(function(a){
     a.classList.toggle('on', (a.dataset.filter||'') === cat);
   });
-  var list=document.querySelector('#shop-grid shopify-list-context');
-  if(list){
-    // 'all' clears the filter; others search Shopify product tags/type
-    list.setAttribute('query', cat==='all' ? '' : ('tag:'+cat+' OR product_type:'+cat));
-  }
+  renderShop(cat);
   var g=document.getElementById('shop-grid');
   if(g) window.scrollTo({top:Math.max(g.offsetTop-80,0), behavior:'smooth'});
 }
