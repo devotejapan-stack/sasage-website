@@ -192,7 +192,7 @@ footer{border-top:1px solid var(--line);padding:44px 20px 60px;}
 .lang-menu button[aria-current="true"]{color:var(--ink);font-weight:600;}
 .lang-menu .lang-native{font-size:9px;opacity:.55;letter-spacing:.04em;}
 
-/* ---------- page transition ---------- */
+/* ---------- page transition styles ---------- */
 #pg-trans{
   position:fixed;inset:0;z-index:9999;background:#0a1c33;
   opacity:0;pointer-events:none;transition:opacity .45s ease;
@@ -211,63 +211,7 @@ footer{border-top:1px solid var(--line);padding:44px 20px 60px;}
 
 
 
-/* ---------- account drawer ---------- */
-var ACCT_KEY='sasage_member';
-
-function acctGet(){
-  try{ return JSON.parse(localStorage.getItem(ACCT_KEY)||'null'); }catch(e){ return null; }
-}
-function acctRender(){
-  var m=acctGet();
-  var guest=document.getElementById('acct-guest');
-  var mem=document.getElementById('acct-member');
-  if(!guest||!mem) return;
-
-  var shop=(document.getElementById('sasage-store')||{getAttribute:function(){return '';}}).getAttribute('store-domain')||'';
-  shop=shop.replace(/\/$/,'');
-  var login=document.getElementById('acct-login');
-  var orders=document.getElementById('acct-orders');
-  if(login)  login.href  = shop ? shop+'/account/login' : '#';
-  if(orders) orders.href = shop ? shop+'/account' : '#';
-
-  if(!m){
-    guest.classList.add('on'); mem.classList.remove('on');
-    return;
-  }
-  guest.classList.remove('on'); mem.classList.add('on');
-
-  document.getElementById('ac-name').textContent = m.name || '—';
-  document.getElementById('ac-mail').textContent = m.email || '—';
-
-  var parts=[m.postal, m.pref, m.city, m.addr1, m.addr2].filter(Boolean);
-  document.getElementById('ac-addr').textContent = parts.length ? parts.join(' ') : '—';
-  document.getElementById('ac-phone').textContent = m.phone || '';
-
-  var lang=document.documentElement.getAttribute('data-lang')||'ja';
-  var payKey = m.pay ? ('pay.'+({card:'card',applepay:'apple',paypay:'paypay',bank:'bank'}[m.pay]||'card')) : null;
-  var label = (payKey && I18N[lang] && I18N[lang][payKey]) ? I18N[lang][payKey] : '—';
-  document.getElementById('ac-pay').textContent = label;
-}
-function openAcct(){
-  acctRender();
-  document.getElementById('acct').classList.add('on');
-  document.getElementById('acct-back').classList.add('on');
-  document.body.classList.add('pop-open');
-}
-function closeAcct(){
-  document.getElementById('acct').classList.remove('on');
-  document.getElementById('acct-back').classList.remove('on');
-  document.body.classList.remove('pop-open');
-}
-function acctSignOut(){
-  try{ localStorage.removeItem(ACCT_KEY); }catch(e){}
-  acctRender();
-}
-document.addEventListener('keydown', function(e){
-  if(e.key==='Escape' && document.getElementById('acct').classList.contains('on')) closeAcct();
-});
-
-/* ---------- signup popup ---------- */
+/* ---------- signup popup styles ---------- */
 #signup-pop{
   position:fixed;inset:0;z-index:900;
   display:flex;align-items:center;justify-content:center;padding:20px;
@@ -378,7 +322,7 @@ shopify-cart::part(line-heading){font-size:12px;letter-spacing:.05em;}
 shopify-cart::part(line-price){font-size:11px;}
 shopify-cart::part(input-field){border:1px solid var(--line);border-radius:0;}
 
-/* ---------- account drawer ---------- */
+/* ---------- account drawer styles ---------- */
 #acct-back{
   position:fixed;inset:0;z-index:850;background:rgba(0,0,0,0);
   opacity:0;visibility:hidden;transition:background .45s,opacity .35s,visibility .35s;
@@ -1022,6 +966,63 @@ function scrollTopAnim(e){
   }, 560);
   return false;
 }
+
+/* ---------- account drawer ---------- */
+var ACCT_KEY='sasage_member';
+
+function acctGet(){
+  try{ return JSON.parse(localStorage.getItem(ACCT_KEY)||'null'); }catch(e){ return null; }
+}
+function acctRender(){
+  var m=acctGet();
+  var guest=document.getElementById('acct-guest');
+  var mem=document.getElementById('acct-member');
+  if(!guest||!mem) return;
+
+  var shop=(document.getElementById('sasage-store')||{getAttribute:function(){return '';}}).getAttribute('store-domain')||'';
+  shop=shop.replace(/\/$/,'');
+  var login=document.getElementById('acct-login');
+  var orders=document.getElementById('acct-orders');
+  if(login)  login.href  = shop ? shop+'/account/login' : '#';
+  if(orders) orders.href = shop ? shop+'/account' : '#';
+
+  if(!m){
+    guest.classList.add('on'); mem.classList.remove('on');
+    return;
+  }
+  guest.classList.remove('on'); mem.classList.add('on');
+
+  document.getElementById('ac-name').textContent = m.name || '—';
+  document.getElementById('ac-mail').textContent = m.email || '—';
+
+  var parts=[m.postal, m.pref, m.city, m.addr1, m.addr2].filter(Boolean);
+  document.getElementById('ac-addr').textContent = parts.length ? parts.join(' ') : '—';
+  document.getElementById('ac-phone').textContent = m.phone || '';
+
+  var lang=document.documentElement.getAttribute('data-lang')||'ja';
+  var payKey = m.pay ? ('pay.'+({card:'card',applepay:'apple',paypay:'paypay',bank:'bank'}[m.pay]||'card')) : null;
+  var label = (payKey && I18N[lang] && I18N[lang][payKey]) ? I18N[lang][payKey] : '—';
+  document.getElementById('ac-pay').textContent = label;
+}
+function openAcct(){
+  acctRender();
+  document.getElementById('acct').classList.add('on');
+  document.getElementById('acct-back').classList.add('on');
+  document.body.classList.add('pop-open');
+}
+function closeAcct(){
+  document.getElementById('acct').classList.remove('on');
+  document.getElementById('acct-back').classList.remove('on');
+  document.body.classList.remove('pop-open');
+}
+function acctSignOut(){
+  try{ localStorage.removeItem(ACCT_KEY); }catch(e){}
+  acctRender();
+}
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape' && document.getElementById('acct').classList.contains('on')) closeAcct();
+});
+
 
 /* ---------- signup popup ---------- */
 var POP_KEY='sasage_pop_seen';
