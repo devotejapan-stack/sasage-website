@@ -351,7 +351,7 @@ var I18N = {
   "pay.bank": "銀行振込",
   "pay.bank.d": "ご入金確認後の発送",
   "pay.secure": "実際のお支払い情報は、ご購入時に決済代行会社の安全な画面でご入力いただきます。当サイトがカード番号を保持することはありません。",
-  "f.agree": "利用規約およびプライバシーポリシーに同意します",
+  "f.agree": "利用規約およびプライバシーポリシーに同意し、新作・先行販売のご案内メールの受信を希望します",
   "btn.next": "次へ進む",
   "btn.back": "戻る",
   "btn.submit": "登録を完了する",
@@ -364,7 +364,7 @@ var I18N = {
   "err.addr1": "番地をご入力ください。",
   "err.phone": "電話番号をご入力ください。",
   "err.pay": "ご希望のお支払い方法をお選びください。",
-  "err.agree": "利用規約への同意が必要です。",
+  "err.agree": "ご案内メールの受信と利用規約への同意が必要です。",
   "ok.title": "ご登録ありがとうございます",
   "ok.text": "先行案内の準備が整い次第、ご登録のメールアドレスへご連絡いたします。",
   "ok.back": "ストアへ戻る",
@@ -417,7 +417,7 @@ var I18N = {
   "pay.bank": "Bank transfer",
   "pay.bank.d": "Dispatched once payment clears",
   "pay.secure": "Your actual payment details will be entered on the secure page of our payment provider at checkout. This site never stores card numbers.",
-  "f.agree": "I agree to the Terms of Service and Privacy Policy",
+  "f.agree": "I agree to the Terms of Service and Privacy Policy, and would like to receive emails about new arrivals and pre-sales",
   "btn.next": "CONTINUE",
   "btn.back": "BACK",
   "btn.submit": "COMPLETE REGISTRATION",
@@ -430,7 +430,7 @@ var I18N = {
   "err.addr1": "Please enter your street address.",
   "err.phone": "Please enter your phone number.",
   "err.pay": "Please choose a preferred payment method.",
-  "err.agree": "You must agree to the terms to continue.",
+  "err.agree": "Please agree to the terms and to receiving emails to continue.",
   "ok.title": "Thank you for registering",
   "ok.text": "We will contact you at the address you provided as soon as early access opens.",
   "ok.back": "Back to store",
@@ -483,7 +483,7 @@ var I18N = {
   "pay.bank": "계좌 이체",
   "pay.bank.d": "입금 확인 후 발송",
   "pay.secure": "실제 결제 정보는 구매 시 결제 대행사의 보안 화면에서 입력하시게 됩니다. 본 사이트가 카드 번호를 보관하는 일은 없습니다.",
-  "f.agree": "이용약관 및 개인정보 처리방침에 동의합니다",
+  "f.agree": "이용약관 및 개인정보 처리방침에 동의하며, 신상품·선행 판매 안내 메일 수신을 희망합니다",
   "btn.next": "다음",
   "btn.back": "이전",
   "btn.submit": "가입 완료",
@@ -496,7 +496,7 @@ var I18N = {
   "err.addr1": "상세 주소를 입력해 주세요.",
   "err.phone": "전화번호를 입력해 주세요.",
   "err.pay": "희망하시는 결제 수단을 선택해 주세요.",
-  "err.agree": "약관에 동의하셔야 진행할 수 있습니다.",
+  "err.agree": "안내 메일 수신과 약관 동의가 필요합니다.",
   "ok.title": "가입해 주셔서 감사합니다",
   "ok.text": "선행 안내 준비가 완료되는 대로 입력하신 이메일 주소로 연락드리겠습니다.",
   "ok.back": "스토어로 돌아가기",
@@ -607,6 +607,41 @@ function goStep(n){
   var top=document.querySelector('.formcol').getBoundingClientRect().top+window.scrollY-90;
   window.scrollTo({top:top<0?0:top, behavior:'smooth'});
 }
+/* ==========================================================
+   SHOPIFY CUSTOMER LIST
+   Put your shop domain here and signups are added to the
+   Shopify customer list, tagged "newsletter".
+   Leave it blank and the form still works, but nothing is sent.
+   ========================================================== */
+var SHOPIFY_SHOP = ''; // e.g. 'https://your-shop.myshopify.com'
+
+function sendToShopify(data){
+  if(!SHOPIFY_SHOP) return false;
+  var base = SHOPIFY_SHOP.replace(/\/$/,'');
+  var name = (data.name||'').trim();
+  var sp   = name.indexOf(' ') > -1 ? name.indexOf(' ') : name.indexOf('\u3000');
+  var first= sp > -1 ? name.slice(0,sp) : name;
+  var last = sp > -1 ? name.slice(sp+1) : '';
+
+  var body = new URLSearchParams();
+  body.append('form_type','customer');
+  body.append('utf8','\u2713');
+  body.append('contact[email]', data.email||'');
+  body.append('contact[first_name]', first);
+  body.append('contact[last_name]', last);
+  body.append('contact[accepts_marketing]','true');
+  body.append('contact[tags]','newsletter,prelaunch');
+
+  try{
+    fetch(base + '/contact#contact_form', {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body: body.toString()
+    }).catch(function(){});
+    return true;
+  }catch(e){ return false; }
+}
+
 function saveMember(){
   var v=function(id){ var el=document.getElementById(id); return el?el.value.trim():''; };
   var payEl=document.querySelector('input[name="pay"]:checked');
@@ -640,6 +675,7 @@ function submitReg(e){
   e.preventDefault();
   if(!validateStep(3)) return false;
   saveMember();
+  try{ sendToShopify(JSON.parse(localStorage.getItem('sasage_member')||'{}')); }catch(e){}
   document.getElementById('reg-form').classList.add('hide');
   document.getElementById('reg-done').classList.add('on');
   document.querySelectorAll('#steps li').forEach(function(li){ li.classList.add('done'); li.classList.remove('on'); });

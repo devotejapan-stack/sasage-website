@@ -381,6 +381,34 @@ shopify-cart::part(input-field){border:1px solid var(--line);border-radius:0;}
   text-transform:uppercase;margin-bottom:12px;font-weight:400;}
 .acct-sec p{font-size:12px;line-height:1.95;color:#3c3c3c;}
 .acct-sec .muted{color:var(--ink-soft);}
+
+/* ---------- coming soon tiles ---------- */
+.cs-tile{position:relative;background:var(--ph);aspect-ratio:3/4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  opacity:0;animation:csIn .7s cubic-bezier(.22,1,.36,1) both;}
+.cs-tile:nth-child(1){animation-delay:.05s}
+.cs-tile:nth-child(2){animation-delay:.13s}
+.cs-tile:nth-child(3){animation-delay:.21s}
+.cs-tile:nth-child(4){animation-delay:.29s}
+@keyframes csIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+.cs-tile .cs-en{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:#9a9a9a;}
+.cs-tile .cs-jp{font-size:10px;letter-spacing:.16em;color:#b4b4b4;}
+.cs-season{
+  position:absolute;top:12px;left:12px;font-size:8.5px;letter-spacing:.24em;
+  color:var(--ink-soft);border:1px solid var(--line);background:#fff;padding:4px 8px;
+}
+.cs-note{
+  grid-column:1/-1;text-align:center;padding:34px 20px 6px;
+  font-size:11.5px;line-height:2.1;color:var(--ink-soft);
+}
+.cs-note b{display:block;font-weight:400;font-size:12px;letter-spacing:.22em;color:var(--ink);margin-bottom:8px;}
+.cs-cta{
+  display:inline-block;margin-top:16px;border:1px solid var(--ink);color:var(--ink);
+  padding:13px 30px;font-size:10px;letter-spacing:.24em;
+  transition:background .25s,color .25s;
+}
+.cs-cta:hover{background:var(--ink);color:#fff;}
+body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 </style>
 </head>
 <body>
@@ -436,7 +464,7 @@ shopify-cart::part(input-field){border:1px solid var(--line);border-radius:0;}
       </div>
       <a href="#" aria-label="検索" data-i18n-aria="ui.search" onclick="openSearch();return false;"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg></a>
       <a href="#" aria-label="アカウント" data-i18n-aria="ui.account" onclick="openAcct();return false;"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></a>
-      <a href="#" aria-label="カート" data-i18n-aria="ui.cart" onclick="openCart();return false;"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="badge">0</span></a>
+      <a href="#" class="cart-link" aria-label="カート" data-i18n-aria="ui.cart" onclick="openCart();return false;"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="badge">0</span></a>
     </div>
   </div>
   <nav class="main">
@@ -484,7 +512,7 @@ shopify-cart::part(input-field){border:1px solid var(--line);border-radius:0;}
 </section>
 
 <div class="sec">
-  <h2>New In</h2>
+  <h2>NEW IN</h2>
   <p data-i18n="hero.sub">2026年 ファーストコレクション</p>
 </div>
 <div id="shop-skel" class="sp-skel"><div></div><div></div><div></div><div></div></div>
@@ -856,7 +884,10 @@ function watchShopGrid(){
 
 /* initial paint */
 (function initShop(){
-  function go(){ if(typeof renderShop==='function') renderShop('all'); }
+  function go(){
+    document.body.setAttribute('data-shop-mode', typeof SHOP_MODE!=='undefined' ? SHOP_MODE : 'coming-soon');
+    if(typeof renderShop==='function') renderShop('all');
+  }
   if(document.readyState==='complete') go();
   else window.addEventListener('load', go);
 })();
@@ -879,6 +910,31 @@ function watchShopGrid(){
   refresh();
 })();
 
+
+/* ==========================================================
+   SHOP MODE
+     'coming-soon' : products hidden, placeholders shown
+     'live'        : products pulled from Shopify
+   Set this to 'live' once real products are published.
+   ========================================================== */
+var SHOP_MODE = 'coming-soon';
+
+function renderComingSoon(){
+  var grid=document.getElementById('shop-grid');
+  if(!grid) return;
+  var lang=document.documentElement.getAttribute('data-lang')||'ja';
+  var d=(I18N[lang]||I18N.ja);
+  var tile='<figure class="cs-tile"><span class="cs-season">2026 AUTUMN</span>'
+         + '<span class="cs-en">Coming Soon</span>'
+         + '<span class="cs-jp">'+(d['ui.comingsoon']||'')+'</span></figure>';
+  grid.innerHTML = tile+tile+tile+tile
+    + '<div class="cs-note"><b>2026 AUTUMN</b>'
+    + (d['cs.note']||'')
+    + '<br><a class="cs-cta" href="register.html">'+(d['cs.cta']||'')+'</a></div>';
+  document.getElementById('shop-skel').classList.add('sp-hide');
+  document.getElementById('shop-err').classList.add('sp-hide');
+  grid.classList.remove('sp-hide');
+}
 
 /* Map the nav tabs to Shopify collection handles.
    Edit the right-hand side to match your own collection handles. */
@@ -907,6 +963,7 @@ function shopTileHTML(){
 function renderShop(cat){
   var grid=document.getElementById('shop-grid');
   if(!grid) return;
+  if(SHOP_MODE!=='live'){ renderComingSoon(); return; }
   var tile=shopTileHTML();
   var html;
   if(cat==='all' || !SHOP_COLLECTIONS[cat]){
@@ -1060,7 +1117,7 @@ document.addEventListener('keydown', function(e){
 var I18N = {
  "ja": {
   "util.bar": "送料無料 ｜ 会員登録で先行アクセス",
-  "hero.sub": "2026年 ファーストコレクション",
+  "hero.sub": "2026 AUTUMN ファーストコレクション",
   "ui.comingsoon": "近日公開",
   "about.text": "SASAGE（ササゲ）は、捧げる者だけが夜明けを手にするという信念から生まれたブランドです。日々を静かに積み重ねる人のための服を、丁寧に届けます。",
   "foot.delivery": "配送について",
@@ -1149,11 +1206,13 @@ var I18N = {
   "pay.card": "クレジットカード",
   "pay.apple": "Apple Pay",
   "pay.paypay": "PayPay",
-  "pay.bank": "銀行振込"
+  "pay.bank": "銀行振込",
+  "cs.note": "ファーストコレクションの公開に向けて準備を進めています。<br>会員の方には、一般公開に先立ってご案内をお送りします。",
+  "cs.cta": "先行案内を受け取る"
  },
  "en": {
   "util.bar": "Free shipping ｜ Early access for members",
-  "hero.sub": "2026 First Collection",
+  "hero.sub": "2026 Autumn — First Collection",
   "ui.comingsoon": "Coming soon",
   "ui.close": "✕ CLOSE",
   "cart.empty": "Your cart is empty",
@@ -1242,11 +1301,13 @@ var I18N = {
   "pay.card": "Credit card",
   "pay.apple": "Apple Pay",
   "pay.paypay": "PayPay",
-  "pay.bank": "Bank transfer"
+  "pay.bank": "Bank transfer",
+  "cs.note": "We are preparing the first collection for release.<br>Members will hear from us before it opens to the public.",
+  "cs.cta": "GET EARLY ACCESS"
  },
  "ko": {
   "util.bar": "무료 배송 ｜ 회원 가입 시 선행 액세스",
-  "hero.sub": "2026년 퍼스트 컬렉션",
+  "hero.sub": "2026 AUTUMN 퍼스트 컬렉션",
   "ui.comingsoon": "출시 예정",
   "ui.close": "✕ 닫기",
   "cart.empty": "장바구니가 비어 있습니다",
@@ -1335,7 +1396,9 @@ var I18N = {
   "pay.card": "신용카드",
   "pay.apple": "Apple Pay",
   "pay.paypay": "PayPay",
-  "pay.bank": "계좌 이체"
+  "pay.bank": "계좌 이체",
+  "cs.note": "퍼스트 컬렉션 공개를 준비하고 있습니다.<br>회원분들께는 일반 공개에 앞서 안내를 보내드립니다.",
+  "cs.cta": "선행 안내 받기"
  }
 };
 
@@ -1365,6 +1428,7 @@ function setLang(lang){
   });
   if(typeof applyShopifyMarket==='function') applyShopifyMarket(lang);
   if(typeof acctRender==='function') acctRender();
+  if(typeof SHOP_MODE!=='undefined' && SHOP_MODE!=='live' && typeof renderComingSoon==='function') renderComingSoon();
   try { localStorage.setItem('sasage_lang', lang); } catch(e){}
   closeLangMenu();
 }
