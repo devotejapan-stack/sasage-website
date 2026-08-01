@@ -141,6 +141,8 @@ h1{font-size:clamp(1.4rem,2.7vw,1.95rem);letter-spacing:.16em;font-weight:400;ma
 @keyframes pop{from{opacity:0;transform:scale(.6);}to{opacity:1;transform:none;}}
 .done h2{font-size:15px;letter-spacing:.14em;font-weight:400;margin-bottom:14px;}
 .done p{font-size:12.5px;line-height:2;color:var(--ink-soft);max-width:27em;margin:0 auto 26px;}
+.done .done-primary{display:block;background:var(--ink);color:#fff;margin-bottom:12px;}
+.done .done-primary:hover{background:#fff;color:var(--ink);}
 .done a{display:inline-block;border:1px solid var(--ink);padding:13px 30px;font-size:10.5px;
   letter-spacing:.24em;transition:background .25s,color .25s;}
 .done a:hover{background:var(--ink);color:#fff;}
@@ -295,6 +297,7 @@ footer a:hover{color:var(--ink);}
         <div class="tick"><svg viewBox="0 0 24 24"><path d="M4 12.5l5.5 5.5L20 7"/></svg></div>
         <h2 data-i18n="ok.title"></h2>
         <p data-i18n="ok.text"></p>
+        <a class="done-primary" id="ok-shopify" href="#" data-i18n="ok.finish"></a>
         <a href="store.html" data-i18n="ok.back"></a>
       </div>
     </div>
@@ -365,11 +368,12 @@ var I18N = {
   "err.phone": "電話番号をご入力ください。",
   "err.pay": "ご希望のお支払い方法をお選びください。",
   "err.agree": "ご案内メールの受信と利用規約への同意が必要です。",
-  "ok.title": "ご登録ありがとうございます",
-  "ok.text": "先行案内の準備が整い次第、ご登録のメールアドレスへご連絡いたします。",
+  "ok.title": "ご入力ありがとうございます",
+  "ok.text": "先行案内をお届けするため、続けてSASAGE公式ストアでアカウント登録をお願いします。<br>下のボタンから1分ほどで完了します。",
   "ok.back": "ストアへ戻る",
-  "note": "※ 現在は先行登録の受付段階です。決済の実行はストア正式オープン時よりご利用いただけます。",
-  "foot.back": "← ストアに戻る"
+  "note": "※ 現在は先行登録の受付段階です。ご入力内容はこの端末に保存され、アカウント登録はSASAGE公式ストア（Shopify）で行われます。",
+  "foot.back": "← ストアに戻る",
+  "ok.finish": "アカウント登録を完了する"
  },
  "en": {
   "nav.store": "← STORE",
@@ -431,11 +435,12 @@ var I18N = {
   "err.phone": "Please enter your phone number.",
   "err.pay": "Please choose a preferred payment method.",
   "err.agree": "Please agree to the terms and to receiving emails to continue.",
-  "ok.title": "Thank you for registering",
-  "ok.text": "We will contact you at the address you provided as soon as early access opens.",
+  "ok.title": "Thank you for your details",
+  "ok.text": "To receive early access, please finish creating your account on the SASAGE official store.<br>It takes about a minute.",
   "ok.back": "Back to store",
-  "note": "Note: this is early registration. Payments will become available when the store officially opens.",
-  "foot.back": "← Back to store"
+  "note": "Note: this is early registration. Your entries are saved on this device, and the account itself is created on the SASAGE official store (Shopify).",
+  "foot.back": "← Back to store",
+  "ok.finish": "COMPLETE MY ACCOUNT"
  },
  "ko": {
   "nav.store": "← STORE",
@@ -497,11 +502,12 @@ var I18N = {
   "err.phone": "전화번호를 입력해 주세요.",
   "err.pay": "희망하시는 결제 수단을 선택해 주세요.",
   "err.agree": "안내 메일 수신과 약관 동의가 필요합니다.",
-  "ok.title": "가입해 주셔서 감사합니다",
-  "ok.text": "선행 안내 준비가 완료되는 대로 입력하신 이메일 주소로 연락드리겠습니다.",
+  "ok.title": "입력해 주셔서 감사합니다",
+  "ok.text": "선행 안내를 받으시려면 이어서 SASAGE 공식 스토어에서 계정 등록을 완료해 주세요.<br>1분 정도면 끝납니다.",
   "ok.back": "스토어로 돌아가기",
-  "note": "※ 현재는 사전 등록 단계입니다. 결제는 스토어 정식 오픈 시부터 이용하실 수 있습니다.",
-  "foot.back": "← 스토어로 돌아가기"
+  "note": "※ 현재는 사전 등록 단계입니다. 입력하신 내용은 이 기기에 저장되며, 계정 등록은 SASAGE 공식 스토어(Shopify)에서 이루어집니다.",
+  "foot.back": "← 스토어로 돌아가기",
+  "ok.finish": "계정 등록 완료하기"
  }
 };
 var LANG_CODE = { ja:'JA', en:'EN', ko:'KO' };
@@ -511,7 +517,7 @@ function setLang(lang){
   var d = I18N[lang];
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     var v = d[el.getAttribute('data-i18n')];
-    if(v !== undefined) el.textContent = v;
+    if(v !== undefined){ if(v.indexOf('<')>-1) el.innerHTML=v; else el.textContent=v; }
   });
   document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
     var v = d[el.getAttribute('data-i18n-ph')];
@@ -608,41 +614,15 @@ function goStep(n){
   window.scrollTo({top:top<0?0:top, behavior:'smooth'});
 }
 /* ==========================================================
-   SHOPIFY CUSTOMER LIST
-   Put your shop domain here and signups are added to the
-   Shopify customer list, tagged "newsletter".
-   Leave it blank and the form still works, but nothing is sent.
+   SHOPIFY SIGNUP
+   Direct POST to /contact is blocked by Shopify's CAPTCHA and
+   must not be bypassed. Signups are therefore handed off to
+   Shopify's own account page, which handles verification and
+   creates a real customer record.
    ========================================================== */
 var SHOPIFY_SHOP = 'https://9j5rrv-uv.myshopify.com';
-/* Note: this stays correct even after you connect a custom domain
-   such as sasage-official.com — the myshopify.com address remains
-   the store's permanent backend address. */
-
-function sendToShopify(data){
-  if(!SHOPIFY_SHOP) return false;
-  var base = SHOPIFY_SHOP.replace(/\/$/,'');
-  var name = (data.name||'').trim();
-  var sp   = name.indexOf(' ') > -1 ? name.indexOf(' ') : name.indexOf('\u3000');
-  var first= sp > -1 ? name.slice(0,sp) : name;
-  var last = sp > -1 ? name.slice(sp+1) : '';
-
-  var body = new URLSearchParams();
-  body.append('form_type','customer');
-  body.append('utf8','\u2713');
-  body.append('contact[email]', data.email||'');
-  body.append('contact[first_name]', first);
-  body.append('contact[last_name]', last);
-  body.append('contact[accepts_marketing]','true');
-  body.append('contact[tags]','newsletter,prelaunch');
-
-  try{
-    fetch(base + '/contact#contact_form', {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body: body.toString()
-    }).catch(function(){});
-    return true;
-  }catch(e){ return false; }
+function shopifyAccountUrl(){
+  return SHOPIFY_SHOP.replace(/\/$/,'') + '/account';
 }
 
 function saveMember(){
@@ -678,8 +658,9 @@ function submitReg(e){
   e.preventDefault();
   if(!validateStep(3)) return false;
   saveMember();
-  try{ sendToShopify(JSON.parse(localStorage.getItem('sasage_member')||'{}')); }catch(e){}
   document.getElementById('reg-form').classList.add('hide');
+  var okBtn=document.getElementById('ok-shopify');
+  if(okBtn) okBtn.href=shopifyAccountUrl();
   document.getElementById('reg-done').classList.add('on');
   document.querySelectorAll('#steps li').forEach(function(li){ li.classList.add('done'); li.classList.remove('on'); });
   document.getElementById('bar-fill').style.width='100%';
