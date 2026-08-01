@@ -209,6 +209,83 @@ footer{border-top:1px solid var(--line);padding:44px 20px 60px;}
 .hdr-logo img{transition:opacity .25s;}
 .hdr-logo:hover img{opacity:.55;}
 
+
+/* ================= SHOPIFY GLUE ================= */
+var SHOPIFY_DOMAIN = (document.getElementById('sasage-store')||{}).getAttribute
+  ? document.getElementById('sasage-store').getAttribute('store-domain') : '';
+var SHOPIFY_CART_URL = SHOPIFY_DOMAIN ? SHOPIFY_DOMAIN.replace(/\/$/,'') + '/cart' : '#';
+
+/* Shopify market follows the site language */
+var SHOP_MARKET = {
+  ja:{country:'JP', language:'JA'},
+  en:{country:'US', language:'EN'},
+  ko:{country:'KR', language:'KO'}
+};
+function applyShopifyMarket(lang){
+  var s=document.getElementById('sasage-store');
+  if(!s) return;
+  var m=SHOP_MARKET[lang]||SHOP_MARKET.ja;
+  if(s.getAttribute('country')!==m.country) s.setAttribute('country', m.country);
+  if(s.getAttribute('language')!==m.language) s.setAttribute('language', m.language);
+}
+
+/* Reveal the grid once Shopify has painted products; show a notice if it can't */
+(function watchShopify(){
+  var skel=document.getElementById('shop-skel');
+  var grid=document.getElementById('shop-grid');
+  var err =document.getElementById('shop-err');
+  if(!skel||!grid) return;
+
+  var ERR_MSG = {
+    ja:'商品を読み込めませんでした。<br>Shopifyストアの接続設定をご確認ください。',
+    en:'Products could not be loaded.<br>Please check the Shopify store connection.',
+    ko:'상품을 불러오지 못했습니다.<br>Shopify 스토어 연결 설정을 확인해 주세요.'
+  };
+  var done=false;
+  function reveal(){
+    if(done) return; done=true;
+    skel.classList.add('sp-hide');
+    grid.classList.remove('sp-hide');
+  }
+  function fail(){
+    if(done) return; done=true;
+    skel.classList.add('sp-hide');
+    var lang=document.documentElement.getAttribute('data-lang')||'ja';
+    err.innerHTML=ERR_MSG[lang]||ERR_MSG.ja;
+    err.classList.remove('sp-hide');
+  }
+  var mo=new MutationObserver(function(){
+    if(grid.querySelector('.sp-tile')) { reveal(); mo.disconnect(); }
+  });
+  mo.observe(grid,{childList:true,subtree:true});
+  setTimeout(function(){
+    if(grid.querySelector('.sp-tile')) reveal(); else fail();
+    mo.disconnect();
+  }, 8000);
+})();
+
+/* Keep the header badge in sync with the Shopify cart */
+(function cartBadge(){
+  var badge=document.querySelector('.hdr-tools .badge');
+  if(!badge) return;
+  function refresh(){
+    var s=document.getElementById('sasage-store');
+    var n=0;
+    try{
+      var c = s && (s.cart || (s.getCart && s.getCart()));
+      if(c){ n = c.totalQuantity != null ? c.totalQuantity
+                : (c.lines && c.lines.length) ? c.lines.length : 0; }
+    }catch(e){}
+    badge.textContent = n;
+    badge.style.display = n>0 ? '' : '';
+  }
+  ['shopify:cart:updated','shopify:cart:update','cart:updated'].forEach(function(ev){
+    document.addEventListener(ev, refresh);
+  });
+  setInterval(refresh, 1500);
+  refresh();
+})();
+
 /* ---------- signup popup ---------- */
 #signup-pop{
   position:fixed;inset:0;z-index:900;
@@ -276,9 +353,57 @@ body.pop-open{overflow:hidden;}
 @media(prefers-reduced-motion:reduce){
   #signup-pop *,#pg-trans,#pg-trans img{animation:none!important;transition-duration:.01ms!important;}
 }
+
+/* ================= SHOPIFY ================= */
+shopify-store,shopify-context,shopify-list-context{display:contents;}
+#shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);}
+@media(max-width:900px){#shop-grid{grid-template-columns:repeat(2,1fr);}}
+.sp-tile{position:relative;background:var(--ph);display:flex;flex-direction:column;}
+.sp-media{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--ph);display:block;}
+.sp-media shopify-media,.sp-media img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .8s cubic-bezier(.22,1,.36,1);}
+.sp-tile:hover .sp-media img{transform:scale(1.045);}
+.sp-cap{padding:12px 12px 30px;flex:1;display:flex;flex-direction:column;}
+.sp-name{font-size:11px;letter-spacing:.08em;text-transform:uppercase;line-height:1.5;}
+.sp-price{font-size:11px;color:var(--ink-soft);margin-top:4px;}
+.sp-add{
+  margin-top:12px;width:100%;padding:11px 8px;cursor:pointer;
+  background:#fff;color:var(--ink);border:1px solid var(--ink);
+  font-family:inherit;font-size:9.5px;letter-spacing:.22em;
+  transition:background .22s,color .22s,opacity .22s;
+}
+.sp-add:hover:not([disabled]){background:var(--ink);color:#fff;}
+.sp-add[disabled]{opacity:.35;cursor:not-allowed;border-color:#c9c9c9;color:#9a9a9a;}
+.sp-sold{
+  position:absolute;top:10px;left:10px;z-index:2;background:#fff;
+  font-size:9px;letter-spacing:.2em;padding:5px 9px;text-transform:uppercase;
+}
+.sp-skel{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap);}
+@media(max-width:900px){.sp-skel{grid-template-columns:repeat(2,1fr);}}
+.sp-skel div{aspect-ratio:3/4;background:linear-gradient(100deg,#f0f0f0 30%,#f7f7f7 50%,#f0f0f0 70%);
+  background-size:220% 100%;animation:shim 1.4s linear infinite;}
+@keyframes shim{to{background-position:-220% 0;}}
+.sp-hide{display:none!important;}
+.sp-err{padding:40px 20px;text-align:center;font-size:11.5px;color:var(--ink-soft);line-height:2;
+  border:1px solid var(--line);}
+shopify-cart::part(dialog){border:none;padding:0;}
 </style>
 </head>
 <body>
+<script src="https://cdn.shopify.com/storefront/web-components.js" defer></script>
+
+<!-- ==========================================================
+     SHOPIFY STORE CONNECTION
+     Replace store-domain with your own shop when ready:
+       store-domain="https://YOUR-SHOP.myshopify.com"
+     Nothing else needs to change.
+     ========================================================== -->
+<shopify-store
+  id="sasage-store"
+  store-domain="https://mock.shop"
+  country="JP"
+  language="JA"></shopify-store>
+
 
 <div id="pg-trans"><img id="trans-logo" src="" alt="SASAGE"></div>
 
@@ -368,8 +493,31 @@ body.pop-open{overflow:hidden;}
   <h2>New In</h2>
   <p data-i18n="hero.sub">2026年 ファーストコレクション</p>
 </div>
-<div class="grid">
-  <figure class="tile" data-cat="all man"><div class="ph"><span>Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">近日公開</span></div>
+<div id="shop-skel" class="sp-skel"><div></div><div></div><div></div><div></div></div>
+<div id="shop-grid" class="sp-hide">
+  <shopify-list-context type="product" query="" first="12">
+    <template>
+      <figure class="sp-tile">
+        <a class="sp-media" shopify-attr--href="product.onlineStoreUrl" target="_blank" rel="noopener">
+          <shopify-media query="product.featuredImage" width="600" height="800"></shopify-media>
+        </a>
+        <figcaption class="sp-cap">
+          <div class="sp-name"><shopify-data query="product.title"></shopify-data></div>
+          <div class="sp-price">
+            <shopify-money query="product.selectedOrFirstAvailableVariant.price" format="money_with_currency"></shopify-money>
+          </div>
+          <button class="sp-add"
+                  onclick="document.getElementById('sasage-store').addToCart(event)"
+                  shopify-attr--disabled="!product.selectedOrFirstAvailableVariant.availableForSale">
+            ADD TO CART
+          </button>
+        </figcaption>
+      </figure>
+    </template>
+  </shopify-list-context>
+</div>
+<div id="shop-err" class="sp-err sp-hide"></div>
+
     <figcaption><div class="name">Item 01</div><div class="price">¥—</div></figcaption></figure>
   <figure class="tile" data-cat="all women"><div class="ph"><span>Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">近日公開</span></div>
     <figcaption><div class="name">Item 02</div><div class="price">¥—</div></figcaption></figure>
@@ -460,18 +608,8 @@ body.pop-open{overflow:hidden;}
   </div>
 </div>
 
-<!-- Cart sidebar -->
-<div class="sidebar-back" id="sidebar-back" onclick="closeCart()"></div>
-<div id="cart-sidebar">
-  <div class="cart-hd">
-    <h3>Cart <span class="badge" style="position:static;display:inline-flex;">0</span></h3>
-    <button class="cart-close" onclick="closeCart()" data-i18n="ui.close">✕ 閉じる</button>
-  </div>
-  <div class="cart-empty">
-    <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
-    <span data-i18n="cart.empty">カートは空です</span>
-  </div>
-</div>
+<!-- Cart (Shopify) -->
+<shopify-cart id="sasage-cart"></shopify-cart>
 
 <!-- Modal: 配送について -->
 <div class="modal-overlay" id="modal-delivery" onclick="if(event.target===this)closeModal('modal-delivery')">
@@ -601,12 +739,15 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeSearch
 
 // ── Cart ──────────────────────────────────────────────────────────────
 function openCart(){
-  document.getElementById('cart-sidebar').classList.add('open');
-  document.getElementById('sidebar-back').classList.add('open');
+  var c=document.getElementById('sasage-cart');
+  if(c && typeof c.showModal==='function'){ c.showModal(); return; }
+  if(c && c.shadowRoot){ var d=c.shadowRoot.querySelector('dialog'); if(d){ d.showModal(); return; } }
+  window.open(SHOPIFY_CART_URL,'_blank');
 }
 function closeCart(){
-  document.getElementById('cart-sidebar').classList.remove('open');
-  document.getElementById('sidebar-back').classList.remove('open');
+  var c=document.getElementById('sasage-cart');
+  if(c && typeof c.close==='function'){ try{ c.close(); }catch(e){} return; }
+  if(c && c.shadowRoot){ var d=c.shadowRoot.querySelector('dialog'); if(d) d.close(); }
 }
 
 // ── Modals ────────────────────────────────────────────────────────────
@@ -618,11 +759,13 @@ function filterCat(cat){
   document.querySelectorAll('nav.main a').forEach(function(a){
     a.classList.toggle('on', (a.dataset.filter||'') === cat);
   });
-  document.querySelectorAll('.tile').forEach(function(tile){
-    var tc = tile.dataset.cat || 'all';
-    tile.classList.toggle('hidden', cat !== 'all' && !tc.includes(cat));
-  });
-  window.scrollTo({top: document.querySelector('.grid') ? document.querySelector('.grid').offsetTop - 80 : 0, behavior:'smooth'});
+  var list=document.querySelector('#shop-grid shopify-list-context');
+  if(list){
+    // 'all' clears the filter; others search Shopify product tags/type
+    list.setAttribute('query', cat==='all' ? '' : ('tag:'+cat+' OR product_type:'+cat));
+  }
+  var g=document.getElementById('shop-grid');
+  if(g) window.scrollTo({top:Math.max(g.offsetTop-80,0), behavior:'smooth'});
 }
 document.querySelectorAll('nav.main a[data-filter]').forEach(function(a){
   a.addEventListener('click', function(e){
@@ -932,6 +1075,7 @@ function setLang(lang){
   document.querySelectorAll('#lang-menu button').forEach(function(b){
     b.setAttribute('aria-current', b.getAttribute('data-lang') === lang ? 'true' : 'false');
   });
+  if(typeof applyShopifyMarket==='function') applyShopifyMarket(lang);
   try { localStorage.setItem('sasage_lang', lang); } catch(e){}
   closeLangMenu();
 }
