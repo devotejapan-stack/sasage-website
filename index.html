@@ -241,6 +241,26 @@ video{-webkit-appearance:none;}
   font-weight:200;font-style:italic;letter-spacing:0.1em;
   color:var(--fg-muted);margin-top:18px;
 }
+.concept-lead{
+  font-family:var(--jp);
+  font-size:clamp(0.8rem,0.98vw,0.92rem);
+  font-weight:200;letter-spacing:0.1em;line-height:2.4;
+  color:var(--fg-sub);
+  margin:38px auto 0;max-width:44em;
+}
+.stmt-note{
+  font-family:var(--jp);
+  font-size:clamp(0.76rem,0.92vw,0.86rem);
+  font-weight:200;letter-spacing:0.08em;line-height:2.15;
+  color:var(--fg-sub);
+  margin-top:26px;padding-top:22px;
+  max-width:34em;
+  border-top:1px solid var(--hairline);
+}
+@media(max-width:768px){
+  .stmt-note{margin-top:20px;padding-top:18px;line-height:2;}
+  .concept-lead{margin-top:28px;line-height:2.2;}
+}
 .stmt-media{
   position:relative;overflow:hidden;background:var(--navy);
 }
@@ -640,6 +660,7 @@ video{-webkit-appearance:none;}
   --concept-bg:#ffffff;
   --concept-text:var(--ink);
   --concept-sub:rgba(12,12,14,0.45);
+  --hairline:rgba(12,12,14,0.12);
 }
 html[data-theme="dark"]{
   --bg:var(--ink);
@@ -650,6 +671,7 @@ html[data-theme="dark"]{
   --concept-bg:var(--ink);
   --concept-text:var(--cream);
   --concept-sub:rgba(240,236,229,0.45);
+  --hairline:rgba(240,236,229,0.12);
 }
 
 /* Theme toggle button */
@@ -803,6 +825,7 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
     <p class="big reveal" data-d="1">捧げることの先に、<br>夜明けがある</p>
     <div class="orn-line reveal" data-d="2" style="margin:22px auto;"></div>
     <p class="sub reveal" data-d="3">Those who devote themselves — own the dawn.</p>
+    <p class="concept-lead reveal" data-d="4">SASAGEは、何かに人生を捧げている人のためのブランドです。<br>成し遂げる者の裏側にある、誰にも見えない時間と葛藤、そして覚悟。<br>その生き様に敬意を捧げ、一着に信念を宿します。</p>
   </div>
 
   <div class="stmt reveal">
@@ -810,6 +833,7 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
       <span class="stmt-num">01</span>
       <p class="stmt-body">夜明けは、<br>諦めなかった者だけに<br>訪れる</p>
       <p class="stmt-en">Dawn comes only to those who never gave up.</p>
+      <p class="stmt-note">結果が見えない時間ほど、長く感じる。それでも手を止めなかった者だけが、夜が明ける瞬間に立ち会える。SASAGEが敬意を捧げるのは、その粘り強さです。</p>
     </div>
     <div class="stmt-media">
       <video autoplay loop muted playsinline><source src="firstpv_web.mp4" type="video/mp4"></video>
@@ -821,6 +845,7 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
       <span class="stmt-num">02</span>
       <p class="stmt-body">着る者の意志が、<br>服を纏いへと<br>変える</p>
       <p class="stmt-en">The wearer's resolve transforms clothing into armor.</p>
+      <p class="stmt-note">服そのものに力はない。着る人の覚悟が宿ったとき、はじめて一着は「纏い」になる。だからSASAGEは、装飾ではなく信念が映る服をつくります。</p>
     </div>
     <div class="stmt-media">
       <video autoplay loop muted playsinline><source src="stmt02_web.mp4" type="video/mp4"></video>
@@ -832,6 +857,7 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
       <span class="stmt-num">03</span>
       <p class="stmt-body">静寂の中に、<br>強さの種は<br>宿る</p>
       <p class="stmt-en">In silence, the seed of strength takes root.</p>
+      <p class="stmt-note">誰にも見られない場所で積み重ねた時間が、のちの強さになる。声高に語られない努力にこそ価値がある。その静けさを、素材とシルエットで表現しています。</p>
     </div>
     <div class="stmt-media">
       <video autoplay loop muted playsinline><source src="stmt03_web.mp4" type="video/mp4"></video>
@@ -843,6 +869,7 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
       <span class="stmt-num">04</span>
       <p class="stmt-body">SASAGEは、<br>挑む者たちへの<br>献辞である</p>
       <p class="stmt-en">SASAGE is a dedication — to all who dare.</p>
+      <p class="stmt-note">何かを成し遂げる者の裏側には、誰にも見えない時間と葛藤、そして揺るぎない覚悟がある。その挑み続ける姿勢が誰かの心に響き、社会に刻まれる標となるように。SASAGEは、挑む者たちへの献辞です。</p>
     </div>
     <div class="stmt-media">
       <video autoplay loop muted playsinline><source src="stmt04_web.mp4" type="video/mp4"></video>
