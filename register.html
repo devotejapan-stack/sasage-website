@@ -613,7 +613,10 @@ function goStep(n){
    Shopify customer list, tagged "newsletter".
    Leave it blank and the form still works, but nothing is sent.
    ========================================================== */
-var SHOPIFY_SHOP = ''; // e.g. 'https://your-shop.myshopify.com'
+var SHOPIFY_SHOP = 'https://9j5rrv-uv.myshopify.com';
+/* Note: this stays correct even after you connect a custom domain
+   such as sasage-official.com — the myshopify.com address remains
+   the store's permanent backend address. */
 
 function sendToShopify(data){
   if(!SHOPIFY_SHOP) return false;
