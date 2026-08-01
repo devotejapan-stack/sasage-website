@@ -210,101 +210,6 @@ footer{border-top:1px solid var(--line);padding:44px 20px 60px;}
 .hdr-logo:hover img{opacity:.55;}
 
 
-/* ================= SHOPIFY GLUE ================= */
-var SHOPIFY_DOMAIN = (document.getElementById('sasage-store')||{}).getAttribute
-  ? document.getElementById('sasage-store').getAttribute('store-domain') : '';
-var SHOPIFY_CART_URL = SHOPIFY_DOMAIN ? SHOPIFY_DOMAIN.replace(/\/$/,'') + '/cart' : '#';
-
-/* Shopify market follows the site language */
-var SHOP_MARKET = {
-  ja:{country:'JP', language:'JA'},
-  en:{country:'US', language:'EN'},
-  ko:{country:'KR', language:'KO'}
-};
-function applyShopifyMarket(lang){
-  var s=document.getElementById('sasage-store');
-  if(!s) return;
-  var m=SHOP_MARKET[lang]||SHOP_MARKET.ja;
-  if(s.getAttribute('country')!==m.country) s.setAttribute('country', m.country);
-  if(s.getAttribute('language')!==m.language) s.setAttribute('language', m.language);
-}
-
-/* Reveal the grid once Shopify has painted products; notice if it cannot */
-var SHOP_ERR_MSG = {
-  ja:'商品を読み込めませんでした。<br>Shopifyストアの接続設定をご確認ください。',
-  en:'Products could not be loaded.<br>Please check the Shopify store connection.',
-  ko:'상품을 불러오지 못했습니다.<br>Shopify 스토어 연결 설정을 확인해 주세요.'
-};
-var SHOP_EMPTY_MSG = {
-  ja:'このカテゴリーの商品はまだありません。',
-  en:'No products in this category yet.',
-  ko:'이 카테고리에는 아직 상품이 없습니다.'
-};
-var shopWatcher=null;
-function watchShopGrid(){
-  var skel=document.getElementById('shop-skel');
-  var grid=document.getElementById('shop-grid');
-  var err =document.getElementById('shop-err');
-  if(!skel||!grid||!err) return;
-  if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
-
-  skel.classList.remove('sp-hide');
-  grid.classList.add('sp-hide');
-  err.classList.add('sp-hide');
-
-  var done=false;
-  function reveal(){
-    if(done) return; done=true;
-    skel.classList.add('sp-hide');
-    grid.classList.remove('sp-hide');
-    if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
-  }
-  function fail(msgMap){
-    if(done) return; done=true;
-    skel.classList.add('sp-hide');
-    var lang=document.documentElement.getAttribute('data-lang')||'ja';
-    err.innerHTML=msgMap[lang]||msgMap.ja;
-    err.classList.remove('sp-hide');
-    if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
-  }
-  shopWatcher=new MutationObserver(function(){
-    if(grid.querySelector('.sp-tile')) reveal();
-  });
-  shopWatcher.observe(grid,{childList:true,subtree:true});
-  setTimeout(function(){
-    if(grid.querySelector('.sp-tile')) reveal();
-    else if(grid.querySelector('.shopify-error')) fail(SHOP_ERR_MSG);
-    else fail(SHOP_EMPTY_MSG);
-  }, 9000);
-}
-
-/* initial paint */
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded', function(){ renderShop('all'); });
-} else { renderShop('all'); }
-
-/* Keep the header badge in sync with the Shopify cart */
-(function cartBadge(){
-  var badge=document.querySelector('.hdr-tools .badge');
-  if(!badge) return;
-  function refresh(){
-    var s=document.getElementById('sasage-store');
-    var n=0;
-    try{
-      var c = s && (s.cart || (s.getCart && s.getCart()));
-      if(c){ n = c.totalQuantity != null ? c.totalQuantity
-                : (c.lines && c.lines.length) ? c.lines.length : 0; }
-    }catch(e){}
-    badge.textContent = n;
-    badge.style.display = n>0 ? '' : '';
-  }
-  ['shopify:cart:updated','shopify:cart:update','cart:updated'].forEach(function(ev){
-    document.addEventListener(ev, refresh);
-  });
-  setInterval(refresh, 1500);
-  refresh();
-})();
-
 /* ---------- signup popup ---------- */
 #signup-pop{
   position:fixed;inset:0;z-index:900;
@@ -753,6 +658,104 @@ function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
 // ── Category filter ───────────────────────────────────────────────────
+/* ================= SHOPIFY GLUE ================= */
+var SHOPIFY_DOMAIN = (document.getElementById('sasage-store')||{}).getAttribute
+  ? document.getElementById('sasage-store').getAttribute('store-domain') : '';
+var SHOPIFY_CART_URL = SHOPIFY_DOMAIN ? SHOPIFY_DOMAIN.replace(/\/$/,'') + '/cart' : '#';
+
+/* Shopify market follows the site language */
+var SHOP_MARKET = {
+  ja:{country:'JP', language:'JA'},
+  en:{country:'US', language:'EN'},
+  ko:{country:'KR', language:'KO'}
+};
+function applyShopifyMarket(lang){
+  var s=document.getElementById('sasage-store');
+  if(!s) return;
+  var m=SHOP_MARKET[lang]||SHOP_MARKET.ja;
+  if(s.getAttribute('country')!==m.country) s.setAttribute('country', m.country);
+  if(s.getAttribute('language')!==m.language) s.setAttribute('language', m.language);
+}
+
+/* Reveal the grid once Shopify has painted products; notice if it cannot */
+var SHOP_ERR_MSG = {
+  ja:'商品を読み込めませんでした。<br>Shopifyストアの接続設定をご確認ください。',
+  en:'Products could not be loaded.<br>Please check the Shopify store connection.',
+  ko:'상품을 불러오지 못했습니다.<br>Shopify 스토어 연결 설정을 확인해 주세요.'
+};
+var SHOP_EMPTY_MSG = {
+  ja:'このカテゴリーの商品はまだありません。',
+  en:'No products in this category yet.',
+  ko:'이 카테고리에는 아직 상품이 없습니다.'
+};
+var shopWatcher=null;
+function watchShopGrid(){
+  var skel=document.getElementById('shop-skel');
+  var grid=document.getElementById('shop-grid');
+  var err =document.getElementById('shop-err');
+  if(!skel||!grid||!err) return;
+  if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
+
+  skel.classList.remove('sp-hide');
+  grid.classList.add('sp-hide');
+  err.classList.add('sp-hide');
+
+  var done=false;
+  function reveal(){
+    if(done) return; done=true;
+    skel.classList.add('sp-hide');
+    grid.classList.remove('sp-hide');
+    if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
+  }
+  function fail(msgMap){
+    if(done) return; done=true;
+    skel.classList.add('sp-hide');
+    var lang=document.documentElement.getAttribute('data-lang')||'ja';
+    err.innerHTML=msgMap[lang]||msgMap.ja;
+    err.classList.remove('sp-hide');
+    if(shopWatcher){ shopWatcher.disconnect(); shopWatcher=null; }
+  }
+  shopWatcher=new MutationObserver(function(){
+    if(grid.querySelector('.sp-tile')) reveal();
+  });
+  shopWatcher.observe(grid,{childList:true,subtree:true});
+  setTimeout(function(){
+    if(grid.querySelector('.sp-tile')) reveal();
+    else if(grid.querySelector('.shopify-error')) fail(SHOP_ERR_MSG);
+    else fail(SHOP_EMPTY_MSG);
+  }, 9000);
+}
+
+/* initial paint */
+(function initShop(){
+  function go(){ if(typeof renderShop==='function') renderShop('all'); }
+  if(document.readyState==='complete') go();
+  else window.addEventListener('load', go);
+})();
+
+/* Keep the header badge in sync with the Shopify cart */
+(function cartBadge(){
+  var badge=document.querySelector('.hdr-tools .badge');
+  if(!badge) return;
+  function refresh(){
+    var s=document.getElementById('sasage-store');
+    var n=0;
+    try{
+      var c = s && (s.cart || (s.getCart && s.getCart()));
+      if(c){ n = c.totalQuantity != null ? c.totalQuantity
+                : (c.lines && c.lines.length) ? c.lines.length : 0; }
+    }catch(e){}
+    badge.textContent = n;
+    badge.style.display = n>0 ? '' : '';
+  }
+  ['shopify:cart:updated','shopify:cart:update','cart:updated'].forEach(function(ev){
+    document.addEventListener(ev, refresh);
+  });
+  setInterval(refresh, 1500);
+  refresh();
+})();
+
+
 /* Map the nav tabs to Shopify collection handles.
    Edit the right-hand side to match your own collection handles. */
 var SHOP_COLLECTIONS = {
@@ -796,7 +799,7 @@ function renderShop(cat){
          + '</shopify-context>';
   }
   grid.innerHTML = html;
-  watchShopGrid();
+  if(typeof watchShopGrid==='function') watchShopGrid();
 }
 
 function filterCat(cat){
