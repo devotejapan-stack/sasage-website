@@ -310,7 +310,16 @@ shopify-store,shopify-context,shopify-list-context{display:contents;}
 .sp-hide{display:none!important;}
 .sp-err{padding:40px 20px;text-align:center;font-size:11.5px;color:var(--ink-soft);line-height:2;
   border:1px solid var(--line);}
-shopify-cart::part(dialog){border:none;padding:0;}
+shopify-cart::part(dialog){border:1px solid var(--line);border-radius:0;padding:0;}
+shopify-cart::part(primary-button){background:var(--ink);color:#fff;border:1px solid var(--ink);
+  border-radius:0;font-size:11px;letter-spacing:.24em;padding:15px;}
+shopify-cart::part(secondary-button){background:#fff;color:var(--ink);fill:var(--ink);
+  border:1px solid var(--line);border-radius:0;}
+shopify-cart::part(tertiary-button){background:#fff;color:var(--ink);border:1px solid var(--ink);
+  border-radius:0;font-size:10px;letter-spacing:.18em;}
+shopify-cart::part(line-heading){font-size:12px;letter-spacing:.05em;}
+shopify-cart::part(line-price){font-size:11px;}
+shopify-cart::part(input-field){border:1px solid var(--line);border-radius:0;}
 </style>
 </head>
 <body>
@@ -512,7 +521,13 @@ shopify-cart::part(dialog){border:none;padding:0;}
 </div>
 
 <!-- Cart (Shopify) -->
-<shopify-cart id="sasage-cart"></shopify-cart>
+<shopify-cart id="sasage-cart">
+  <div slot="empty" data-i18n="cart.empty">カートは空です</div>
+  <div slot="checkout-button" data-i18n="cart.checkout">レジに進む</div>
+  <div slot="apply-discount-button" data-i18n="cart.apply">適用</div>
+  <div slot="discounts-title" data-i18n="cart.discounts">割引コード</div>
+  <div slot="discount-apply-error" data-i18n="cart.discountErr">この割引コードは適用できません。</div>
+</shopify-cart>
 
 <!-- Modal: 配送について -->
 <div class="modal-overlay" id="modal-delivery" onclick="if(event.target===this)closeModal('modal-delivery')">
@@ -643,14 +658,11 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeSearch
 // ── Cart ──────────────────────────────────────────────────────────────
 function openCart(){
   var c=document.getElementById('sasage-cart');
-  if(c && typeof c.showModal==='function'){ c.showModal(); return; }
-  if(c && c.shadowRoot){ var d=c.shadowRoot.querySelector('dialog'); if(d){ d.showModal(); return; } }
-  window.open(SHOPIFY_CART_URL,'_blank');
+  if(c && typeof c.showModal==='function'){ c.showModal(); }
 }
 function closeCart(){
   var c=document.getElementById('sasage-cart');
-  if(c && typeof c.close==='function'){ try{ c.close(); }catch(e){} return; }
-  if(c && c.shadowRoot){ var d=c.shadowRoot.querySelector('dialog'); if(d) d.close(); }
+  if(c && typeof c.close==='function'){ try{ c.close(); }catch(e){} }
 }
 
 // ── Modals ────────────────────────────────────────────────────────────
@@ -738,20 +750,16 @@ function watchShopGrid(){
   var badge=document.querySelector('.hdr-tools .badge');
   if(!badge) return;
   function refresh(){
-    var s=document.getElementById('sasage-store');
+    var c=document.getElementById('sasage-cart');
     var n=0;
     try{
-      var c = s && (s.cart || (s.getCart && s.getCart()));
-      if(c){ n = c.totalQuantity != null ? c.totalQuantity
-                : (c.lines && c.lines.length) ? c.lines.length : 0; }
+      if(c && c.shadowRoot){
+        n = c.shadowRoot.querySelectorAll('[part~="line-heading"]').length;
+      }
     }catch(e){}
-    badge.textContent = n;
-    badge.style.display = n>0 ? '' : '';
+    if(badge.textContent !== String(n)) badge.textContent = n;
   }
-  ['shopify:cart:updated','shopify:cart:update','cart:updated'].forEach(function(ev){
-    document.addEventListener(ev, refresh);
-  });
-  setInterval(refresh, 1500);
+  setInterval(refresh, 1200);
   refresh();
 })();
 
@@ -774,7 +782,7 @@ function shopTileHTML(){
   +   '<figcaption class="sp-cap">'
   +     '<div class="sp-name"><shopify-data query="product.title"></shopify-data></div>'
   +     '<div class="sp-price"><shopify-money query="product.selectedOrFirstAvailableVariant.price" format="money_with_currency"></shopify-money></div>'
-  +     '<button class="sp-add" onclick="document.getElementById(\'sasage-store\').addToCart(event)" '
+  +     '<button class="sp-add" onclick="document.getElementById(\'sasage-cart\').addLine(event).showModal()" '
   +             'shopify-attr--disabled="!product.selectedOrFirstAvailableVariant.availableForSale">ADD TO CART</button>'
   +   '</figcaption>'
   + '</figure>';
@@ -944,7 +952,11 @@ var I18N = {
   "pop.b3": "再入荷・受注開始の優先通知",
   "pop.cta": "無料で会員登録する",
   "pop.later": "あとで",
-  "pop.closeAria": "閉じる"
+  "pop.closeAria": "閉じる",
+  "cart.checkout": "レジに進む",
+  "cart.apply": "適用",
+  "cart.discounts": "割引コード",
+  "cart.discountErr": "この割引コードは適用できません。"
  },
  "en": {
   "util.bar": "Free shipping ｜ Early access for members",
@@ -1017,7 +1029,11 @@ var I18N = {
   "pop.b3": "Priority alerts on restocks and pre-orders",
   "pop.cta": "REGISTER FREE",
   "pop.later": "Maybe later",
-  "pop.closeAria": "Close"
+  "pop.closeAria": "Close",
+  "cart.checkout": "CHECKOUT",
+  "cart.apply": "APPLY",
+  "cart.discounts": "Discount code",
+  "cart.discountErr": "This discount code cannot be applied."
  },
  "ko": {
   "util.bar": "무료 배송 ｜ 회원 가입 시 선행 액세스",
@@ -1090,7 +1106,11 @@ var I18N = {
   "pop.b3": "재입고·예약 주문 우선 알림",
   "pop.cta": "무료로 회원 가입",
   "pop.later": "나중에",
-  "pop.closeAria": "닫기"
+  "pop.closeAria": "닫기",
+  "cart.checkout": "결제하기",
+  "cart.apply": "적용",
+  "cart.discounts": "할인 코드",
+  "cart.discountErr": "이 할인 코드는 적용할 수 없습니다."
  }
 };
 
