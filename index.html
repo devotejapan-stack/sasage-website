@@ -812,7 +812,6 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
       <div class="lang-menu" id="lang-menu" role="menu">
         <button role="menuitem" data-lang="ja" onclick="setLang('ja')">JAPANESE <span class="lang-native">日本語</span></button>
         <button role="menuitem" data-lang="en" onclick="setLang('en')">ENGLISH <span class="lang-native">English</span></button>
-        <button role="menuitem" data-lang="de" onclick="setLang('de')">GERMAN <span class="lang-native">Deutsch</span></button>
         <button role="menuitem" data-lang="ko" onclick="setLang('ko')">KOREAN <span class="lang-native">한국어</span></button>
       </div>
     </div>
@@ -847,7 +846,6 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
   <div class="mob-lang" id="mob-lang">
     <button data-lang="ja" onclick="setLang('ja')">日本語</button>
     <button data-lang="en" onclick="setLang('en')">ENGLISH</button>
-    <button data-lang="de" onclick="setLang('de')">DEUTSCH</button>
     <button data-lang="ko" onclick="setLang('ko')">한국어</button>
   </div>
   <button class="theme-btn" id="theme-btn-mob" onclick="toggleTheme()" aria-label="テーマ切り替え" style="margin-bottom:8px;">
@@ -1224,27 +1222,6 @@ var I18N = {
     "contact.text": "For enquiries about the brand,<br>please reach us below",
     "ui.close": "CLOSE"
   },
-  de: {
-    "hero.deco": "Nur wer sich hingibt, erlangt die Morgendämmerung",
-    "hero.tagline": "Own The Dawn",
-    "concept.big": "Jenseits der Hingabe<br>liegt die Morgendämmerung",
-    "concept.lead": "SASAGE ist eine Marke für Menschen, die ihr Leben einer Sache gewidmet haben.<br>Hinter jeder Leistung stehen unsichtbare Stunden, innere Zweifel und unerschütterliche Entschlossenheit.<br>Wir erweisen dieser Lebensweise Respekt und legen Überzeugung in jedes Kleidungsstück.",
-    "stmt1.body": "Die Morgendämmerung kommt<br>nur zu jenen,<br>die nie aufgaben",
-    "stmt1.note": "Je weniger Ergebnisse sichtbar sind, desto länger fühlen sich die Stunden an. Nur wer nicht innehielt, erlebt den Anbruch des Tages. Dieser Beharrlichkeit gilt der Respekt von SASAGE.",
-    "stmt2.body": "Der Wille des Trägers<br>verwandelt Kleidung<br>in Rüstung",
-    "stmt2.note": "Ein Kleidungsstück besitzt keine eigene Kraft. Erst wenn die Entschlossenheit des Trägers in ihm wohnt, wird es zur Rüstung. Darum schafft SASAGE Kleidung, die Überzeugung widerspiegelt — nicht Dekoration.",
-    "stmt3.body": "In der Stille<br>schlägt der Same<br>der Stärke Wurzeln",
-    "stmt3.note": "Stunden, die dort angesammelt wurden, wo niemand hinsieht, werden später zu Stärke. Gerade in der Anstrengung, über die nicht laut gesprochen wird, liegt Wert. Diese Stille drücken wir durch Material und Silhouette aus.",
-    "stmt4.body": "SASAGE ist eine Widmung<br>an alle,<br>die es wagen",
-    "stmt4.note": "Hinter jeder Leistung stehen unsichtbare Stunden, innere Zweifel und unerschütterliche Entschlossenheit. Möge diese unbeirrbare Haltung im Herzen anderer nachklingen und zu einem Zeichen werden, das sich der Gesellschaft einprägt. SASAGE ist eine Widmung an alle, die es wagen.",
-    "shop.tagline": "Jenseits der Hingabe liegt die Morgendämmerung",
-    "about.sub": "— Das nachhallende Zeichen einer Lebensweise.",
-    "about.coined": "a coined word, unique to SASAGE",
-    "about.p1": "„Kyohyo“ verbindet 響 (Nachhall) mit 標 (Zeichen) — ein Kunstwort, das in keinem Wörterbuch steht und allein SASAGE gehört.",
-    "about.p2": "Die innere Glut eines Menschen, der sein Leben einer Sache gewidmet hat, hallt still nach außen, und die unsichtbare Kontur dieser Lebensweise wird durch die getragene Kleidung zu einem klaren Zeichen in der Gesellschaft.",
-    "contact.text": "Für Anfragen zur Marke<br>erreichen Sie uns hier",
-    "ui.close": "SCHLIESSEN"
-  },
   ko: {
     "hero.deco": "바치는 자만이 새벽을 손에 넣는다",
     "hero.tagline": "Own The Dawn",
@@ -1268,8 +1245,8 @@ var I18N = {
   }
 };
 
-var LANG_CODE = { ja:'JA', en:'EN', de:'DE', ko:'KO' };
-var LANG_HTML = { ja:'ja', en:'en', de:'de', ko:'ko' };
+var LANG_CODE = { ja:'JA', en:'EN', ko:'KO' };
+var LANG_HTML = { ja:'ja', en:'en', ko:'ko' };
 
 function setLang(lang){
   if(!I18N[lang]) lang = 'ja';
@@ -1325,7 +1302,6 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLa
   if(!saved){
     var nav = (navigator.language || 'ja').toLowerCase();
     if(nav.indexOf('ja') === 0)      saved = 'ja';
-    else if(nav.indexOf('de') === 0) saved = 'de';
     else if(nav.indexOf('ko') === 0) saved = 'ko';
     else                             saved = 'en';
   }
