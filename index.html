@@ -3,10 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8V08GHLJC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-G8V08GHLJC');
+</script>
 <title>SASAGE — 捧げる者だけが、夜明けを手にする</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300&family=Space+Grotesk:wght@300;400&family=Noto+Serif+JP:wght@200;300;400&family=Noto+Serif+KR:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;1,200;1,300&family=Space+Grotesk:wght@300;400&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
@@ -19,7 +27,7 @@ img,video{display:block;max-width:100%;}
   --orange:#ff5f00;
   --serif:'Cormorant Garamond',serif;
   --sans:'Space Grotesk',sans-serif;
-  --jp:'Noto Serif JP','Noto Serif KR',serif;
+  --jp:'Noto Serif JP',serif;
 }
 
 body{
@@ -241,26 +249,6 @@ video{-webkit-appearance:none;}
   font-weight:200;font-style:italic;letter-spacing:0.1em;
   color:var(--fg-muted);margin-top:18px;
 }
-.concept-lead{
-  font-family:var(--jp);
-  font-size:clamp(0.8rem,0.98vw,0.92rem);
-  font-weight:200;letter-spacing:0.1em;line-height:2.4;
-  color:var(--fg-sub);
-  margin:38px auto 0;max-width:44em;
-}
-.stmt-note{
-  font-family:var(--jp);
-  font-size:clamp(0.76rem,0.92vw,0.86rem);
-  font-weight:200;letter-spacing:0.08em;line-height:2.15;
-  color:var(--fg-sub);
-  margin-top:26px;padding-top:22px;
-  max-width:34em;
-  border-top:1px solid var(--hairline);
-}
-@media(max-width:768px){
-  .stmt-note{margin-top:20px;padding-top:18px;line-height:2;}
-  .concept-lead{margin-top:28px;line-height:2.2;}
-}
 .stmt-media{
   position:relative;overflow:hidden;background:var(--navy);
 }
@@ -378,7 +366,6 @@ video{-webkit-appearance:none;}
   padding:clamp(60px,8vw,110px) clamp(22px,5vw,68px);
   background:var(--navy);
 }
-.lookbook .sec-hd h2,.lookbook h2{color:#ffffff;}
 .lk-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -660,7 +647,6 @@ video{-webkit-appearance:none;}
   --concept-bg:#ffffff;
   --concept-text:var(--ink);
   --concept-sub:rgba(12,12,14,0.45);
-  --hairline:rgba(12,12,14,0.12);
 }
 html[data-theme="dark"]{
   --bg:var(--ink);
@@ -671,65 +657,9 @@ html[data-theme="dark"]{
   --concept-bg:var(--ink);
   --concept-text:var(--cream);
   --concept-sub:rgba(240,236,229,0.45);
-  --hairline:rgba(240,236,229,0.12);
 }
 
 /* Theme toggle button */
-/* Language switcher */
-.lang-wrap{position:relative;display:flex;align-items:center;}
-.lang-btn{
-  display:flex;align-items:center;gap:5px;
-  background:none;border:1px solid rgba(240,236,229,0.22);
-  border-radius:2px;cursor:pointer;
-  color:rgba(240,236,229,0.72);
-  font-family:var(--sans);font-size:9.5px;letter-spacing:0.18em;
-  padding:5px 8px;line-height:1;
-  transition:border-color 0.2s,color 0.2s;
-}
-.lang-btn:hover{color:var(--cream);border-color:rgba(240,236,229,0.5);}
-.lang-btn .lang-caret{
-  width:0;height:0;border-left:3px solid transparent;border-right:3px solid transparent;
-  border-top:3.5px solid currentColor;transition:transform 0.25s;
-}
-.lang-wrap.open .lang-caret{transform:rotate(180deg);}
-.lang-menu{
-  position:absolute;top:calc(100% + 8px);right:0;
-  min-width:132px;
-  background:rgba(10,28,51,0.97);
-  border:1px solid rgba(240,236,229,0.14);
-  border-radius:2px;
-  backdrop-filter:blur(14px);
-  padding:4px 0;
-  opacity:0;visibility:hidden;transform:translateY(-6px);
-  transition:opacity 0.22s,transform 0.22s,visibility 0.22s;
-  z-index:200;
-}
-.lang-wrap.open .lang-menu{opacity:1;visibility:visible;transform:translateY(0);}
-.lang-menu button{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
-  width:100%;background:none;border:none;cursor:pointer;
-  color:rgba(240,236,229,0.62);
-  font-family:var(--sans);font-size:10px;letter-spacing:0.14em;
-  padding:9px 14px;text-align:left;
-  transition:color 0.18s,background 0.18s;
-}
-.lang-menu button:hover{color:var(--cream);background:rgba(240,236,229,0.06);}
-.lang-menu button[aria-current="true"]{color:var(--orange);}
-.lang-menu button .lang-native{
-  font-family:var(--jp);font-size:9px;letter-spacing:0.08em;opacity:0.5;
-}
-/* Mobile language switcher */
-.mob-lang{
-  display:flex;gap:6px;justify-content:center;flex-wrap:wrap;
-  margin:22px 0 4px;
-}
-.mob-lang button{
-  background:none;border:1px solid rgba(240,236,229,0.2);border-radius:2px;
-  color:rgba(240,236,229,0.6);cursor:pointer;
-  font-family:var(--sans);font-size:10px;letter-spacing:0.16em;
-  padding:8px 12px;transition:color 0.18s,border-color 0.18s;
-}
-.mob-lang button[aria-current="true"]{color:var(--orange);border-color:var(--orange);}
 .theme-btn{
   display:flex;align-items:center;justify-content:center;
   width:32px;height:32px;
@@ -805,16 +735,6 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
     <a href="#about">ABOUT</a>
     <a href="#lookbook">LOOKBOOK</a>
     <a href="#contact">CONTACT</a>
-    <div class="lang-wrap" id="lang-wrap">
-      <button class="lang-btn" id="lang-btn" onclick="toggleLangMenu(event)" aria-label="Language" aria-haspopup="true" aria-expanded="false">
-        <span id="lang-current">JA</span><span class="lang-caret"></span>
-      </button>
-      <div class="lang-menu" id="lang-menu" role="menu">
-        <button role="menuitem" data-lang="ja" onclick="setLang('ja')">JAPANESE <span class="lang-native">日本語</span></button>
-        <button role="menuitem" data-lang="en" onclick="setLang('en')">ENGLISH <span class="lang-native">English</span></button>
-        <button role="menuitem" data-lang="ko" onclick="setLang('ko')">KOREAN <span class="lang-native">한국어</span></button>
-      </div>
-    </div>
     <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" aria-label="テーマ切り替え">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -835,7 +755,7 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
 <div id="mob-nav">
   <button onclick="closeMenu()" class="mob-close" aria-label="閉じる">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="28" height="28"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    <span data-i18n="ui.close">閉じる</span>
+    <span>閉じる</span>
   </button>
   <a href="#concept" onclick="closeMenu()">CONCEPT</a>
   <a href="#collection" onclick="closeMenu()">COLLECTION</a>
@@ -843,11 +763,6 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
   <a href="#about" onclick="closeMenu()">ABOUT</a>
   <a href="#lookbook" onclick="closeMenu()">LOOKBOOK</a>
   <a href="#contact" onclick="closeMenu()">CONTACT</a>
-  <div class="mob-lang" id="mob-lang">
-    <button data-lang="ja" onclick="setLang('ja')">日本語</button>
-    <button data-lang="en" onclick="setLang('en')">ENGLISH</button>
-    <button data-lang="ko" onclick="setLang('ko')">한국어</button>
-  </div>
   <button class="theme-btn" id="theme-btn-mob" onclick="toggleTheme()" aria-label="テーマ切り替え" style="margin-bottom:8px;">
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z"/></svg>
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
@@ -869,11 +784,11 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
   </video>
   <div class="hero-overlay"></div>
   <p class="hero-issue">VOL. 01 COLLECTION</p>
-  <span class="hero-deco-l" data-i18n="hero.deco">捧げる者だけが、夜明けを手にする</span>
+  <span class="hero-deco-l">捧げる者だけが、夜明けを手にする</span>
   <span class="hero-deco-r">SASAGE — OWN THE DAWN</span>
   <div class="hero-center">
     <h1 class="hero-title">SASAGE</h1>
-    <p class="hero-tagline-sub" data-i18n="hero.tagline">「夜明けを、生きる」</p>
+    <p class="hero-tagline-sub">「夜明けを、生きる」</p>
   </div>
   <div class="hero-bottom">
     <p class="hero-scroll">SCROLL</p>
@@ -892,18 +807,16 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
 <section class="concept" id="concept">
   <div class="concept-intro">
     <span class="sec-label reveal">Brand Philosophy</span>
-    <p class="big reveal" data-d="1" data-i18n="concept.big">捧げることの先に、<br>夜明けがある</p>
+    <p class="big reveal" data-d="1">捧げることの先に、<br>夜明けがある</p>
     <div class="orn-line reveal" data-d="2" style="margin:22px auto;"></div>
-    <p class="sub reveal en-line" data-d="3">Those who devote themselves — own the dawn.</p>
-    <p class="concept-lead reveal" data-d="4" data-i18n="concept.lead">SASAGEは、何かに人生を捧げている人のためのブランドです。<br>成し遂げる者の裏側にある、誰にも見えない時間と葛藤、そして覚悟。<br>その生き様に敬意を捧げ、一着に信念を宿します。</p>
+    <p class="sub reveal" data-d="3">Those who devote themselves — own the dawn.</p>
   </div>
 
   <div class="stmt reveal">
     <div class="stmt-text">
       <span class="stmt-num">01</span>
-      <p class="stmt-body" data-i18n="stmt1.body">夜明けは、<br>諦めなかった者だけに<br>訪れる</p>
-      <p class="stmt-en en-line">Dawn comes only to those who never gave up.</p>
-      <p class="stmt-note" data-i18n="stmt1.note">結果が見えない時間ほど、長く感じる。それでも手を止めなかった者だけが、夜が明ける瞬間に立ち会える。SASAGEが敬意を捧げるのは、その粘り強さです。</p>
+      <p class="stmt-body">夜明けは、<br>諦めなかった者だけに<br>訪れる</p>
+      <p class="stmt-en">Dawn comes only to those who never gave up.</p>
     </div>
     <div class="stmt-media">
       <video autoplay loop muted playsinline><source src="firstpv_web.mp4" type="video/mp4"></video>
@@ -913,9 +826,8 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
   <div class="stmt rev reveal" data-d="1">
     <div class="stmt-text">
       <span class="stmt-num">02</span>
-      <p class="stmt-body" data-i18n="stmt2.body">着る者の意志が、<br>服を纏いへと<br>変える</p>
-      <p class="stmt-en en-line">The wearer's resolve transforms clothing into armor.</p>
-      <p class="stmt-note" data-i18n="stmt2.note">服そのものに力はない。着る人の覚悟が宿ったとき、はじめて一着は「纏い」になる。だからSASAGEは、装飾ではなく信念が映る服をつくります。</p>
+      <p class="stmt-body">着る者の意志が、<br>服を纏いへと<br>変える</p>
+      <p class="stmt-en">The wearer's resolve transforms clothing into armor.</p>
     </div>
     <div class="stmt-media">
       <video autoplay loop muted playsinline><source src="stmt02_web.mp4" type="video/mp4"></video>
@@ -925,9 +837,8 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
   <div class="stmt reveal" data-d="2">
     <div class="stmt-text">
       <span class="stmt-num">03</span>
-      <p class="stmt-body" data-i18n="stmt3.body">静寂の中に、<br>強さの種は<br>宿る</p>
-      <p class="stmt-en en-line">In silence, the seed of strength takes root.</p>
-      <p class="stmt-note" data-i18n="stmt3.note">誰にも見られない場所で積み重ねた時間が、のちの強さになる。声高に語られない努力にこそ価値がある。その静けさを、素材とシルエットで表現しています。</p>
+      <p class="stmt-body">静寂の中に、<br>強さの種は<br>宿る</p>
+      <p class="stmt-en">In silence, the seed of strength takes root.</p>
     </div>
     <div class="stmt-media">
       <video autoplay loop muted playsinline><source src="stmt03_web.mp4" type="video/mp4"></video>
@@ -937,9 +848,8 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
   <div class="stmt rev reveal" data-d="3">
     <div class="stmt-text">
       <span class="stmt-num">04</span>
-      <p class="stmt-body" data-i18n="stmt4.body">SASAGEは、<br>挑む者たちへの<br>献辞である</p>
-      <p class="stmt-en en-line">SASAGE is a dedication — to all who dare.</p>
-      <p class="stmt-note" data-i18n="stmt4.note">何かを成し遂げる者の裏側には、誰にも見えない時間と葛藤、そして揺るぎない覚悟がある。その挑み続ける姿勢が誰かの心に響き、社会に刻まれる標となるように。SASAGEは、挑む者たちへの献辞です。</p>
+      <p class="stmt-body">SASAGEは、<br>挑む者たちへの<br>献辞である</p>
+      <p class="stmt-en">SASAGE is a dedication — to all who dare.</p>
     </div>
     <div class="stmt-media">
       <video autoplay loop muted playsinline><source src="stmt04_web.mp4" type="video/mp4"></video>
@@ -976,8 +886,8 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
     <span class="shop-cta-eyebrow">Online Store</span>
     <div class="shop-cta-rule"></div>
     <h2 class="shop-cta-title">SASAGE<br>STORE</h2>
-    <p class="shop-cta-ja" data-i18n="shop.tagline">捧げることの先に、夜明けがある</p>
-    <a href="store.html" class="shop-cta-btn">
+    <p class="shop-cta-ja">捧げることの先に、夜明けがある</p>
+    <a href="shop.html" class="shop-cta-btn">
       <span class="btn-inner">ENTER THE STORE <span class="shop-cta-arrow">→</span></span>
     </a>
   </div>
@@ -990,11 +900,11 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
   <div class="about-text">
     <span class="sec-label">About</span>
     <h2 class="about-kyohyo-en">響標「KYOHYO」</h2>
-    <p class="about-kyohyo-sub" data-i18n="about.sub">― 生き様の、響標。</p>
-    <p class="about-coined" data-i18n="about.coined">a coined word, unique to SASAGE</p>
+    <p class="about-kyohyo-sub">― 生き様の、響標。</p>
+    <p class="about-coined">a coined word, unique to SASAGE</p>
     <div class="orn-line"></div>
-    <p data-i18n="about.p1">「響標（きょうひょう）」は、残響の「響」と標識の「標」を組み合わせた、既存の辞書にはないSASAGEだけの造語です。</p>
-    <p data-i18n="about.p2">何かに人生を捧げている人間の内なる熱量が、周囲へ静かに「響」き渡り、その生き様という見えない輪郭が、服を纏うことで社会への明確な「標」（しるし）となる。</p>
+    <p>「響標（きょうひょう）」は、残響の「響」と標識の「標」を組み合わせた、既存の辞書にはないSASAGEだけの造語です。</p>
+    <p>何かに人生を捧げている人間の内なる熱量が、周囲へ静かに「響」き渡り、その生き様という見えない輪郭が、服を纏うことで社会への明確な「標」（しるし）となる。</p>
     <p class="about-sig">— Own the Dawn.</p>
   </div>
 </section>
@@ -1046,7 +956,7 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
 <section class="contact" id="contact">
   <span class="sec-label reveal">Contact</span>
   <h2 class="reveal" data-d="1">GET IN TOUCH</h2>
-  <p class="reveal" data-d="2" data-i18n="contact.text">ブランドに関するお問い合わせは<br>以下よりご連絡ください</p>
+  <p class="reveal" data-d="2">ブランドに関するお問い合わせは<br>以下よりご連絡ください</p>
   <a href="https://devotejapan.com" target="_blank" class="contact-btn reveal" data-d="3">DEVOTE JAPAN — CONTACT</a>
 </section>
 
@@ -1175,139 +1085,5 @@ function toggleTheme(){
   });
 })();
 </script>
-<!-- ================= I18N (JA / EN / DE / KO) ================= -->
-<script>
-/* NOTE: The brand tagline is LOCKED to "Own The Dawn" in every non-Japanese
-   locale. Japanese keeps 「夜明けを、生きる」. Do not translate it. */
-var I18N = {
-  ja: {
-    "hero.deco": "捧げる者だけが、夜明けを手にする",
-    "hero.tagline": "「夜明けを、生きる」",
-    "concept.big": "捧げることの先に、<br>夜明けがある",
-    "concept.lead": "SASAGEは、何かに人生を捧げている人のためのブランドです。<br>成し遂げる者の裏側にある、誰にも見えない時間と葛藤、そして覚悟。<br>その生き様に敬意を捧げ、一着に信念を宿します。",
-    "stmt1.body": "夜明けは、<br>諦めなかった者だけに<br>訪れる",
-    "stmt1.note": "結果が見えない時間ほど、長く感じる。それでも手を止めなかった者だけが、夜が明ける瞬間に立ち会える。SASAGEが敬意を捧げるのは、その粘り強さです。",
-    "stmt2.body": "着る者の意志が、<br>服を纏いへと<br>変える",
-    "stmt2.note": "服そのものに力はない。着る人の覚悟が宿ったとき、はじめて一着は「纏い」になる。だからSASAGEは、装飾ではなく信念が映る服をつくります。",
-    "stmt3.body": "静寂の中に、<br>強さの種は<br>宿る",
-    "stmt3.note": "誰にも見られない場所で積み重ねた時間が、のちの強さになる。声高に語られない努力にこそ価値がある。その静けさを、素材とシルエットで表現しています。",
-    "stmt4.body": "SASAGEは、<br>挑む者たちへの<br>献辞である",
-    "stmt4.note": "何かを成し遂げる者の裏側には、誰にも見えない時間と葛藤、そして揺るぎない覚悟がある。その挑み続ける姿勢が誰かの心に響き、社会に刻まれる標となるように。SASAGEは、挑む者たちへの献辞です。",
-    "shop.tagline": "捧げることの先に、夜明けがある",
-    "about.sub": "― 生き様の、響標。",
-    "about.coined": "a coined word, unique to SASAGE",
-    "about.p1": "「響標（きょうひょう）」は、残響の「響」と標識の「標」を組み合わせた、既存の辞書にはないSASAGEだけの造語です。",
-    "about.p2": "何かに人生を捧げている人間の内なる熱量が、周囲へ静かに「響」き渡り、その生き様という見えない輪郭が、服を纏うことで社会への明確な「標」（しるし）となる。",
-    "contact.text": "ブランドに関するお問い合わせは<br>以下よりご連絡ください",
-    "ui.close": "閉じる"
-  },
-  en: {
-    "hero.deco": "Only those who devote themselves own the dawn",
-    "hero.tagline": "Own The Dawn",
-    "concept.big": "Beyond devotion,<br>lies the dawn",
-    "concept.lead": "SASAGE is a brand for those who have devoted their lives to something.<br>Behind every achievement lie unseen hours, inner conflict, and unwavering resolve.<br>We honour that way of living, and embed conviction into every garment.",
-    "stmt1.body": "Dawn comes only<br>to those who<br>never gave up",
-    "stmt1.note": "The less visible the results, the longer the hours feel. Only those who never stopped get to witness the break of day. It is that persistence SASAGE honours.",
-    "stmt2.body": "The wearer's resolve<br>transforms clothing<br>into armour",
-    "stmt2.note": "A garment holds no power on its own. Only when the wearer's resolve inhabits it does a piece become armour. That is why SASAGE makes clothing that reflects conviction, not decoration.",
-    "stmt3.body": "In silence,<br>the seed of strength<br>takes root",
-    "stmt3.note": "Hours accumulated where no one is watching become strength later on. There is value in effort that is never spoken of loudly. We express that quietness through material and silhouette.",
-    "stmt4.body": "SASAGE is a dedication<br>to all<br>who dare",
-    "stmt4.note": "Behind every achievement lie unseen hours, inner conflict, and unwavering resolve. May that relentless spirit resonate with others and become a mark etched into society. SASAGE is a dedication to all who dare.",
-    "shop.tagline": "Beyond devotion, lies the dawn",
-    "about.sub": "— The resonant mark of a way of living.",
-    "about.coined": "a coined word, unique to SASAGE",
-    "about.p1": "\"Kyohyo\" joins 響 (resonance) with 標 (mark) — a coined word found in no dictionary, belonging to SASAGE alone.",
-    "about.p2": "The inner heat of someone who has devoted their life to something resonates quietly outward, and the invisible contour of that way of living becomes a clear mark upon society through the clothes they wear.",
-    "contact.text": "For enquiries about the brand,<br>please reach us below",
-    "ui.close": "CLOSE"
-  },
-  ko: {
-    "hero.deco": "바치는 자만이 새벽을 손에 넣는다",
-    "hero.tagline": "Own The Dawn",
-    "concept.big": "바침의 끝에<br>새벽이 있다",
-    "concept.lead": "SASAGE는 무언가에 인생을 바치고 있는 사람을 위한 브랜드입니다.<br>무언가를 이루는 사람의 이면에는 아무에게도 보이지 않는 시간과 갈등, 그리고 각오가 있습니다.<br>그 삶의 방식에 경의를 표하며, 한 벌에 신념을 담습니다.",
-    "stmt1.body": "새벽은<br>포기하지 않은 자에게만<br>찾아온다",
-    "stmt1.note": "결과가 보이지 않는 시간일수록 길게 느껴집니다. 그럼에도 손을 멈추지 않은 사람만이 날이 밝는 순간을 마주할 수 있습니다. SASAGE가 경의를 표하는 것은 그 끈기입니다.",
-    "stmt2.body": "입는 이의 의지가<br>옷을 갑옷으로<br>바꾼다",
-    "stmt2.note": "옷 자체에는 힘이 없습니다. 입는 사람의 각오가 깃들었을 때 비로소 한 벌은 '갑옷'이 됩니다. 그래서 SASAGE는 장식이 아닌 신념이 비치는 옷을 만듭니다.",
-    "stmt3.body": "고요함 속에<br>강함의 씨앗이<br>깃든다",
-    "stmt3.note": "아무도 보지 않는 곳에서 쌓아 올린 시간이 훗날의 강함이 됩니다. 큰 소리로 이야기되지 않는 노력에야말로 가치가 있습니다. 그 고요함을 소재와 실루엣으로 표현합니다.",
-    "stmt4.body": "SASAGE는<br>도전하는 이들에게 바치는<br>헌사다",
-    "stmt4.note": "무언가를 이루는 사람의 이면에는 아무에게도 보이지 않는 시간과 갈등, 그리고 흔들리지 않는 각오가 있습니다. 그 계속 도전하는 자세가 누군가의 마음에 울려 퍼지고, 사회에 새겨지는 표식이 되기를. SASAGE는 도전하는 이들에게 바치는 헌사입니다.",
-    "shop.tagline": "바침의 끝에 새벽이 있다",
-    "about.sub": "— 삶의 방식의, 향표.",
-    "about.coined": "a coined word, unique to SASAGE",
-    "about.p1": "'향표(響標)'는 잔향의 '響'과 표식의 '標'을 조합한, 기존 사전에는 없는 SASAGE만의 조어입니다.",
-    "about.p2": "무언가에 인생을 바치고 있는 사람의 내면의 열량이 주위로 조용히 '울려(響)' 퍼지고, 그 삶의 방식이라는 보이지 않는 윤곽이 옷을 입음으로써 사회를 향한 명확한 '표식(標)'이 됩니다.",
-    "contact.text": "브랜드에 관한 문의는<br>아래를 통해 연락해 주세요",
-    "ui.close": "닫기"
-  }
-};
-
-var LANG_CODE = { ja:'JA', en:'EN', ko:'KO' };
-var LANG_HTML = { ja:'ja', en:'en', ko:'ko' };
-
-function setLang(lang){
-  if(!I18N[lang]) lang = 'ja';
-  var dict = I18N[lang];
-
-  document.querySelectorAll('[data-i18n]').forEach(function(el){
-    var v = dict[el.getAttribute('data-i18n')];
-    if(v !== undefined) el.innerHTML = v;
-  });
-
-  // The italic English sub-lines are decorative; hide them when already in English.
-  document.querySelectorAll('.en-line').forEach(function(el){
-    el.style.display = (lang === 'en') ? 'none' : '';
-  });
-
-  document.documentElement.setAttribute('lang', LANG_HTML[lang]);
-  document.documentElement.setAttribute('data-lang', lang);
-
-  var cur = document.getElementById('lang-current');
-  if(cur) cur.textContent = LANG_CODE[lang];
-
-  document.querySelectorAll('#lang-menu button, #mob-lang button').forEach(function(b){
-    b.setAttribute('aria-current', b.getAttribute('data-lang') === lang ? 'true' : 'false');
-  });
-
-  try { localStorage.setItem('sasage_lang', lang); } catch(e){}
-  closeLangMenu();
-}
-
-function toggleLangMenu(e){
-  if(e) e.stopPropagation();
-  var w = document.getElementById('lang-wrap');
-  if(!w) return;
-  var open = w.classList.toggle('open');
-  document.getElementById('lang-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
-}
-function closeLangMenu(){
-  var w = document.getElementById('lang-wrap');
-  if(!w) return;
-  w.classList.remove('open');
-  var b = document.getElementById('lang-btn');
-  if(b) b.setAttribute('aria-expanded','false');
-}
-document.addEventListener('click', function(e){
-  var w = document.getElementById('lang-wrap');
-  if(w && !w.contains(e.target)) closeLangMenu();
-});
-document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLangMenu(); });
-
-(function initLang(){
-  var saved = null;
-  try { saved = localStorage.getItem('sasage_lang'); } catch(e){}
-  if(!saved){
-    var nav = (navigator.language || 'ja').toLowerCase();
-    if(nav.indexOf('ja') === 0)      saved = 'ja';
-    else if(nav.indexOf('ko') === 0) saved = 'ko';
-    else                             saved = 'en';
-  }
-  setLang(saved);
-})();
-</script>
-
 </body>
 </html>
