@@ -242,6 +242,14 @@
   gtag('js', new Date());
   gtag('config', 'G-G8V08GHLJC');
 </script>
+<style>
+.reg-benefits{list-style:none;margin:0 0 28px;padding:0;}
+.reg-benefits li{padding:14px 0;border-bottom:1px solid rgba(0,0,0,.10);}
+.reg-benefits li:first-child{border-top:1px solid rgba(0,0,0,.10);}
+.reg-benefits strong{display:block;font-weight:500;letter-spacing:.10em;font-size:13px;margin-bottom:5px;}
+.reg-benefits span{display:block;font-size:12px;line-height:1.75;opacity:.72;}
+.reg-otp-note{margin-top:16px;font-size:11px;line-height:1.7;opacity:.62;text-align:center;}
+</style>
 </head>
 <body>
 <div class="fixed-sky" aria-hidden="true"></div>
@@ -296,36 +304,23 @@
 <main class="panel">
   <div class="content-wrap">
     <div class="section-intro">
-      <p data-i18n="reg.intro">会員登録いただくと、新作のお知らせや先行販売など、SASAGEからの特別なご案内をお届けします。</p>
+      <p data-i18n="reg.intro">会員登録いただくと、送料無料・新作の先行アクセスなど、SASAGEからの特別なご案内をお届けします。ご登録はメールアドレスのみ、1分で完了します。</p>
     </div>
-    <form class="reg-form" id="registerForm">
-      <div class="field">
-        <label for="reg-name" data-i18n="reg.label.name">お名前</label>
-        <input type="text" id="reg-name" name="name" required placeholder="山田 花子" data-i18n-ph="reg.ph.name">
-      </div>
-      <div class="field">
-        <label for="reg-email" data-i18n="reg.label.email">メールアドレス</label>
-        <input type="email" id="reg-email" name="email" required placeholder="you@example.com">
-      </div>
-      <div class="field">
-        <label for="reg-password" data-i18n="reg.label.password">パスワード</label>
-        <input type="password" id="reg-password" name="password" required minlength="8" placeholder="8文字以上" data-i18n-ph="reg.ph.password">
-      </div>
-      <div class="field">
-        <label for="reg-password2" data-i18n="reg.label.password2">パスワード（確認）</label>
-        <input type="password" id="reg-password2" name="password2" required minlength="8" placeholder="もう一度入力してください" data-i18n-ph="reg.ph.password2">
-      </div>
+    <div class="reg-form" id="registerForm">
+      <ul class="reg-benefits">
+        <li><strong data-i18n="reg.b1.t">送料無料</strong><span data-i18n="reg.b1.d">全国どこでも配送料が無料になります。</span></li>
+        <li><strong data-i18n="reg.b2.t">先行アクセス</strong><span data-i18n="reg.b2.d">新作を一般公開前にご購入いただけます。</span></li>
+        <li><strong data-i18n="reg.b3.t">注文履歴</strong><span data-i18n="reg.b3.d">ご購入内容と配送状況をいつでも確認できます。</span></li>
+      </ul>
       <label class="checkbox-row">
         <input type="checkbox" id="reg-terms" required>
         <span data-i18n="reg.terms">利用規約およびプライバシーポリシーに同意します。</span>
       </label>
       <p class="form-note" id="reg-error" style="color:#b3463c;display:none;"></p>
-      <button type="submit" class="submit-btn" data-i18n="reg.submit">登録する</button>
-    </form>
-    <div class="success-msg" id="successMsg">
-      <div class="check">&#10003;</div>
-      <p data-i18n="reg.success">ご登録ありがとうございます。<br>本会員登録機能は現在準備中です。<br>正式オープンまで、しばらくお待ちください。</p>
+      <button type="button" class="submit-btn" id="regBtn" data-i18n="reg.submit">登録する</button>
+      <p class="form-note reg-otp-note" data-i18n="reg.note.otp">ご入力いただいたメールアドレスに認証コードをお送りします。パスワードの設定は不要です。</p>
     </div>
+    
   </div>
 </main>
 
@@ -364,6 +359,15 @@
 
 <script>
   var SASAGE_I18N = {
+    "reg.b1.t": {ja:"送料無料", en:"Free Shipping", de:"Kostenloser Versand", ru:"Бесплатная доставка", zh:"免运费", ko:"무료 배송"},
+    "reg.b1.d": {ja:"全国どこでも配送料が無料になります。", en:"Free delivery anywhere in Japan.", de:"Kostenlose Lieferung in ganz Japan.", ru:"Бесплатная доставка по всей Японии.", zh:"日本全国配送免费。", ko:"일본 전국 배송료가 무료입니다."},
+    "reg.b2.t": {ja:"先行アクセス", en:"Early Access", de:"Früher Zugang", ru:"Ранний доступ", zh:"抢先购买", ko:"선행 액세스"},
+    "reg.b2.d": {ja:"新作を一般公開前にご購入いただけます。", en:"Shop new arrivals before public release.", de:"Neuheiten vor der Veröffentlichung kaufen.", ru:"Покупайте новинки до общего релиза.", zh:"可在公开发售前购买新品。", ko:"신상품을 일반 공개 전에 구매하실 수 있습니다."},
+    "reg.b3.t": {ja:"注文履歴", en:"Order History", de:"Bestellverlauf", ru:"История заказов", zh:"订单记录", ko:"주문 내역"},
+    "reg.b3.d": {ja:"ご購入内容と配送状況をいつでも確認できます。", en:"Track your purchases and deliveries anytime.", de:"Käufe und Lieferungen jederzeit verfolgen.", ru:"Отслеживайте покупки и доставку в любое время.", zh:"随时查看购买内容与配送状态。", ko:"구매 내역과 배송 상황을 언제든 확인할 수 있습니다."},
+    "reg.note.otp": {ja:"ご入力いただいたメールアドレスに認証コードをお送りします。パスワードの設定は不要です。", en:"We'll email you a verification code. No password required.", de:"Wir senden Ihnen einen Bestätigungscode per E-Mail. Kein Passwort nötig.", ru:"Мы отправим код подтверждения на вашу почту. Пароль не требуется.", zh:"我们将向您的邮箱发送验证码，无需设置密码。", ko:"입력하신 이메일로 인증 코드를 보내드립니다. 비밀번호는 필요하지 않습니다."},
+    "reg.error.terms": {ja:"利用規約およびプライバシーポリシーへの同意が必要です。", en:"Please agree to the Terms and Privacy Policy.", de:"Bitte stimmen Sie den AGB und der Datenschutzerklärung zu.", ru:"Пожалуйста, примите условия и политику конфиденциальности.", zh:"请同意使用条款与隐私政策。", ko:"이용약관 및 개인정보 처리방침에 동의해 주세요."},
+
     "brand.tagline": {ja:"「夜明けを、生きる」", en:"Living the Dawn", de:"Die Morgendämmerung leben", ru:"Жить рассветом", zh:"黎明而生", ko:"새벽을, 살다"},
     "products.gloss": {ja:"新作アイテム", en:"New Arrivals", de:"Neuheiten", ru:"Новинки", zh:"新品上市", ko:"신상품"},
     "cs.jp": {ja:"近日公開", en:"Coming Soon", de:"Demnächst verfügbar", ru:"Скоро в продаже", zh:"敬请期待", ko:"곧 공개"},
@@ -377,7 +381,7 @@
     "contact.cta": {ja:"お問い合わせはこちら", en:"Contact Us", de:"Kontaktieren Sie uns", ru:"Связаться с нами", zh:"联系我们", ko:"문의하기"},
     "footer.note": {ja:"SASAGEは、DEVOTE JAPAN が展開するオリジナルアパレルブランドです。", en:"SASAGE is an original apparel brand by DEVOTE JAPAN.", de:"SASAGE ist eine Original-Modemarke von DEVOTE JAPAN.", ru:"SASAGE — оригинальный бренд одежды от DEVOTE JAPAN.", zh:"SASAGE是DEVOTE JAPAN推出的原创服装品牌。", ko:"SASAGE는 DEVOTE JAPAN가 전개하는 오리지널 어패럴 브랜드입니다."},
     "scroll.hint": {ja:"SCROLL", en:"SCROLL", de:"SCROLLEN", ru:"ПРОКРУТИТЕ", zh:"向下滑动", ko:"스크롤"},
-    "reg.intro": {ja:"会員登録いただくと、新作のお知らせや先行販売など、SASAGEからの特別なご案内をお届けします。", en:"Registering lets us send you special updates from SASAGE — new arrivals, early access, and more.", de:"Mit Ihrer Registrierung erhalten Sie besondere Neuigkeiten von SASAGE — Neuheiten, exklusiven Vorabverkauf und mehr.", ru:"После регистрации мы будем присылать вам особые новости от SASAGE — о новинках, раннем доступе к продажам и многом другом.", zh:"完成会员注册后，您将收到SASAGE的专属资讯，包括新品发布、优先购买机会等。", ko:"회원 가입을 하시면 신상품 안내, 선행 판매 등 SASAGE만의 특별한 소식을 보내드립니다."},
+    "reg.intro": {ja:"会員登録いただくと、送料無料・新作の先行アクセスなど、SASAGEからの特別なご案内をお届けします。ご登録はメールアドレスのみ、1分で完了します。", en:"Members enjoy free shipping, early access to new arrivals, and special news from SASAGE. Sign up with just your email in under a minute.", de:"Mitglieder erhalten kostenlosen Versand, frühen Zugang zu Neuheiten und exklusive News von SASAGE. Anmeldung in unter einer Minute — nur mit E-Mail.", ru:"Участники получают бесплатную доставку, ранний доступ к новинкам и особые новости SASAGE. Регистрация занимает меньше минуты — нужна только почта.", zh:"注册会员即可享受免运费、新品抢先购买以及 SASAGE 的专属资讯。仅需邮箱，一分钟即可完成。", ko:"회원 가입하시면 무료 배송, 신상품 선행 액세스 등 SASAGE의 특별한 소식을 전해 드립니다. 이메일만으로 1분이면 완료됩니다."},
     "reg.banner.jp": {ja:"会員登録", en:"Member Registration", de:"Mitgliedsregistrierung", ru:"Регистрация участника", zh:"会员注册", ko:"회원 가입"},
     "reg.label.name": {ja:"お名前", en:"Name", de:"Name", ru:"Имя", zh:"姓名", ko:"이름"},
     "reg.label.email": {ja:"メールアドレス", en:"Email Address", de:"E-Mail-Adresse", ru:"Электронная почта", zh:"电子邮箱", ko:"이메일 주소"},
@@ -430,24 +434,21 @@
 
 
 <script>
-  document.getElementById('registerForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var pw = document.getElementById('reg-password').value;
-    var pw2 = document.getElementById('reg-password2').value;
+  document.getElementById('regBtn').addEventListener('click', function(){
     var errorEl = document.getElementById('reg-error');
-    if(pw !== pw2){
-      var curLang = document.documentElement.getAttribute('lang') || 'ja';
-      var entry = SASAGE_I18N['reg.error.mismatch'];
-      errorEl.textContent = entry[curLang] || entry.ja;
+    var lang = document.documentElement.getAttribute('lang') || 'ja';
+    if(!document.getElementById('reg-terms').checked){
+      var t = SASAGE_I18N['reg.error.terms'];
+      errorEl.textContent = (t && (t[lang] || t.ja)) || '利用規約への同意が必要です。';
       errorEl.style.display = 'block';
       return;
     }
     errorEl.style.display = 'none';
     try{ localStorage.setItem('sasage_member','1'); }catch(err){}
-    this.style.display = 'none';
-    document.getElementById('successMsg').style.display = 'block';
+    if(typeof gtag === 'function'){ gtag('event','sign_up',{method:'shopify'}); }
+    window.location.href = 'https://shopify.com/97542537516/account';
   });
-</script>
+  </script>
 
 </body>
 </html>
