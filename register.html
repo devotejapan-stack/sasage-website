@@ -138,9 +138,10 @@ footer a:hover{color:var(--ink);}
   </div>
 
   <div class="cta-wrap">
-    <a class="cta" id="cta" href="https://9j5rrv-uv.myshopify.com/account" data-i18n="cta">メールアドレスで登録する</a>
+    <a class="cta" id="cta" href="https://shopify.com/97542537516/account" target="_blank" rel="noopener" data-i18n="cta">メールアドレスで登録する</a>
     <p class="cta-note" data-i18n="cta.note"></p>
-    <a class="already" id="already" href="https://9j5rrv-uv.myshopify.com/account" data-i18n="already"></a>
+    <p class="cta-note" id="return-note" style="display:none"></p>
+    <a class="already" id="already" href="https://shopify.com/97542537516/account" target="_blank" rel="noopener" data-i18n="already"></a>
   </div>
 
   <p class="secure">
@@ -262,11 +263,47 @@ function goHome(e){
   return false;
 }
 
-/* Mark the visitor as a member locally once they head off to Shopify,
-   so the store drawer can greet them on return. Shopify holds the real record. */
-document.getElementById('cta').addEventListener('click', function(){
-  try{ localStorage.setItem('sasage_pending','1'); }catch(e){}
-});
+/* Shopify's account screen opens in a separate tab, so this page survives.
+   When the visitor comes back to this tab, send them on to the store. */
+(function(){
+  var RETURN_TO = 'store.html';
+  var pending = false, openedAt = 0;
+
+  var NOTE = {
+    ja: '別タブで登録画面を開きました。完了後このタブに戻ると、自動的にストアへ移動します。',
+    en: 'The registration screen opened in a new tab. Return to this tab when you are done and we will take you to the store.',
+    ko: '새 탭에서 가입 화면을 열었습니다. 완료 후 이 탭으로 돌아오시면 자동으로 스토어로 이동합니다.'
+  };
+
+  function lang(){
+    try{ return localStorage.getItem('sasage_lang') || 'ja'; }catch(e){ return 'ja'; }
+  }
+
+  function markPending(){
+    pending = true;
+    openedAt = Date.now();
+    try{ localStorage.setItem('sasage_pending','1'); }catch(e){}
+    var n = document.getElementById('return-note');
+    if(n){ n.textContent = NOTE[lang()] || NOTE.ja; n.style.display = 'block'; }
+  }
+
+  ['cta','already'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.addEventListener('click', markPending);
+  });
+
+  function backToStore(){
+    if(!pending) return;
+    if(Date.now() - openedAt < 3000) return;
+    pending = false;
+    setTimeout(function(){ window.location.href = RETURN_TO; }, 400);
+  }
+
+  document.addEventListener('visibilitychange', function(){
+    if(document.visibilityState === 'visible') backToStore();
+  });
+  window.addEventListener('focus', backToStore);
+})();
 
 </script>
 </body>
