@@ -1414,7 +1414,14 @@ function sasageJump(id){
     var t = document.getElementById(id); if(!t) return true;
     var h = document.querySelector("header");
     var off = h ? h.getBoundingClientRect().height : 0;
-    window.scrollTo({ top: t.getBoundingClientRect().top + window.pageYOffset - off - 8, behavior: "smooth" });
+    var to = t.getBoundingClientRect().top + window.pageYOffset - off - 8;
+    if(to < 0) to = 0;
+    var from = window.pageYOffset;
+    try{ window.scrollTo({ top: to, behavior: "smooth" }); }catch(e){}
+    /* スムーススクロールが無効な環境では即時スクロールで確実に移動させる */
+    setTimeout(function(){
+      if(Math.abs(window.pageYOffset - from) < 4 && Math.abs(to - from) > 8){ window.scrollTo(0, to); }
+    }, 350);
     return false;
   }catch(e){ return true; }
 }
@@ -1422,7 +1429,7 @@ function sasageGo(filter){
   try{
     var el = document.querySelector('nav.main a[data-filter="'+filter+'"]');
     if(el) el.click();
-    setTimeout(function(){ sasageJump("shop-grid"); }, 60);
+    setTimeout(function(){ sasageJump("shop-grid"); }, 80);
     return false;
   }catch(e){ return true; }
 }
