@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sasage-official.com/sitemap.xml
