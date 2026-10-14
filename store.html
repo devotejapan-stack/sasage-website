@@ -443,8 +443,13 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
 <style>
-@media (max-aspect-ratio:1/1){ .hero{aspect-ratio:auto;height:60vh;min-height:340px;} }
-@media (max-width:749px){ .slide-img{object-position:center 38%;} }
+/* 縦長画面でもシネマスコープ比率を維持 */
+@media (max-width:749px){
+  .hero{min-height:0;}
+  .slide-img{object-position:center 40%;}
+  .hero .inner{padding:0 16px;}
+  .hero .cta{font-size:10px;letter-spacing:.14em;}
+}
 </style>
 </head>
 <body>
