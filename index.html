@@ -58,8 +58,27 @@ body{
 
 /* HERO */
 .hero{
-  position:relative;height:100vh;min-height:600px;
+  position:relative;
+  width:100%;
+  aspect-ratio:2.39/1;        /* シネマスコープ */
+  height:auto;min-height:0;
   overflow:hidden;background:var(--navy);
+}
+/* ── ヒーロー スライダー ── */
+.hero-slider{position:absolute;inset:0;z-index:0;}
+.hero-slide{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  opacity:0;transition:opacity 1.6s ease-in-out;
+  will-change:opacity;
+}
+.hero-slide.on{opacity:1;}
+@media (prefers-reduced-motion:reduce){
+  .hero-slide{transition:none;}
+}
+/* 画面が縦長のときは下限の高さを確保 */
+@media (max-aspect-ratio:1/1){
+  .hero{aspect-ratio:auto;height:58vh;min-height:320px;}
 }
 /* Hide all native video controls/play buttons */
 video::-webkit-media-controls{display:none!important;}
@@ -941,9 +960,14 @@ html[data-theme="dark"] .theme-btn .icon-moon{display:none;}
 
 <!-- HERO -->
 <section class="hero">
-  <video class="hero-video" autoplay loop muted playsinline>
-    <source src="pv.mp4" type="video/mp4">
-  </video>
+  <div class="hero-slider" id="heroSlider">
+    <img class="hero-slide on" src="hero-01.jpg" alt="SIGNATURE SHIRT ブラック 衿とブランドネーム">
+    <img class="hero-slide" src="hero-02.jpg" alt="SIGNATURE SHIRT ブラック 胸元のエンブレム刺繍" loading="lazy">
+    <img class="hero-slide" src="hero-03.jpg" alt="SIGNATURE SHIRT サックスブルー 衿とブランドネーム" loading="lazy">
+    <img class="hero-slide" src="hero-04.jpg" alt="SIGNATURE SHIRT サックスブルー 胸元のエンブレム刺繍" loading="lazy">
+    <img class="hero-slide" src="hero-05.jpg" alt="SIGNATURE SHIRT ホワイト 衿とブランドネーム" loading="lazy">
+    <img class="hero-slide" src="hero-06.jpg" alt="SIGNATURE SHIRT ホワイト 胸元のエンブレム刺繍" loading="lazy">
+  </div>
   <div class="hero-overlay"></div>
   <p class="hero-issue">VOL. 01 COLLECTION</p>
   <span class="hero-deco-l" data-i18n="hero.deco">捧げる者だけが、夜明けを手にする</span>
@@ -1386,5 +1410,27 @@ document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeLa
 })();
 </script>
 
+<script>
+/* ヒーロー: 自動スライド（クロスフェード） */
+(function(){
+  var wrap = document.getElementById('heroSlider');
+  if(!wrap) return;
+  var slides = wrap.querySelectorAll('.hero-slide');
+  if(slides.length < 2) return;
+  var i = 0, timer = null, INTERVAL = 5000;
+  function show(n){
+    slides[i].classList.remove('on');
+    i = (n + slides.length) % slides.length;
+    slides[i].classList.add('on');
+  }
+  function start(){ stop(); timer = setInterval(function(){ show(i+1); }, INTERVAL); }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+  /* タブが非表示のあいだは止める */
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden) stop(); else start();
+  });
+  start();
+})();
+<\/script>
 </body>
 </html>
