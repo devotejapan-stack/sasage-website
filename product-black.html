@@ -685,55 +685,7 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
   <div class="fbot">© 2026 SASAGE — Operated by DEVOTE JAPAN</div>
 </footer>
 
-<script>
-(function(){
-  var track=document.getElementById('track');
-  var slides=[].slice.call(track.children);
-  var vids=slides.map(function(s){return s.querySelector('video');});
-  var dots=document.getElementById('dots');
-  var i=0,timer=null;
 
-  slides.forEach(function(_,n){
-    var b=document.createElement('button');
-    b.addEventListener('click',function(){go(n);});
-    dots.appendChild(b);
-  });
-
-  function play(n){
-    vids.forEach(function(v,k){
-      if(!v) return;
-      if(k===n){ v.play().catch(function(){}); } else { v.pause(); v.currentTime=0; }
-    });
-  }
-  function render(){
-    track.style.transform='translateX('+(-i*100)+'%)';
-    [].slice.call(dots.children).forEach(function(d,k){d.className=k===i?'on':'';});
-    play(i);
-  }
-  function go(n){ i=(n+slides.length)%slides.length; render(); restart(); }
-  function restart(){ clearInterval(timer); timer=setInterval(function(){go(i+1);},7000); }
-
-  document.getElementById('next').addEventListener('click',function(){go(i+1);});
-  document.getElementById('prev').addEventListener('click',function(){go(i-1);});
-
-  /* swipe / drag */
-  var x0=null;
-  var hero=document.getElementById('hero');
-  function start(e){ x0=(e.touches?e.touches[0].clientX:e.clientX); }
-  function end(e){
-    if(x0===null) return;
-    var x1=(e.changedTouches?e.changedTouches[0].clientX:e.clientX);
-    var d=x1-x0; x0=null;
-    if(Math.abs(d)>45) go(d<0?i+1:i-1);
-  }
-  hero.addEventListener('touchstart',start,{passive:true});
-  hero.addEventListener('touchend',end,{passive:true});
-  hero.addEventListener('mousedown',start);
-  hero.addEventListener('mouseup',end);
-
-  render(); restart();
-})();
-</script>
 
 <!-- Search overlay -->
 <div id="search-overlay">
