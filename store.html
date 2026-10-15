@@ -498,6 +498,11 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
   #shop-grid.pg{grid-template-columns:1fr 1fr;}
 }
 .pg-card .pr .pg-pre{color:var(--ink-soft);font-size:10px;letter-spacing:var(--ls);margin-left:6px;}
+
+.pg-card.hidden{display:none;}
+.pg-empty{grid-column:1/-1;aspect-ratio:3/1;background:var(--ph);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.pg-empty span{font-size:10px;letter-spacing:.3em;color:var(--ink-soft);}
+#legacy-grid{margin-top:var(--gap);}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8V08GHLJC"></script>
@@ -648,6 +653,26 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 <div id="shop-skel" class="sp-skel"><div></div><div></div><div></div><div></div></div>
 <div id="shop-grid" class="sp-hide"></div>
 <div id="shop-err" class="sp-err sp-hide"></div>
+
+
+<div class="grid" id="legacy-grid">
+  <figure class="tile" data-cat="all man"><div class="ph"><span>Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">近日公開</span></div>
+    <figcaption><div class="name">Item 01</div><div class="price">¥—</div></figcaption></figure>
+  <figure class="tile" data-cat="all women"><div class="ph"><span>Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">近日公開</span></div>
+    <figcaption><div class="name">Item 02</div><div class="price">¥—</div></figcaption></figure>
+  <figure class="tile" data-cat="all man collection"><div class="ph"><span>Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">近日公開</span></div>
+    <figcaption><div class="name">Item 03</div><div class="price">¥—</div></figcaption></figure>
+  <figure class="tile" data-cat="all women collection"><div class="ph"><span>Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">近日公開</span></div>
+    <figcaption><div class="name">Item 04</div><div class="price">¥—</div></figcaption></figure>
+</div>
+
+<div class="duo">
+  <div class="cell"><span class="lbl">Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">近日公開</span><span class="tag">Man</span></div>
+  <div class="cell"><span class="lbl">Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">近日公開</span><span class="tag">Women</span></div>
+</div>
+
+
+
 
 <section class="about" id="about-sasage">
   <div class="about-in">
@@ -1584,35 +1609,74 @@ function sasageGo(filter){
 })();
 </script>
 <script>
+/* SASAGE product grid v2 */
 (function(){
   var DATA=[
-    {s:'black',ja:'ブラック'},
-    {s:'blue',ja:'サックスブルー'},
-    {s:'white',ja:'ホワイト'}
+    {s:'black',cat:'all man women collection',a:'shirt-black-01',b:'wear-black-01',ja:'ブラック'},
+    {s:'blue', cat:'all man women collection',a:'shirt-blue-01', b:'wear-blue-01', ja:'サックスブルー'},
+    {s:'white',cat:'all man women collection',a:'shirt-white-01',b:'wear-white-01',ja:'ホワイト'}
   ];
-  var IM={black:['shirt-black-01','wear-black-01'],blue:['shirt-blue-01','wear-blue-01'],white:['shirt-white-01','wear-white-01']};
-  function paint(){
-    var g=document.getElementById('shop-grid'); if(!g) return;
+  var CUR='all', busy=false, obs=null;
+  function tr(k,f){
     var lang=document.documentElement.getAttribute('lang')||'ja';
-    function tr(k,f){ return (window.I18N&&I18N[lang]&&I18N[lang][k])||f; }
-    var note=g.querySelector('.cs-note');
-    g.classList.add('pg');
-    var h='';
-    for(var i=0;i<DATA.length;i++){var d=DATA[i];
-      h+='<a class="pg-card" href="product-'+d.s+'.html">'
-        +'<div class="im"><span class="tag">2026 AUTUMN</span>'
-        +'<img src="'+IM[d.s][0]+'.jpg" alt="SIGNATURE SHIRT '+d.ja+'" loading="lazy">'
-        +'<img class="b" src="'+IM[d.s][1]+'.jpg" alt="" loading="lazy"></div>'
-        +'<div class="nm">SIGNATURE SHIRT</div>'
-        +'<div class="cl" data-i18n="pdp.c.'+d.s+'">'+tr('pdp.c.'+d.s,d.ja)+'</div>'
-        +'<div class="pr">¥33,000 <span class="pg-pre" data-i18n="pdp.pre">'+tr('pdp.pre','受注受付前')+'</span></div>'
-        +'</a>';
-    }
-    g.innerHTML=h;
-    if(note) g.appendChild(note);
+    return (window.I18N&&I18N[lang]&&I18N[lang][k])||f;
   }
-  window.addEventListener('load',paint);
-  var sk=document.getElementById('shop-skel'); if(sk) sk.classList.add('sp-hide');
+  function paint(cat){
+    var g=document.getElementById('shop-grid'); if(!g) return;
+    if(cat) CUR=cat;
+    busy=true;
+    var note=g.querySelector('.cs-note');
+    g.classList.add('pg'); g.classList.remove('sp-hide');
+    var h='';
+    for(var i=0;i<DATA.length;i++){ var d=DATA[i];
+      var hide=(CUR!=='all'&&d.cat.indexOf(CUR)<0)?' hidden':'';
+      h+='<a class="pg-card'+hide+'" data-cat="'+d.cat+'" href="product-'+d.s+'.html">'
+       +'<div class="im"><span class="tag">2026 AUTUMN</span>'
+       +'<img src="'+d.a+'.jpg" alt="SASAGE SIGNATURE SHIRT '+d.ja+'" loading="lazy">'
+       +'<img class="b" src="'+d.b+'.jpg" alt="" loading="lazy"></div>'
+       +'<div class="nm">SIGNATURE SHIRT</div>'
+       +'<div class="cl" data-i18n="pdp.c.'+d.s+'">'+tr('pdp.c.'+d.s,d.ja)+'</div>'
+       +'<div class="pr">¥33,000 <span class="pg-pre" data-i18n="pdp.pre">'+tr('pdp.pre','受注受付前')+'</span></div>'
+       +'</a>';
+    }
+    var shown=g.querySelectorAll?0:0;
+    g.innerHTML=h;
+    if(!g.querySelector('.pg-card:not(.hidden)')){
+      g.innerHTML='<div class="pg-empty"><span>Coming Soon</span><span class="jp" data-i18n="ui.comingsoon">'+tr('ui.comingsoon','近日公開')+'</span></div>';
+    }
+    if(note) g.appendChild(note);
+    var sk=document.getElementById('shop-skel'); if(sk) sk.classList.add('sp-hide');
+    var er=document.getElementById('shop-err'); if(er) er.classList.add('sp-hide');
+    setTimeout(function(){busy=false;},0);
+  }
+  function guard(){
+    var g=document.getElementById('shop-grid'); if(!g) return;
+    obs=new MutationObserver(function(){
+      if(busy) return;
+      if(g.querySelector('.cs-tile') || (!g.querySelector('.pg-card') && !g.querySelector('.pg-empty'))) paint();
+    });
+    obs.observe(g,{childList:true});
+  }
+  function hook(){
+    var orig=window.filterCat;
+    window.filterCat=function(cat){
+      document.querySelectorAll('[data-filter]').forEach(function(a){
+        a.classList.toggle('on', a.getAttribute('data-filter')===cat);
+      });
+      document.querySelectorAll('.tile').forEach(function(t){
+        var c=t.getAttribute('data-cat')||'';
+        t.classList.toggle('hidden', cat!=='all' && c.indexOf(cat)<0);
+      });
+      paint(cat);
+      var g=document.getElementById('shop-grid');
+      if(g) window.scrollTo({top:Math.max(0,g.offsetTop-80),behavior:'smooth'});
+      return false;
+    };
+  }
+  function boot(){ paint(CUR); guard(); hook(); }
+  if(document.readyState==='complete') boot();
+  else window.addEventListener('load',boot);
 })();</script>
+
 </body>
 </html>
