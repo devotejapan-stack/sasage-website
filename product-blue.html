@@ -678,7 +678,9 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 
 <footer>
   <div class="fcols">
-    <div><h4>Shop</h4><a href="#" onclick="filterCat('all');return false;">All</a><a href="#" onclick="filterCat('man');return false;">Man</a><a href="#" onclick="filterCat('women');return false;">Women</a><a href="#" onclick="filterCat('accessories');return false;">アクセサリー</a></div>
+    <div><h4>Shop</h4><a href="store.html">All</a>
+      <a href="unisex.html">Unisex</a><a href="man.html">Man</a><a href="women.html">Women</a><a href="store.html" data-i18n="foot.accessories">アクセサリー</a>
+      <a href="store.html#lookbook" data-i18n="foot.lookbook">ルックブック</a></div>
     <div><h4>Help</h4><a href="#" onclick="openModal('modal-delivery');return false;" data-i18n="foot.delivery">配送について</a><a href="#" onclick="openModal('modal-return');return false;" data-i18n="foot.return">返品・交換</a><a href="#" onclick="openModal('modal-faq');return false;" data-i18n="foot.faq">よくある質問</a></div>
     <div><h4>Company</h4><a href="#" onclick="openModal('modal-brand');return false;" data-i18n="foot.brand">ブランドについて</a><a href="https://devotejapan.com" target="_blank" data-i18n="foot.company">運営会社</a><a href="#" onclick="openModal('modal-tokushoho');return false;" data-i18n="foot.tokushoho">特定商取引法に基づく表記</a><a href="#" onclick="openModal('modal-privacy');return false;" data-i18n="foot.privacy">プライバシーポリシー</a></div>
     <div><h4>Contact</h4><a href="https://devotejapan.com" target="_blank" data-i18n="foot.contact">お問い合わせ</a><a href="https://instagram.com/sasage_official" target="_blank">Instagram</a><a href="#" onclick="openModal('modal-newsletter');return false;" data-i18n="foot.newsletter">メールマガジン登録</a></div>
@@ -1160,6 +1162,9 @@ document.addEventListener('keydown', function(e){
 /* Brand tagline stays "Own The Dawn" outside Japanese. Never translate it. */
 var I18N = {
  "ja": {
+  "foot.accessories": "アクセサリー",
+  "foot.lookbook": "ルックブック",
+  "foot.sizeguide": "サイズガイド",
   "pdp.back": "ストア",
   "pdp.taxin": "税込",
   "pdp.pre": "受注受付前",
@@ -1300,6 +1305,9 @@ var I18N = {
   "acct.hide": "この端末で表示しない"
  },
  "en": {
+  "foot.accessories": "Accessories",
+  "foot.lookbook": "Lookbook",
+  "foot.sizeguide": "Size guide",
   "pdp.back": "Store",
   "pdp.taxin": "tax incl.",
   "pdp.pre": "Pre-order not yet open",
@@ -1440,6 +1448,9 @@ var I18N = {
   "acct.hide": "HIDE ON THIS DEVICE"
  },
  "ko": {
+  "foot.accessories": "액세서리",
+  "foot.lookbook": "룩북",
+  "foot.sizeguide": "사이즈 가이드",
   "pdp.back": "스토어",
   "pdp.taxin": "세금 포함",
   "pdp.pre": "주문 접수 전",
