@@ -508,6 +508,25 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
   #shop-grid.pg{grid-template-columns:1fr 1fr;}
 }
 .pg-card .pr .pg-pre{color:var(--ink-soft);font-size:10px;letter-spacing:var(--ls);margin-left:6px;}
+
+.pdp-main{position:relative;}
+.pdp-arw{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:42px;height:42px;display:flex;align-items:center;justify-content:center;
+  border:0;background:rgba(255,255,255,.82);cursor:pointer;padding:0;
+  opacity:0;transition:opacity .25s ease,background .25s ease;
+}
+.pdp-main:hover .pdp-arw{opacity:1;}
+.pdp-arw:hover{background:#fff;}
+.pdp-arw.prev{left:14px;}
+.pdp-arw.next{right:14px;}
+.pdp-arw svg{width:17px;height:17px;fill:none;stroke:var(--ink);stroke-width:1.2;stroke-linecap:square;}
+@media (hover:none){.pdp-arw{opacity:1;background:rgba(255,255,255,.7);}}
+@media (max-width:560px){
+  .pdp-arw{width:36px;height:36px;}
+  .pdp-arw.prev{left:8px;}
+  .pdp-arw.next{right:8px;}
+}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8V08GHLJC"></script>
@@ -622,7 +641,7 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 <section class="pdp">
   <div class="pdp-wrap">
     <div class="pdp-gal">
-      <div class="pdp-main"><img id="pdpMain" src="shirt-black-01.jpg" alt="SIGNATURE SHIRT ブラック 全体"></div>
+      <div class="pdp-main"><img id="pdpMain" src="shirt-black-01.jpg" alt="SIGNATURE SHIRT ブラック 全体"><button class="pdp-arw prev" type="button" aria-label="前の画像"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8"/></svg></button><button class="pdp-arw next" type="button" aria-label="次の画像"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg></button></div>
       <div class="pdp-thumbs"><button class="pdp-th is-on" data-i="0" aria-label="SIGNATURE SHIRT ブラック 全体"><img src="shirt-black-01.jpg" alt="SIGNATURE SHIRT ブラック 全体" loading="lazy"></button><button class="pdp-th" data-i="1" aria-label="SIGNATURE SHIRT ブラック 着用イメージ 全身"><img src="wear-black-01.jpg" alt="SIGNATURE SHIRT ブラック 着用イメージ 全身" loading="lazy"></button><button class="pdp-th" data-i="2" aria-label="SIGNATURE SHIRT ブラック 着用イメージ 上半身"><img src="wear-black-02.jpg" alt="SIGNATURE SHIRT ブラック 着用イメージ 上半身" loading="lazy"></button><button class="pdp-th" data-i="3" aria-label="SIGNATURE SHIRT ブラック 着用時のエンブレム"><img src="wear-black-03.jpg" alt="SIGNATURE SHIRT ブラック 着用時のエンブレム" loading="lazy"></button><button class="pdp-th" data-i="4" aria-label="SIGNATURE SHIRT ブラック 襟とネームタグ"><img src="shirt-black-03-collar.jpg" alt="SIGNATURE SHIRT ブラック 襟とネームタグ" loading="lazy"></button><button class="pdp-th" data-i="5" aria-label="SIGNATURE SHIRT ブラック エンブレム刺繍"><img src="shirt-black-02-emblem.jpg" alt="SIGNATURE SHIRT ブラック エンブレム刺繍" loading="lazy"></button></div>
     </div>
     <div class="pdp-info">
@@ -660,7 +679,7 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
             <dt data-i18n="pdp.s5">ステッチ</dt><dd data-i18n="pdp.s5v"></dd>
             <dt data-i18n="pdp.s6">仕様</dt><dd data-i18n="pdp.s6v"></dd>
           </dl></div></div>
-        <div class="acc-item open" id="pdpMeas"><button class="acc-h" type="button" data-i18n="pdp.acc2">実寸（cm）</button><div class="acc-c">
+        <div class="acc-item" id="pdpMeas"><button class="acc-h" type="button" data-i18n="pdp.acc2">実寸（cm）</button><div class="acc-c">
           <table class="spec"><thead><tr><th data-i18n="pdp.part">部位</th><th>S</th><th>M</th><th>L</th></tr></thead><tbody><tr><td data-i18n="pdp.m0">着丈</td><td>72</td><td>74</td><td>76</td></tr><tr><td data-i18n="pdp.m1">肩幅</td><td>46</td><td>47.5</td><td>49</td></tr><tr><td data-i18n="pdp.m2">バスト</td><td>108</td><td>114</td><td>120</td></tr><tr><td data-i18n="pdp.m3">ウエスト</td><td>102</td><td>108</td><td>114</td></tr><tr><td data-i18n="pdp.m4">裾廻り</td><td>101</td><td>107</td><td>113</td></tr><tr><td data-i18n="pdp.m5">袖丈</td><td>58</td><td>59.8</td><td>61.5</td></tr><tr><td data-i18n="pdp.m6">裄丈</td><td>81</td><td>83.5</td><td>86</td></tr><tr><td data-i18n="pdp.m7">袖幅</td><td>22.2</td><td>23.2</td><td>24.2</td></tr><tr><td data-i18n="pdp.m8">袖口幅</td><td>10.5</td><td>11</td><td>11.5</td></tr><tr><td data-i18n="pdp.m9">ネック</td><td>39.5</td><td>40.5</td><td>41.5</td></tr></tbody></table>
           <p class="note-s" data-i18n="pdp.mnote"></p></div></div>
         <div class="acc-item"><button class="acc-h" type="button" data-i18n="pdp.acc3">受注生産について</button><div class="acc-c">
@@ -1707,17 +1726,42 @@ function sasageGo(filter){
 })();
 </script>
 <script>
+/* SASAGE pdp gallery v2 */
 (function(){
   var main=document.getElementById('pdpMain');
-  var ths=document.querySelectorAll('.pdp-th');
-  ths.forEach(function(b){
-    b.addEventListener('click',function(){
-      var img=b.querySelector('img');
-      main.src=img.getAttribute('src'); main.alt=img.getAttribute('alt');
-      ths.forEach(function(x){x.classList.remove('is-on');});
-      b.classList.add('is-on');
-    });
+  var ths=[].slice.call(document.querySelectorAll('.pdp-th'));
+  if(!main||!ths.length) return;
+  var cur=0;
+  var srcs=ths.map(function(b){var i=b.querySelector('img');return {src:i.getAttribute('src'),alt:i.getAttribute('alt')};});
+  function show(n){
+    cur=(n+srcs.length)%srcs.length;
+    main.src=srcs[cur].src; main.alt=srcs[cur].alt;
+    ths.forEach(function(x,i){x.classList.toggle('is-on', i===cur);});
+    var t=ths[cur], w=t.parentNode;
+    if(w.scrollWidth>w.clientWidth){
+      w.scrollTo({left:t.offsetLeft-(w.clientWidth-t.clientWidth)/2, behavior:'smooth'});
+    }
+  }
+  ths.forEach(function(b,i){ b.addEventListener('click',function(){ show(i); }); });
+  var p=document.querySelector('.pdp-arw.prev'), n=document.querySelector('.pdp-arw.next');
+  if(p) p.addEventListener('click',function(e){e.preventDefault();show(cur-1);});
+  if(n) n.addEventListener('click',function(e){e.preventDefault();show(cur+1);});
+  document.addEventListener('keydown',function(e){
+    if(e.target&&/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+    if(e.key==='ArrowLeft') show(cur-1);
+    if(e.key==='ArrowRight') show(cur+1);
   });
+  // swipe
+  var x0=null,y0=null;
+  var box=document.querySelector('.pdp-main');
+  box.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
+  box.addEventListener('touchend',function(e){
+    if(x0===null) return;
+    var dx=e.changedTouches[0].clientX-x0, dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>42 && Math.abs(dx)>Math.abs(dy)) show(cur+(dx<0?1:-1));
+    x0=null;y0=null;
+  },{passive:true});
+
   var sz=document.getElementById('pdpSz');
   if(sz){ sz.addEventListener('click',function(e){
     var b=e.target.closest('button'); if(!b) return;
@@ -1730,11 +1774,10 @@ function sasageGo(filter){
   var g=document.querySelector('.pdp-guide');
   if(g){ g.addEventListener('click',function(e){
     e.preventDefault();
-    var t=document.getElementById('pdpMeas');
-    t.classList.add('open');
-    var y=t.getBoundingClientRect().top+window.pageYOffset-20;
-    window.scrollTo(0,y);
+    var t=document.getElementById('pdpMeas'); t.classList.add('open');
+    window.scrollTo(0, t.getBoundingClientRect().top+window.pageYOffset-20);
   });}
 })();</script>
+
 </body>
 </html>
