@@ -527,6 +527,12 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
   .pdp-arw.prev{left:8px;}
   .pdp-arw.next{right:8px;}
 }
+
+.pdp-buy.live{background:var(--ink);color:#fff;border-color:var(--ink);cursor:pointer;transition:opacity .25s ease;}
+.pdp-buy.live:hover{opacity:.8;}
+.pdp-alt.sub{background:transparent;color:var(--ink);border:1px solid var(--line);}
+.pdp-alt.sub:hover{border-color:var(--ink);opacity:1;}
+.pdp-hint{margin-top:10px;font-size:10.5px;letter-spacing:.06em;color:#b00;min-height:1em;}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8V08GHLJC"></script>
@@ -1181,6 +1187,9 @@ document.addEventListener('keydown', function(e){
 /* Brand tagline stays "Own The Dawn" outside Japanese. Never translate it. */
 var I18N = {
  "ja": {
+  "pdp.buy": "この色を購入する",
+  "pdp.sel.first": "サイズをお選びください",
+  "pdp.toshop": "オンラインストアで見る",
   "foot.accessories": "アクセサリー",
   "foot.lookbook": "ルックブック",
   "foot.sizeguide": "サイズガイド",
@@ -1324,6 +1333,9 @@ var I18N = {
   "acct.hide": "この端末で表示しない"
  },
  "en": {
+  "pdp.buy": "Buy this colour",
+  "pdp.sel.first": "Please select a size",
+  "pdp.toshop": "View in online store",
   "foot.accessories": "Accessories",
   "foot.lookbook": "Lookbook",
   "foot.sizeguide": "Size guide",
@@ -1467,6 +1479,9 @@ var I18N = {
   "acct.hide": "HIDE ON THIS DEVICE"
  },
  "ko": {
+  "pdp.buy": "이 컬러 구매하기",
+  "pdp.sel.first": "사이즈를 선택해 주세요",
+  "pdp.toshop": "온라인 스토어에서 보기",
   "foot.accessories": "액세서리",
   "foot.lookbook": "룩북",
   "foot.sizeguide": "사이즈 가이드",
@@ -1779,5 +1794,50 @@ function sasageGo(filter){
   });}
 })();</script>
 
+<script>
+/* SASAGE purchase bridge */
+(function(){
+  var SHOP="https://9j5rrv-uv.myshopify.com";
+  var HANDLE="signature-shirt-black";
+  var VARIANTS={"S":"67612546826540","M":"67612546859308","L":"67612546892076"};
+  // 'soon' = 受注受付前 / 'live' = Shopifyへ送客
+  var MODE='soon';
+  try{ if(/[?&]preorder=1/.test(location.search)) MODE='live'; }catch(e){}
+
+  var buy=document.querySelector('.pdp-buy');
+  var sz=document.getElementById('pdpSz');
+  var hint=document.createElement('p'); hint.className='pdp-hint'; hint.setAttribute('aria-live','polite');
+  if(buy&&buy.parentNode) buy.parentNode.insertBefore(hint, buy.nextSibling);
+
+  function lang(){ return document.documentElement.getAttribute('lang')||'ja'; }
+  function tr(k,f){ return (window.I18N&&I18N[lang()]&&I18N[lang()][k])||f; }
+  function selected(){ var b=sz&&sz.querySelector('.is-on'); return b?b.getAttribute('data-sz'):null; }
+  function productUrl(){
+    var s=selected();
+    return SHOP+'/products/'+HANDLE+(s&&VARIANTS[s]?('?variant='+VARIANTS[s]):'');
+  }
+  if(MODE==='live'&&buy){
+    buy.disabled=false;
+    buy.classList.add('live');
+    buy.setAttribute('data-i18n','pdp.buy');
+    buy.textContent=tr('pdp.buy','この色を購入する');
+    buy.addEventListener('click',function(){
+      if(!selected()){ hint.textContent=tr('pdp.sel.first','サイズをお選びください'); return; }
+      hint.textContent='';
+      window.location.href=productUrl();
+    });
+    if(sz) sz.addEventListener('click',function(){ hint.textContent=''; });
+  }
+  // always expose a quiet link to the Shopify store page
+  var alt=document.querySelector('.pdp-alt');
+  if(alt){
+    var a=document.createElement('a');
+    a.className='pdp-alt sub'; a.href=SHOP+'/products/'+HANDLE;
+    a.setAttribute('rel','noopener'); a.setAttribute('data-i18n','pdp.toshop');
+    a.textContent=tr('pdp.toshop','オンラインストアで見る');
+    a.addEventListener('click',function(){ a.href=productUrl(); });
+    if(MODE==='live') alt.parentNode.insertBefore(a, alt.nextSibling);
+  }
+})();</script>
 </body>
 </html>
