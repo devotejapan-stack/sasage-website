@@ -649,7 +649,7 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 
 <div class="sec">
   <h2>NEW IN</h2>
-  <p data-i18n="hero.sub">2026年 ファーストコレクション</p>
+  <p data-i18n="hero.sub">ファーストコレクション</p>
 </div>
 <div id="shop-skel" class="sp-skel"><div></div><div></div><div></div><div></div></div>
 <div id="shop-grid" class="sp-hide"></div>
@@ -1037,11 +1037,11 @@ function renderComingSoon(){
   if(!grid) return;
   var lang=document.documentElement.getAttribute('data-lang')||'ja';
   var d=(I18N[lang]||I18N.ja);
-  var tile='<figure class="cs-tile"><span class="cs-season">2026 AUTUMN</span>'
+  var tile='<figure class="cs-tile">'
          + '<span class="cs-en">Coming Soon</span>'
          + '<span class="cs-jp">'+(d['ui.comingsoon']||'')+'</span></figure>';
   grid.innerHTML = tile+tile+tile+tile
-    + '<div class="cs-note"><b>2026 AUTUMN</b>'
+    + '<div class="cs-note">'
     + (d['cs.note']||'')
     + '<br><a class="cs-cta" href="register.html">'+(d['cs.cta']||'')+'</a></div>';
   document.getElementById('shop-skel').classList.add('sp-hide');
@@ -1220,7 +1220,7 @@ var I18N = {
   "pdp.c.white": "ホワイト",
   "pdp.pre": "受注受付前",
   "util.bar": "会員登録で送料無料 ｜ 先行アクセス",
-  "hero.sub": "2026 AUTUMN ファーストコレクション",
+  "hero.sub": "ファーストコレクション",
   "ui.comingsoon": "近日公開",
   "about.text": "SASAGE（ササゲ）は、捧げる者だけが夜明けを手にするという信念から生まれたブランドです。日々を静かに積み重ねる人のための服を、丁寧に届けます。",
   "foot.delivery": "配送について",
@@ -1313,7 +1313,7 @@ var I18N = {
   "pdp.c.white": "White",
   "pdp.pre": "Pre-order not yet open",
   "util.bar": "Free shipping for members ｜ Early access",
-  "hero.sub": "2026 Autumn — First Collection",
+  "hero.sub": "First Collection",
   "ui.comingsoon": "Coming soon",
   "ui.close": "✕ CLOSE",
   "cart.empty": "Your cart is empty",
@@ -1406,7 +1406,7 @@ var I18N = {
   "pdp.c.white": "화이트",
   "pdp.pre": "주문 접수 전",
   "util.bar": "회원 가입 시 무료 배송 ｜ 선행 액세스",
-  "hero.sub": "2026 AUTUMN 퍼스트 컬렉션",
+  "hero.sub": "퍼스트 컬렉션",
   "ui.comingsoon": "출시 예정",
   "ui.close": "✕ 닫기",
   "cart.empty": "장바구니가 비어 있습니다",
@@ -1632,7 +1632,7 @@ function sasageGo(filter){
     for(var i=0;i<DATA.length;i++){ var d=DATA[i];
       var hide=(CUR!=='all'&&d.cat.indexOf(CUR)<0)?' hidden':'';
       h+='<a class="pg-card'+hide+'" data-cat="'+d.cat+'" href="product-'+d.s+'.html">'
-       +'<div class="im"><span class="tag">2026 AUTUMN</span>'
+       +'<div class="im">'
        +'<img src="'+d.a+'.jpg" alt="SASAGE SIGNATURE SHIRT '+d.ja+'" loading="lazy">'
        +'<img class="b" src="'+d.b+'.jpg" alt="" loading="lazy"></div>'
        +'<div class="nm">SIGNATURE SHIRT</div>'
