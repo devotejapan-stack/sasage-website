@@ -526,6 +526,13 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 .lb-cap em{font-style:normal;opacity:.8;margin-left:6px;}
 @media (hover:none){.lb-cap{opacity:1;}}
 @media (max-width:749px){.lb-grid{grid-template-columns:1fr 1fr;}.lb-cap{padding:12px;font-size:9.5px;}}
+
+.lb-more{display:flex;flex-direction:column;align-items:center;gap:18px;padding:clamp(44px,5vw,72px) 18px clamp(56px,6vw,90px);}
+.lb-count{font-size:10px;letter-spacing:.44em;text-indent:.44em;color:var(--ink-soft);}
+.lb-cta{display:inline-flex;align-items:center;gap:14px;padding:17px 40px;border:1px solid var(--ink);font-size:11px;letter-spacing:.24em;color:inherit;transition:background .35s ease,color .35s ease;}
+.lb-cta .arr{display:inline-block;transition:transform .45s cubic-bezier(.16,1,.3,1);}
+.lb-cta:hover{background:var(--ink);color:#fff;}
+.lb-cta:hover .arr{transform:translateX(6px);}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8V08GHLJC"></script>
@@ -647,7 +654,7 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
     <div class="slide">
       <img class="slide-img" src="model-04.jpg" alt="SASAGE SIGNATURE SHIRT を着用した2人" loading="lazy">
       <div class="veil"></div>
-      <div class="inner"><a class="cta" href="#lookbook" onclick="return sasageJump('lookbook')">View lookbook</a></div>
+      <div class="inner"><a class="cta" href="lookbook.html">View lookbook</a></div>
     </div>
     <div class="slide">
       <img class="slide-img" src="model-03.jpg" alt="SASAGE SIGNATURE SHIRT サックスブルーの着用イメージ" loading="lazy">
@@ -692,17 +699,7 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
 
 <section class="lb" id="lookbook">
   <div class="sec"><h2>LOOKBOOK</h2><p data-i18n="lb.sub">着用イメージ</p></div>
-  <div class="lb-grid">
-  <a class="lb-item" href="product-black.html"><img src="look-black-01.jpg" alt="SASAGE SIGNATURE SHIRT ブラック 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.black">ブラック</em></span></a>
-  <a class="lb-item" href="product-blue.html"><img src="look-blue-01.jpg" alt="SASAGE SIGNATURE SHIRT サックスブルー 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.blue">サックスブルー</em></span></a>
-  <a class="lb-item" href="product-white.html"><img src="look-white-01.jpg" alt="SASAGE SIGNATURE SHIRT ホワイト 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.white">ホワイト</em></span></a>
-  <a class="lb-item" href="product-black.html"><img src="look-black-02.jpg" alt="SASAGE SIGNATURE SHIRT ブラック 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.black">ブラック</em></span></a>
-  <a class="lb-item" href="unisex.html"><img src="look-bench.jpg" alt="SASAGE SIGNATURE SHIRT ユニセックス 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em>UNISEX</em></span></a>
-  <a class="lb-item" href="product-white.html"><img src="look-white-02.jpg" alt="SASAGE SIGNATURE SHIRT ホワイト 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.white">ホワイト</em></span></a>
-  <a class="lb-item" href="product-blue.html"><img src="look-blue-02.jpg" alt="SASAGE SIGNATURE SHIRT サックスブルー 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.blue">サックスブルー</em></span></a>
-  <a class="lb-item" href="product-black.html"><img src="wear-black-02.jpg" alt="SASAGE SIGNATURE SHIRT ブラック 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.black">ブラック</em></span></a>
-  <a class="lb-item" href="product-blue.html"><img src="look-blue-03.jpg" alt="SASAGE SIGNATURE SHIRT サックスブルー 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.blue">サックスブルー</em></span></a>
-  </div>
+  <div class="lb-grid lb-teaser"><a class="lb-item" href="lookbook.html"><img src="look-black-01.jpg" alt="SASAGE LOOKBOOK ブラック" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.black">ブラック</em></span></a><a class="lb-item" href="lookbook.html"><img src="look-blue-01.jpg" alt="SASAGE LOOKBOOK サックスブルー" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.blue">サックスブルー</em></span></a><a class="lb-item" href="lookbook.html"><img src="look-white-01.jpg" alt="SASAGE LOOKBOOK ホワイト" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.white">ホワイト</em></span></a></div><div class="lb-more"><span class="lb-count">13 LOOKS</span><a class="lb-cta" href="lookbook.html"><span data-i18n="lkb.view">LOOKBOOK を見る</span><span class="arr">→</span></a></div>
 </section>
 
 <section class="about" id="about-sasage">
@@ -1247,6 +1244,7 @@ document.addEventListener('keydown', function(e){
 /* Brand tagline stays "Own The Dawn" outside Japanese. Never translate it. */
 var I18N = {
  "ja": {
+  "lkb.view": "LOOKBOOK を見る",
   "foot.accessories": "アクセサリー",
   "foot.lookbook": "ルックブック",
   "foot.sizeguide": "サイズガイド",
@@ -1344,6 +1342,7 @@ var I18N = {
   "acct.hide": "この端末で表示しない"
  },
  "en": {
+  "lkb.view": "View the lookbook",
   "foot.accessories": "Accessories",
   "foot.lookbook": "Lookbook",
   "foot.sizeguide": "Size guide",
@@ -1441,6 +1440,7 @@ var I18N = {
   "acct.hide": "HIDE ON THIS DEVICE"
  },
  "ko": {
+  "lkb.view": "룩북 보기",
   "foot.accessories": "액세서리",
   "foot.lookbook": "룩북",
   "foot.sizeguide": "사이즈 가이드",

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>LOOKBOOK（ルックブック）｜SASAGE（ササゲ）公式オンラインストア</title>
-<meta name="description" content="SASAGE SIGNATURE SHIRT の着用イメージ。写真から各アイテムのページへ移動できます。">
+<meta name="description" content="SASAGE SIGNATURE SHIRT のルックブック。ブラック・サックスブルー・ホワイトの3色、13のスタイリング。">
 <link rel="canonical" href="https://sasage-official.com/lookbook.html">
 <meta property="og:title" content="LOOKBOOK（ルックブック）｜SASAGE（ササゲ）公式オンラインストア">
 <meta property="og:description" content="SASAGE SIGNATURE SHIRT の着用イメージ。写真から各アイテムのページへ移動できます。">
@@ -553,6 +553,80 @@ header{position:sticky;top:0;}
   .cat-hd{padding:44px 18px 30px;}
   .cat-empty .box{aspect-ratio:3/2;}
 }
+
+/* ---------- LOOKBOOK editorial ---------- */
+.lkb{--g:clamp(14px,2.4vw,36px);--side:clamp(18px,4.6vw,76px);--gap-y:clamp(84px,11vw,176px);padding-bottom:clamp(90px,10vw,150px);}
+.lkb-intro{padding:clamp(76px,10vw,150px) var(--side) clamp(60px,7vw,104px);text-align:center;border-top:1px solid var(--line);}
+.lkb-intro .eyebrow{font-size:10px;letter-spacing:.5em;text-indent:.5em;color:var(--ink-soft);}
+.lkb-intro h1{margin-top:24px;font-size:clamp(30px,4.6vw,60px);font-weight:300;letter-spacing:.34em;text-indent:.34em;line-height:1.05;}
+.lkb-intro .rule{width:40px;height:1px;background:var(--ink);margin:34px auto 30px;}
+.lkb-intro .lead{font-size:13px;line-height:2.2;color:#333;letter-spacing:.06em;}
+.lkb-intro .meta{margin-top:16px;font-size:10px;letter-spacing:.32em;color:var(--ink-soft);}
+
+.lk{display:block;position:relative;color:inherit;text-decoration:none;}
+.lk .fr{position:relative;overflow:hidden;background:var(--ph);}
+.lk .fr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.6s cubic-bezier(.16,1,.3,1);will-change:transform;}
+.lk:hover .fr img{transform:scale(1.035);}
+.lk .cap{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding-top:15px;font-size:10px;letter-spacing:.24em;line-height:1.6;}
+.lk .cap .no{color:var(--ink-soft);white-space:nowrap;}
+.lk .cap .nm{text-align:right;}
+.lk .cap .nm em{font-style:normal;color:var(--ink-soft);}
+.lk .cap .go{display:block;margin-top:5px;color:var(--ink);opacity:0;transform:translateX(-6px);transition:opacity .45s ease,transform .45s cubic-bezier(.16,1,.3,1);}
+.lk:hover .cap .go{opacity:1;transform:none;}
+
+.r34{aspect-ratio:3/4;} .r45{aspect-ratio:4/5;} .r23{aspect-ratio:2/3;} .r11{aspect-ratio:1/1;} .rw{aspect-ratio:2.39/1;}
+
+.lkb-row{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--g);padding:0 var(--side);margin-top:var(--gap-y);align-items:start;}
+.c1-8{grid-column:1/8;} .c9-13{grid-column:9/13;} .c2-6{grid-column:2/6;} .c7-13{grid-column:7/13;}
+.c1-7{grid-column:1/7;} .c8-13{grid-column:8/13;} .c4-10{grid-column:4/10;} .c3-11{grid-column:3/11;}
+.c1-6{grid-column:1/6;} .c7-12{grid-column:7/12;}
+.off-a{margin-top:38%;} .off-b{margin-top:24%;} .off-c{margin-top:52%;}
+
+.lkb-spread{margin-top:var(--gap-y);}
+.lkb-spread .cap{padding:15px var(--side) 0;}
+
+.lkb-quote{max-width:30em;margin:var(--gap-y) auto 0;padding:0 var(--side);text-align:center;}
+.lkb-quote p{font-size:clamp(15px,1.55vw,19px);line-height:2.25;letter-spacing:.1em;}
+.lkb-quote small{display:block;margin-top:22px;font-size:10px;letter-spacing:.44em;text-indent:.44em;color:var(--ink-soft);}
+
+.lkb-details{margin-top:var(--gap-y);padding:0 var(--side);}
+.lkb-details h2{font-size:10px;font-weight:400;letter-spacing:.44em;color:var(--ink-soft);margin-bottom:22px;}
+.lkb-details .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--g);}
+
+.lkb-end{margin-top:var(--gap-y);padding:0 var(--side);text-align:center;}
+.lkb-end .cta{display:inline-block;margin-top:clamp(56px,6vw,84px);padding:19px 50px;border:1px solid var(--ink);font-size:11px;letter-spacing:.26em;color:inherit;transition:background .35s ease,color .35s ease;}
+.lkb-end .cta:hover{background:var(--ink);color:#fff;}
+.lkb-end .colors{margin-top:26px;display:flex;justify-content:center;gap:30px;flex-wrap:wrap;font-size:10px;letter-spacing:.26em;}
+.lkb-end .colors a{color:var(--ink-soft);border-bottom:1px solid transparent;padding-bottom:3px;transition:color .3s ease,border-color .3s ease;}
+.lkb-end .colors a:hover{color:var(--ink);border-color:var(--ink);}
+
+/* reveal (only when the observer is available) */
+html.lk-js .lkb .rv{opacity:0;transform:translateY(30px);transition:opacity 1.2s cubic-bezier(.16,1,.3,1),transform 1.2s cubic-bezier(.16,1,.3,1);}
+html.lk-js .lkb .rv.in{opacity:1;transform:none;}
+html.lk-js .lkb .lk.rv .fr img{transform:scale(1.07);}
+html.lk-js .lkb .lk.rv.in .fr img{transform:scale(1);}
+html.lk-js .lkb .lk.rv.in:hover .fr img{transform:scale(1.035);}
+.lkb-row > .rv:nth-child(2){transition-delay:.14s;}
+.lkb-details .grid > .rv:nth-child(2){transition-delay:.1s;}
+.lkb-details .grid > .rv:nth-child(3){transition-delay:.2s;}
+
+@media (prefers-reduced-motion:reduce){
+  html.lk-js .lkb .rv{opacity:1;transform:none;transition:none;}
+  .lk .fr img{transition:none;}
+}
+@media (max-width:749px){
+  .lkb-row{display:block;}
+  .lkb-row > .lk{width:100%;}
+  .lkb-row > .lk + .lk{margin-top:64px;}
+  .lkb-row > .lk.sm{width:74%;margin-left:auto;}
+  .lkb-row > .lk.sm.left{margin-left:0;}
+  .off-a,.off-b,.off-c{margin-top:0;}
+  .lkb-row > .lk + .lk.off-a,.lkb-row > .lk + .lk.off-b,.lkb-row > .lk + .lk.off-c{margin-top:64px;}
+  .lk .cap .go{opacity:1;transform:none;}
+  .lkb-details .grid{gap:6px;}
+  .lkb-details .lk .cap{font-size:9px;letter-spacing:.14em;}
+  .lkb-details .lk .cap .nm{display:none;}
+}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8V08GHLJC"></script>
@@ -664,25 +738,7 @@ header{position:sticky;top:0;}
   </nav>
 </header>
 
-<section class="cat-hd">
-  <h1>LOOKBOOK</h1>
-  <div class="rule"></div>
-  <p data-i18n="cat.lookbook.d"></p>
-  <div class="cnt">9 <span data-i18n="cat.count">点</span></div>
-</section>
-<section class="lb">
-  <div class="lb-grid">
-  <a class="lb-item" href="product-black.html"><img src="look-black-01.jpg" alt="SASAGE SIGNATURE SHIRT ブラック 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.black">ブラック</em></span></a>
-  <a class="lb-item" href="product-blue.html"><img src="look-blue-01.jpg" alt="SASAGE SIGNATURE SHIRT サックスブルー 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.blue">サックスブルー</em></span></a>
-  <a class="lb-item" href="product-white.html"><img src="look-white-01.jpg" alt="SASAGE SIGNATURE SHIRT ホワイト 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.white">ホワイト</em></span></a>
-  <a class="lb-item" href="product-black.html"><img src="look-black-02.jpg" alt="SASAGE SIGNATURE SHIRT ブラック 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.black">ブラック</em></span></a>
-  <a class="lb-item" href="unisex.html"><img src="look-bench.jpg" alt="SASAGE SIGNATURE SHIRT ユニセックス 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em>UNISEX</em></span></a>
-  <a class="lb-item" href="product-white.html"><img src="look-white-02.jpg" alt="SASAGE SIGNATURE SHIRT ホワイト 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.white">ホワイト</em></span></a>
-  <a class="lb-item" href="product-blue.html"><img src="look-blue-02.jpg" alt="SASAGE SIGNATURE SHIRT サックスブルー 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.blue">サックスブルー</em></span></a>
-  <a class="lb-item" href="product-black.html"><img src="wear-black-02.jpg" alt="SASAGE SIGNATURE SHIRT ブラック 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.black">ブラック</em></span></a>
-  <a class="lb-item" href="product-blue.html"><img src="look-blue-03.jpg" alt="SASAGE SIGNATURE SHIRT サックスブルー 着用イメージ" loading="lazy"><span class="lb-cap">SIGNATURE SHIRT <em data-i18n="pdp.c.blue">サックスブルー</em></span></a>
-  </div>
-</section>
+<div class="lkb"><section class="lkb-intro"><div class="eyebrow rv">SASAGE</div><h1 class="rv">LOOKBOOK</h1><div class="rule rv"></div><p class="lead rv" data-i18n="lkb.lead">夜明けの光をまとうための、一枚。</p><p class="meta rv">SIGNATURE SHIRT — 3 COLOURS / 13 LOOKS</p></section><div class="lkb-spread"><a class="lk rv " href="unisex.html"><div class="fr rw"><img src="model-01.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 01" loading="lazy" style="object-position:center 40%"></div><div class="cap"><span class="no">LOOK 01</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.black">ブラック</em> / <em data-i18n="pdp.c.blue">サックスブルー</em> / <em data-i18n="pdp.c.white">ホワイト</em><span class="go">VIEW ITEM →</span></span></div></a></div><div class="lkb-row"><a class="lk rv c1-8" href="product-black.html"><div class="fr r34"><img src="look-black-01.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 02" loading="lazy"></div><div class="cap"><span class="no">LOOK 02</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.black">ブラック</em><span class="go">VIEW ITEM →</span></span></div></a><a class="lk rv c9-13 sm off-a" href="product-black.html"><div class="fr r45"><img src="look-black-02.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 03" loading="lazy" style="object-position:center 30%"></div><div class="cap"><span class="no">LOOK 03</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.black">ブラック</em><span class="go">VIEW ITEM →</span></span></div></a></div><div class="lkb-quote rv"><p data-i18n="lkb.q1">遠目には気づかれず、近づいたときにだけ姿を見せる。</p><small>EMBLEM</small></div><div class="lkb-row"><a class="lk rv c2-6 sm left off-b" href="product-blue.html"><div class="fr r23"><img src="wear-blue-03.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 04" loading="lazy"></div><div class="cap"><span class="no">LOOK 04</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.blue">サックスブルー</em><span class="go">VIEW ITEM →</span></span></div></a><a class="lk rv c7-13" href="product-blue.html"><div class="fr r34"><img src="look-blue-01.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 05" loading="lazy"></div><div class="cap"><span class="no">LOOK 05</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.blue">サックスブルー</em><span class="go">VIEW ITEM →</span></span></div></a></div><div class="lkb-spread"><a class="lk rv " href="product-black.html"><div class="fr rw"><img src="model-02.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 06" loading="lazy" style="object-position:center 45%"></div><div class="cap"><span class="no">LOOK 06</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.black">ブラック</em><span class="go">VIEW ITEM →</span></span></div></a></div><div class="lkb-row"><a class="lk rv c3-11" href="unisex.html"><div class="fr r45"><img src="look-bench.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 07" loading="lazy" style="object-position:center 60%"></div><div class="cap"><span class="no">LOOK 07</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.blue">サックスブルー</em> / <em data-i18n="pdp.c.white">ホワイト</em><span class="go">VIEW ITEM →</span></span></div></a></div><div class="lkb-row"><a class="lk rv c1-7" href="product-white.html"><div class="fr r34"><img src="look-white-01.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 08" loading="lazy"></div><div class="cap"><span class="no">LOOK 08</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.white">ホワイト</em><span class="go">VIEW ITEM →</span></span></div></a><a class="lk rv c8-13 sm off-c" href="product-white.html"><div class="fr r11"><img src="look-white-02.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 09" loading="lazy" style="object-position:center 38%"></div><div class="cap"><span class="no">LOOK 09</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.white">ホワイト</em><span class="go">VIEW ITEM →</span></span></div></a></div><section class="lkb-details"><h2 class="rv" data-i18n="lkb.details">DETAILS</h2><div class="grid"><a class="lk rv" href="product-black.html"><div class="fr r11"><img src="shirt-black-02-emblem.jpg" alt="SASAGE SIGNATURE SHIRT EMBLEM" loading="lazy"></div><div class="cap"><span class="no">EMBLEM</span><span class="nm"><em data-i18n="pdp.c.black">ブラック</em></span></div></a><a class="lk rv" href="product-blue.html"><div class="fr r11"><img src="shirt-blue-03-collar.jpg" alt="SASAGE SIGNATURE SHIRT COLLAR" loading="lazy"></div><div class="cap"><span class="no">COLLAR</span><span class="nm"><em data-i18n="pdp.c.blue">サックスブルー</em></span></div></a><a class="lk rv" href="product-white.html"><div class="fr r11"><img src="shirt-white-02-emblem.jpg" alt="SASAGE SIGNATURE SHIRT EMBLEM" loading="lazy"></div><div class="cap"><span class="no">EMBLEM</span><span class="nm"><em data-i18n="pdp.c.white">ホワイト</em></span></div></a></div></section><div class="lkb-spread"><a class="lk rv " href="unisex.html"><div class="fr rw"><img src="model-06.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 10" loading="lazy" style="object-position:center 42%"></div><div class="cap"><span class="no">LOOK 10</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.blue">サックスブルー</em> / <em data-i18n="pdp.c.white">ホワイト</em><span class="go">VIEW ITEM →</span></span></div></a></div><div class="lkb-row"><a class="lk rv c1-6" href="product-blue.html"><div class="fr r34"><img src="look-blue-02.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 11" loading="lazy" style="object-position:center 35%"></div><div class="cap"><span class="no">LOOK 11</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.blue">サックスブルー</em><span class="go">VIEW ITEM →</span></span></div></a><a class="lk rv c7-12 sm off-b" href="product-black.html"><div class="fr r23"><img src="look-black-05.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 12" loading="lazy"></div><div class="cap"><span class="no">LOOK 12</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.black">ブラック</em><span class="go">VIEW ITEM →</span></span></div></a></div><div class="lkb-quote rv"><p data-i18n="lkb.q2">誰にも見えない場所で積み重ねてきた人のための、一枚。</p><small>SASAGE</small></div><div class="lkb-row"><a class="lk rv c4-10" href="unisex.html"><div class="fr r45"><img src="look-unisex-v2.jpg" alt="SASAGE SIGNATURE SHIRT LOOK 13" loading="lazy" style="object-position:center 55%"></div><div class="cap"><span class="no">LOOK 13</span><span class="nm">SIGNATURE SHIRT — <em data-i18n="pdp.c.black">ブラック</em> / <em data-i18n="pdp.c.blue">サックスブルー</em> / <em data-i18n="pdp.c.white">ホワイト</em><span class="go">VIEW ITEM →</span></span></div></a></div><div class="lkb-end"><a class="cta rv" href="store.html" data-i18n="lkb.cta">コレクションを見る</a><div class="colors rv"><a href="product-black.html" data-i18n="pdp.c.black">ブラック</a><a href="product-blue.html" data-i18n="pdp.c.blue">サックスブルー</a><a href="product-white.html" data-i18n="pdp.c.white">ホワイト</a></div></div></div>
 
 <footer>
   <div class="fcols">
@@ -1170,6 +1226,12 @@ document.addEventListener('keydown', function(e){
 /* Brand tagline stays "Own The Dawn" outside Japanese. Never translate it. */
 var I18N = {
  "ja": {
+  "lkb.lead": "夜明けの光をまとうための、一枚。",
+  "lkb.q1": "遠目には気づかれず、近づいたときにだけ姿を見せる。",
+  "lkb.q2": "誰にも見えない場所で積み重ねてきた人のための、一枚。",
+  "lkb.cta": "コレクションを見る",
+  "lkb.details": "ディテール",
+  "lkb.view": "LOOKBOOK を見る",
   "cat.lookbook.d": "着用イメージをまとめています。写真を選ぶと、そのアイテムのページへ移動します。",
   "cat.accessories.d": "アクセサリーは現在準備を進めています。",
   "foot.accessories": "アクセサリー",
@@ -1269,6 +1331,12 @@ var I18N = {
   "acct.hide": "この端末で表示しない"
  },
  "en": {
+  "lkb.lead": "A shirt made to wear the light of daybreak.",
+  "lkb.q1": "Unnoticed from afar, it reveals itself only up close.",
+  "lkb.q2": "For those who have built something where no one was watching.",
+  "lkb.cta": "Shop the collection",
+  "lkb.details": "Details",
+  "lkb.view": "View the lookbook",
   "cat.lookbook.d": "A collection of worn images. Select a photo to open that item.",
   "cat.accessories.d": "Accessories are currently in preparation.",
   "foot.accessories": "Accessories",
@@ -1368,6 +1436,12 @@ var I18N = {
   "acct.hide": "HIDE ON THIS DEVICE"
  },
  "ko": {
+  "lkb.lead": "새벽의 빛을 두르기 위한 한 벌.",
+  "lkb.q1": "멀리서는 보이지 않고, 가까이 다가섰을 때에만 모습을 드러낸다.",
+  "lkb.q2": "아무도 보지 않는 곳에서 쌓아온 사람을 위한 한 벌.",
+  "lkb.cta": "컬렉션 보기",
+  "lkb.details": "디테일",
+  "lkb.view": "룩북 보기",
   "cat.lookbook.d": "착용 이미지를 모았습니다. 사진을 선택하면 해당 아이템 페이지로 이동합니다.",
   "cat.accessories.d": "액세서리는 현재 준비 중입니다.",
   "foot.accessories": "액세서리",
@@ -1635,6 +1709,38 @@ function sasageGo(filter){
     if(a.classList.contains('hdr-logo')){ e.preventDefault(); smoothTo(0); return; }
     if(samePage(a.getAttribute('href'))){ e.preventDefault(); smoothTo(0); }
   }, true);
+})();</script>
+<script>
+/* SASAGE lookbook reveal */
+(function(){
+  var root=document.documentElement;
+  var items=[].slice.call(document.querySelectorAll('.lkb .rv'));
+  if(!items.length) return;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce) return;                       /* everything simply stays visible */
+  root.classList.add('lk-js');
+  function show(el){ el.classList.add('in'); }
+  function sweep(){
+    var h=window.innerHeight||800;
+    for(var i=0;i<items.length;i++){
+      var el=items[i];
+      if(el.classList.contains('in')) continue;
+      var r=el.getBoundingClientRect();
+      if(r.top < h*0.92 && r.bottom > -40) show(el);
+      else if(r.bottom <= -40) show(el);    /* anything already scrolled past */
+    }
+  }
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ show(e.target); io.unobserve(e.target); } });
+    },{rootMargin:'0px 0px -8% 0px',threshold:0.06});
+    items.forEach(function(el){ io.observe(el); });
+  }
+  addEventListener('scroll',sweep,{passive:true});
+  addEventListener('resize',sweep);
+  addEventListener('load',sweep);
+  setTimeout(sweep,60); setTimeout(sweep,700);
+  document.addEventListener('visibilitychange',function(){ if(!document.hidden) sweep(); });
 })();</script>
 </body>
 </html>
