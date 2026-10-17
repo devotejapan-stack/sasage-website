@@ -530,6 +530,10 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
   .cat-hd{padding:44px 18px 30px;}
   .cat-empty .box{aspect-ratio:3/2;}
 }
+
+/* sticky header (pages without a hero) */
+header{position:sticky;top:0;}
+.pdp-gal{top:var(--hdr-h,0px);}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8V08GHLJC"></script>
@@ -630,7 +634,7 @@ body[data-shop-mode="coming-soon"] .hdr-tools .cart-link{display:none;}
     </div>
   </div>
   <nav class="main">
-    <a href="index.html" style="color:#767676;border-bottom-color:transparent!important;">← HOME</a><a href="store.html">ALL</a>
+    <a href="store.html" style="color:#767676;border-bottom-color:transparent!important;">HOME</a><a href="store.html">ALL</a>
     <a href="unisex.html" class="on" data-nav="unisex">UNISEX</a>
     <a href="man.html" data-nav="man">MAN</a>
     <a href="women.html" data-nav="women">WOMEN</a>
@@ -1560,5 +1564,18 @@ function sasageGo(filter){
 </script>
 
 
+<script>
+/* SASAGE sticky header offset */
+(function(){
+  var hdr=document.querySelector('header');
+  if(!hdr) return;
+  function set(){
+    document.documentElement.style.setProperty('--hdr-h', hdr.offsetHeight+'px');
+  }
+  set();
+  addEventListener('resize', set);
+  addEventListener('orientationchange', set);
+  if(window.ResizeObserver){ try{ new ResizeObserver(set).observe(hdr); }catch(e){} }
+})();</script>
 </body>
 </html>
