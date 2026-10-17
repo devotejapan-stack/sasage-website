@@ -1576,5 +1576,57 @@ function sasageGo(filter){
   addEventListener('orientationchange', set);
   if(window.ResizeObserver){ try{ new ResizeObserver(set).observe(hdr); }catch(e){} }
 })();</script>
+<script>
+/* SASAGE smooth scroll-to-top */
+(function(){
+  var DUR=720;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function ease(t){ return t<0.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2; }
+  var running=false;
+  function smoothTo(target){
+    var start=window.pageYOffset||document.documentElement.scrollTop||0;
+    var diff=target-start;
+    if(Math.abs(diff)<2) return;
+    if(reduce||!window.requestAnimationFrame){ window.scrollTo(0,target); return; }
+    running=true;
+    var t0=null;
+    function step(ts){
+      if(t0===null) t0=ts;
+      var p=Math.min(1,(ts-t0)/DUR);
+      window.scrollTo(0, start+diff*ease(p));
+      if(p<1 && running) requestAnimationFrame(step);
+      else running=false;
+    }
+    requestAnimationFrame(step);
+    /* guard: if rAF never fires (background tab), land on target */
+    setTimeout(function(){ if(running){ running=false; window.scrollTo(0,target); } }, DUR+400);
+  }
+  function stop(){ running=false; }
+  addEventListener('wheel', stop, {passive:true});
+  addEventListener('touchstart', stop, {passive:true});
+
+  window.sasageSmoothTop=function(){ smoothTo(0); };
+  /* the logo keeps its "back to the top of this page" behaviour, now animated */
+  window.scrollTopAnim=function(e){
+    if(e&&e.preventDefault) e.preventDefault();
+    smoothTo(0);
+    return false;
+  };
+
+  /* a nav link pointing at the page you are already on scrolls up instead of reloading */
+  function samePage(href){
+    if(!href) return false;
+    try{
+      var u=new URL(href, location.href);
+      return u.pathname===location.pathname && !u.hash;
+    }catch(err){ return false; }
+  }
+  document.addEventListener('click', function(e){
+    var a=e.target.closest && e.target.closest('nav.main a, .hdr-logo');
+    if(!a) return;
+    if(a.classList.contains('hdr-logo')){ e.preventDefault(); smoothTo(0); return; }
+    if(samePage(a.getAttribute('href'))){ e.preventDefault(); smoothTo(0); }
+  }, true);
+})();</script>
 </body>
 </html>
