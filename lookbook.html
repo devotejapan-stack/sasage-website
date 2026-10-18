@@ -753,7 +753,8 @@ html.lk-js .lkb .lk.rv.in:hover .fr img{transform:scale(1.035);}
       <a href="lookbook.html" data-i18n="foot.lookbook">ルックブック</a></div>
     <div><h4>Help</h4><a href="#" onclick="openModal('modal-delivery');return false;" data-i18n="foot.delivery">配送について</a><a href="#" onclick="openModal('modal-return');return false;" data-i18n="foot.return">返品・交換</a><a href="#" onclick="openModal('modal-faq');return false;" data-i18n="foot.faq">よくある質問</a></div>
     <div><h4>Company</h4><a href="#" onclick="openModal('modal-brand');return false;" data-i18n="foot.brand">ブランドについて</a><a href="https://devotejapan.com" target="_blank" data-i18n="foot.company">運営会社</a><a href="#" onclick="openModal('modal-tokushoho');return false;" data-i18n="foot.tokushoho">特定商取引法に基づく表記</a><a href="#" onclick="openModal('modal-privacy');return false;" data-i18n="foot.privacy">プライバシーポリシー</a></div>
-    <div><h4>Contact</h4><a href="https://devotejapan.com" target="_blank" data-i18n="foot.contact">お問い合わせ</a><a href="https://instagram.com/sasage_official" target="_blank">Instagram</a><a href="#" onclick="openModal('modal-newsletter');return false;" data-i18n="foot.newsletter">メールマガジン登録</a></div>
+    <div><h4>Contact</h4><a href="https://devotejapan.com" target="_blank" data-i18n="foot.contact">お問い合わせ</a><a href="https://instagram.com/sasage_official" target="_blank">Instagram</a>
+      <a href="https://line.me/R/ti/p/@707nczec" target="_blank" rel="noopener">LINE</a><a href="#" onclick="openModal('modal-newsletter');return false;" data-i18n="foot.newsletter">メールマガジン登録</a></div>
   </div>
   <div class="fbot">© 2026 SASAGE — Operated by DEVOTE JAPAN</div>
 </footer>
@@ -1748,5 +1749,57 @@ function sasageGo(filter){
   setTimeout(sweep,60); setTimeout(sweep,700);
   document.addEventListener('visibilitychange',function(){ if(!document.hidden) sweep(); });
 })();</script>
+
+<!-- SASAGE LINE CTA -->
+<style>
+.sg-line{position:fixed;right:22px;bottom:22px;z-index:120;display:flex;align-items:center;gap:12px;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);font-family:"Helvetica Neue",Helvetica,Arial,"Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;}
+.sg-line.on{opacity:1;transform:none;pointer-events:auto;}
+.sg-line a{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;}
+.sg-line .bub{position:relative;background:#06C755;color:#fff;padding:13px 20px;border-radius:8px;font-size:13px;letter-spacing:.06em;line-height:1;white-space:nowrap;box-shadow:0 6px 22px rgba(0,0,0,.12);transition:transform .35s cubic-bezier(.16,1,.3,1);}
+.sg-line .bub::after{content:"";position:absolute;right:-7px;top:50%;margin-top:-7px;border-style:solid;border-width:7px 0 7px 8px;border-color:transparent transparent transparent #06C755;}
+.sg-line .ic{width:54px;height:54px;border-radius:15px;background:#06C755;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(0,0,0,.14);transition:transform .35s cubic-bezier(.16,1,.3,1);}
+.sg-line .ic svg{width:30px;height:30px;}
+.sg-line a:hover .bub{transform:translateX(-3px);}
+.sg-line a:hover .ic{transform:scale(1.05);}
+.sg-line .x{position:absolute;top:-9px;right:-9px;width:22px;height:22px;border-radius:50%;border:0;background:#fff;color:#000;font-size:13px;line-height:22px;text-align:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18);padding:0;}
+@media (max-width:749px){
+  .sg-line{right:14px;bottom:14px;}
+  .sg-line .bub{display:none;}
+  .sg-line .ic{width:50px;height:50px;border-radius:14px;}
+}
+@media (prefers-reduced-motion:reduce){.sg-line{transition:none;}}
+@media print{.sg-line{display:none;}}
+</style>
+<div class="sg-line" id="sgLine" aria-hidden="true">
+  <a href="https://line.me/R/ti/p/@707nczec" target="_blank" rel="noopener" aria-label="LINE">
+    <span class="bub" id="sgLineTxt">最新情報をLINEで</span>
+    <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M12 3.2C6.6 3.2 2.3 6.7 2.3 11c0 2.5 1.5 4.7 3.8 6.1l-.7 3.4 3.7-2.1c.9.2 1.9.3 2.9.3 5.4 0 9.7-3.5 9.7-7.8S17.4 3.2 12 3.2z"/></svg></span>
+  </a>
+  <button class="x" type="button" id="sgLineX" aria-label="閉じる">×</button>
+</div>
+<script>
+(function(){
+  var box=document.getElementById('sgLine'); if(!box) return;
+  var txt=document.getElementById('sgLineTxt');
+  var T={ja:'最新情報をLINEで',en:'Get updates on LINE',ko:'최신 정보를 LINE으로','zh':'通过LINE获取最新消息','zh-tw':'透過LINE獲取最新消息',fr:'Nos actualités sur LINE'};
+  function lang(){ var l=(document.documentElement.getAttribute('lang')||'ja').toLowerCase(); return T[l]?l:(T[l.split('-')[0]]?l.split('-')[0]:'ja'); }
+  function apply(){ txt.textContent=T[lang()]; }
+  apply();
+  try{ new MutationObserver(apply).observe(document.documentElement,{attributes:true,attributeFilter:['lang']}); }catch(e){}
+  var closed=false;
+  try{ closed=sessionStorage.getItem('sg_line_x')==='1'; }catch(e){}
+  if(closed){ box.style.display='none'; return; }
+  function show(){ box.classList.add('on'); box.setAttribute('aria-hidden','false'); }
+  setTimeout(show, 1400);
+  document.getElementById('sgLineX').addEventListener('click',function(e){
+    e.preventDefault(); e.stopPropagation();
+    box.classList.remove('on'); box.setAttribute('aria-hidden','true');
+    setTimeout(function(){ box.style.display='none'; },600);
+    try{ sessionStorage.setItem('sg_line_x','1'); }catch(err){}
+  });
+})();
+</script>
+<!-- /SASAGE LINE CTA -->
+
 </body>
 </html>
