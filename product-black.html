@@ -2054,5 +2054,82 @@ function sasageGo(filter){
 </script>
 <!-- /SASAGE LINE CTA -->
 
+<script>
+/* SASAGE shop CTA — ウェブ → Shopify 送客 */
+(function(){
+  var SHOP='https://9j5rrv-uv.myshopify.com';
+  var PRODUCTS={
+    'product-black':{h:'signature-shirt-black',v:{S:'67612546826540',M:'67612546859308',L:'67612546892076'}},
+    'product-white':{h:'signature-shirt-white',v:{S:'67612547875116',M:'67612547907884',L:'67612547940652'}},
+    'product-blue':{h:'signature-shirt-blue',v:{S:'67612547023148',M:'67612547055916',L:'67612547088684'}}
+  };
+  var T={
+    ja:{nav:'ONLINE STORE',btn:'オンラインストアで詳しく見る',note:'ご購入・お支払いは、SASAGE 公式オンラインストア（Shopify）で承ります。会員登録で送料無料。',bandT:'ご購入は、公式オンラインストアで。',bandS:'お支払い・会員登録・ご注文履歴の確認は、SASAGE 公式オンラインストア（Shopify）で行えます。会員登録で送料無料。',bandB:'オンラインストアへ'},
+    en:{nav:'ONLINE STORE',btn:'View in our online store',note:'Purchases and payment are handled in the SASAGE official online store (Shopify). Free shipping for members.',bandT:'Shop in our official online store.',bandS:'Checkout, membership and order history are handled in the SASAGE official online store (Shopify). Free shipping for members.',bandB:'Go to online store'},
+    ko:{nav:'ONLINE STORE',btn:'온라인 스토어에서 자세히 보기',note:'구매 및 결제는 SASAGE 공식 온라인 스토어(Shopify)에서 진행됩니다. 회원 가입 시 무료 배송.',bandT:'구매는 공식 온라인 스토어에서.',bandS:'결제・회원 가입・주문 내역 확인은 SASAGE 공식 온라인 스토어(Shopify)에서 가능합니다. 회원 가입 시 무료 배송.',bandB:'온라인 스토어로'}
+  };
+  function L(){var l=(document.documentElement.getAttribute('lang')||'ja').slice(0,2);return T[l]||T.ja;}
+  var page=(location.pathname.split('/').pop()||'').replace('.html','');
+  var prod=PRODUCTS[page];
+
+  var css=document.createElement('style');
+  css.textContent=
+   'nav.main a.shop-link{font-weight:600;}'+
+   'nav.main a.shop-link:after{content:" \\2197";font-weight:400;}'+
+   '.pdp-shop{margin:14px 0 6px;}'+
+   '.pdp-shop a.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;background:#000;color:#fff;font-size:12px;letter-spacing:.14em;text-decoration:none;transition:opacity .2s;}'+
+   '.pdp-shop a.btn:hover{opacity:.82;}'+
+   '.pdp-shop a.btn svg{width:14px;height:14px;stroke:#fff;stroke-width:1.4;fill:none;}'+
+   '.pdp-shop p{font-size:11px;line-height:1.8;color:#767676;margin:9px 0 0;letter-spacing:.03em;}'+
+   '.shop-band{border-top:1px solid #e3e3e3;padding:56px 20px;text-align:center;}'+
+   '.shop-band h3{font-size:15px;font-weight:400;letter-spacing:.14em;margin:0 0 12px;}'+
+   '.shop-band p{font-size:12px;line-height:1.9;color:#767676;max-width:34em;margin:0 auto 24px;}'+
+   '.shop-band a{display:inline-flex;align-items:center;gap:10px;background:#000;color:#fff;font-size:11px;letter-spacing:.18em;padding:15px 34px;text-decoration:none;}'+
+   '.shop-band a:hover{opacity:.82;}'+
+   '.shop-band a svg{width:13px;height:13px;stroke:#fff;stroke-width:1.4;fill:none;}';
+  document.head.appendChild(css);
+  var arrow='<svg viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+
+  function selected(){var sz=document.getElementById('pdpSz');var b=sz&&sz.querySelector('.is-on');return b?b.getAttribute('data-sz'):null;}
+  function prodUrl(){var s=selected();return SHOP+'/products/'+prod.h+(s&&prod.v[s]?('?variant='+prod.v[s]):'');}
+
+  // 1) header nav
+  var nav=document.querySelector('nav.main');
+  var navA=null;
+  if(nav && !nav.querySelector('.shop-link')){
+    navA=document.createElement('a'); navA.className='shop-link';
+    navA.href=prod?(SHOP+'/products/'+prod.h):SHOP; nav.appendChild(navA);
+  }
+  // 2) product page CTA
+  var box=null;
+  if(prod){
+    var anchor=document.querySelector('.pdp-hint')||document.querySelector('.pdp-buy');
+    if(anchor){
+      box=document.createElement('div'); box.className='pdp-shop';
+      box.innerHTML='<a class="btn" rel="noopener"></a><p></p>';
+      anchor.parentNode.insertBefore(box, anchor.nextSibling);
+      var a=box.querySelector('a'); a.href=prodUrl();
+      a.addEventListener('click',function(){a.href=prodUrl();});
+      var sz=document.getElementById('pdpSz'); if(sz) sz.addEventListener('click',function(){setTimeout(function(){a.href=prodUrl();},0);});
+    }
+  }
+  // 3) band above footer (all store pages)
+  var band=null, foot=document.querySelector('footer');
+  if(foot){
+    band=document.createElement('section'); band.className='shop-band';
+    band.innerHTML='<h3></h3><p></p><a rel="noopener"></a>';
+    band.querySelector('a').href=prod?(SHOP+'/products/'+prod.h):SHOP;
+    foot.parentNode.insertBefore(band, foot);
+  }
+  function paint(){
+    var t=L();
+    if(navA) navA.textContent=t.nav;
+    if(box){box.querySelector('a').innerHTML='<span>'+t.btn+'</span>'+arrow; box.querySelector('p').textContent=t.note;}
+    if(band){band.querySelector('h3').textContent=t.bandT; band.querySelector('p').textContent=t.bandS; band.querySelector('a').innerHTML='<span>'+t.bandB+'</span>'+arrow;}
+  }
+  paint();
+  new MutationObserver(paint).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+})();
+</script>
 </body>
 </html>
